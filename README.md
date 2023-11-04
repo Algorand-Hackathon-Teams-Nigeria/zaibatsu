@@ -18,7 +18,6 @@ This starter full stack project has been generated using AlgoKit. See below for 
    - [Backend](backend/README.md) - Refer to the README for more information on how to work with smart contracts.
    - [Frontend](frontend/README.md) - Refer to the README for more information on how to work with the frontend application.
 
-
 ### Subsequently
 
 1. If you update to the latest source code and there are new dependencies, you will need to run `algokit bootstrap all` again.
@@ -29,8 +28,9 @@ This starter full stack project has been generated using AlgoKit. See below for 
 This project uses [GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions) to define CI/CD workflows, which are located in the [`.github/workflows`](./.github/workflows) folder. You can configure these actions to suit your project's needs, including CI checks, audits, linting, type checking, testing, and deployments to TestNet.
 
 For pushes to `main` branch, after the above checks pass, the following deployment actions are performed:
-  - The smart contract(s) are deployed to TestNet using [AlgoNode](https://algonode.io).
-  - The frontend application is deployed to a provider of your choice (Netlify, Vercel, etc.). See [frontend README](frontend/README.md) for more information.
+
+- The smart contract(s) are deployed to TestNet using [AlgoNode](https://algonode.io).
+- The frontend application is deployed to a provider of your choice (Netlify, Vercel, etc.). See [frontend README](frontend/README.md) for more information.
 
 > Please note deployment of smart contracts is done via `algokit deploy` command which can be invoked both via CI as seen on this project, or locally. For more information on how to use `algokit deploy` please see [AlgoKit documentation](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/features/deploy.md).
 
