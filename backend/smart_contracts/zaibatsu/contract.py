@@ -1,10 +1,10 @@
-import beaker
-import pyteal as pt
+from beaker import * #type: ignore
+from pyteal import * #type: ignore
 
 
-app = beaker.Application("zaibatsu")
+app = Application("zaibatsu")
 
 
 @app.external
-def hello(name: pt.abi.String, *, output: pt.abi.String) -> pt.Expr:
-    return output.set(pt.Concat(pt.Bytes("Hello, "), name.get()))
+def hello(name: abi.String, *, output: abi.String) -> Expr:
+    return output.set(Concat(Bytes("Hello, "), name.get()))
