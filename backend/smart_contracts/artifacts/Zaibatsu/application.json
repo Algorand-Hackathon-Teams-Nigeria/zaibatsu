@@ -1,0 +1,70 @@
+{
+    "hints": {
+        "create_pool(pay,string,address,uint8,uint8)void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMQp0eG4gTnVtQXBwQXJncwppbnRjXzAgLy8gMAo9PQpibnogbWFpbl9sNAp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweDJmYmMyMzhkIC8vICJjcmVhdGVfcG9vbChwYXksc3RyaW5nLGFkZHJlc3MsdWludDgsdWludDgpdm9pZCIKPT0KYm56IG1haW5fbDMKZXJyCm1haW5fbDM6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgY3JlYXRlcG9vbGNhc3Rlcl8yCmludGNfMSAvLyAxCnJldHVybgptYWluX2w0Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CmJueiBtYWluX2w2CmVycgptYWluX2w2Ogp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAo9PQphc3NlcnQKaW50Y18xIC8vIDEKcmV0dXJuCgovLyBoYW5kbGVfY3JlYXRlX3Bvb2wKaGFuZGxlY3JlYXRlcG9vbF8wOgpwcm90byA0IDAKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1Ngpib3hfbGVuCnN0b3JlIDEKc3RvcmUgMApsb2FkIDEKIQphc3NlcnQKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1Ngpib3hfZGVsCnBvcApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApib3hfcHV0CmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKYm94X2RlbApwb3AKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1NgpmcmFtZV9kaWcgLTMKYm94X3B1dApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmJveF9kZWwKcG9wCmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKaW50Y18wIC8vIDAKaXRvYgpib3hfcHV0CmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKYm94X2RlbApwb3AKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1NgppbnRjXzAgLy8gMAppdG9iCmJveF9wdXQKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1Ngpib3hfZGVsCnBvcApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmludGNfMCAvLyAwCml0b2IKYm94X3B1dApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmJveF9kZWwKcG9wCmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKZnJhbWVfZGlnIC0yCml0b2IKYm94X3B1dApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmJveF9kZWwKcG9wCmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKZnJhbWVfZGlnIC0xCml0b2IKYm94X3B1dApyZXRzdWIKCi8vIGNyZWF0ZV9wb29sCmNyZWF0ZXBvb2xfMToKcHJvdG8gNSAwCmZyYW1lX2RpZyAtNQpndHhucyBSZWNlaXZlcgpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwo9PQphc3NlcnQKZnJhbWVfZGlnIC01Cmd0eG5zIEFtb3VudApwdXNoaW50IDEwMDAgLy8gMTAwMAo9PQphc3NlcnQKZnJhbWVfZGlnIC00CmZyYW1lX2RpZyAtMwpmcmFtZV9kaWcgLTIKZnJhbWVfZGlnIC0xCmNhbGxzdWIgaGFuZGxlY3JlYXRlcG9vbF8wCmludGNfMSAvLyAxCnJldHVybgoKLy8gY3JlYXRlX3Bvb2xfY2FzdGVyCmNyZWF0ZXBvb2xjYXN0ZXJfMjoKcHJvdG8gMCAwCmludGNfMCAvLyAwCnB1c2hieXRlcyAweCAvLyAiIgpkdXAKaW50Y18wIC8vIDAKZHVwCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAxCnR4bmEgQXBwbGljYXRpb25BcmdzIDIKZnJhbWVfYnVyeSAyCnR4bmEgQXBwbGljYXRpb25BcmdzIDMKaW50Y18wIC8vIDAKZ2V0Ynl0ZQpmcmFtZV9idXJ5IDMKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNAppbnRjXzAgLy8gMApnZXRieXRlCmZyYW1lX2J1cnkgNAp0eG4gR3JvdXBJbmRleAppbnRjXzEgLy8gMQotCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApndHhucyBUeXBlRW51bQppbnRjXzEgLy8gcGF5Cj09CmFzc2VydApmcmFtZV9kaWcgMApmcmFtZV9kaWcgMQpmcmFtZV9kaWcgMgpmcmFtZV9kaWcgMwpmcmFtZV9kaWcgNApjYWxsc3ViIGNyZWF0ZXBvb2xfMQpyZXRzdWI=",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKcHVzaGludCAwIC8vIDAKcmV0dXJu"
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {},
+            "reserved": {}
+        },
+        "local": {
+            "declared": {},
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "Zaibatsu",
+        "methods": [
+            {
+                "name": "create_pool",
+                "args": [
+                    {
+                        "type": "pay",
+                        "name": "payment"
+                    },
+                    {
+                        "type": "string",
+                        "name": "pool_name"
+                    },
+                    {
+                        "type": "address",
+                        "name": "manager_addr"
+                    },
+                    {
+                        "type": "uint8",
+                        "name": "pool_tenor"
+                    },
+                    {
+                        "type": "uint8",
+                        "name": "pool_mpr"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {
+        "no_op": "CREATE"
+    }
+}

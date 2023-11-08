@@ -14,7 +14,7 @@ def deploy(
     app_spec: algokit_utils.ApplicationSpecification,
     deployer: algokit_utils.Account,
 ) -> None:
-    from smart_contracts.artifacts.zaibatsu.client import (
+    from smart_contracts.artifacts.Zaibatsu.client import (
         ZaibatsuClient,
     )
 
@@ -28,9 +28,9 @@ def deploy(
         on_update=algokit_utils.OnUpdate.AppendApp,
     )
 
-    name = "world"
-    response = app_client.hello(name=name)
-    logger.info(
-        f"Called hello on {app_spec.contract.name} ({app_client.app_id}) "
-        f"with name={name}, received: {response.return_value}"
-    )
+    # name = "world"
+    # response = app_client.create_pool()
+    # logger.info(
+    #     f"Called create_pool on {app_spec.contract.name} ({app_client.app_id}) "
+    #     f"with name={name}, received: {response.return_value}"
+    # )

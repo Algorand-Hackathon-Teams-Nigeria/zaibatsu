@@ -21,14 +21,14 @@ from algosdk.atomic_transaction_composer import (
 
 _APP_SPEC_JSON = r"""{
     "hints": {
-        "hello(string)string": {
+        "create_pool(pay,string,address,uint8,uint8)void": {
             "call_config": {
                 "no_op": "CALL"
             }
         }
     },
     "source": {
-        "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMQpieXRlY2Jsb2NrIDB4CnR4biBOdW1BcHBBcmdzCmludGNfMCAvLyAwCj09CmJueiBtYWluX2w0CnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4MDJiZWNlMTEgLy8gImhlbGxvKHN0cmluZylzdHJpbmciCj09CmJueiBtYWluX2wzCmVycgptYWluX2wzOgp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCiE9CiYmCmFzc2VydApjYWxsc3ViIGhlbGxvY2FzdGVyXzEKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDQ6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KYm56IG1haW5fbDYKZXJyCm1haW5fbDY6CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCj09CmFzc2VydAppbnRjXzEgLy8gMQpyZXR1cm4KCi8vIGhlbGxvCmhlbGxvXzA6CnByb3RvIDEgMQpieXRlY18wIC8vICIiCnB1c2hieXRlcyAweDQ4NjU2YzZjNmYyYzIwIC8vICJIZWxsbywgIgpmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKY29uY2F0CmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApsZW4KaXRvYgpleHRyYWN0IDYgMApmcmFtZV9kaWcgMApjb25jYXQKZnJhbWVfYnVyeSAwCnJldHN1YgoKLy8gaGVsbG9fY2FzdGVyCmhlbGxvY2FzdGVyXzE6CnByb3RvIDAgMApieXRlY18wIC8vICIiCmR1cAp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMQpjYWxsc3ViIGhlbGxvXzAKZnJhbWVfYnVyeSAwCnB1c2hieXRlcyAweDE1MWY3Yzc1IC8vIDB4MTUxZjdjNzUKZnJhbWVfZGlnIDAKY29uY2F0CmxvZwpyZXRzdWI=",
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMQp0eG4gTnVtQXBwQXJncwppbnRjXzAgLy8gMAo9PQpibnogbWFpbl9sNAp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweDJmYmMyMzhkIC8vICJjcmVhdGVfcG9vbChwYXksc3RyaW5nLGFkZHJlc3MsdWludDgsdWludDgpdm9pZCIKPT0KYm56IG1haW5fbDMKZXJyCm1haW5fbDM6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgY3JlYXRlcG9vbGNhc3Rlcl8yCmludGNfMSAvLyAxCnJldHVybgptYWluX2w0Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CmJueiBtYWluX2w2CmVycgptYWluX2w2Ogp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAo9PQphc3NlcnQKaW50Y18xIC8vIDEKcmV0dXJuCgovLyBoYW5kbGVfY3JlYXRlX3Bvb2wKaGFuZGxlY3JlYXRlcG9vbF8wOgpwcm90byA0IDAKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1Ngpib3hfbGVuCnN0b3JlIDEKc3RvcmUgMApsb2FkIDEKIQphc3NlcnQKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1Ngpib3hfZGVsCnBvcApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApib3hfcHV0CmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKYm94X2RlbApwb3AKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1NgpmcmFtZV9kaWcgLTMKYm94X3B1dApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmJveF9kZWwKcG9wCmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKaW50Y18wIC8vIDAKaXRvYgpib3hfcHV0CmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKYm94X2RlbApwb3AKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1NgppbnRjXzAgLy8gMAppdG9iCmJveF9wdXQKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1Ngpib3hfZGVsCnBvcApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmludGNfMCAvLyAwCml0b2IKYm94X3B1dApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmJveF9kZWwKcG9wCmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKZnJhbWVfZGlnIC0yCml0b2IKYm94X3B1dApmcmFtZV9kaWcgLTQKZXh0cmFjdCAyIDAKc2hhMjU2CmJveF9kZWwKcG9wCmZyYW1lX2RpZyAtNApleHRyYWN0IDIgMApzaGEyNTYKZnJhbWVfZGlnIC0xCml0b2IKYm94X3B1dApyZXRzdWIKCi8vIGNyZWF0ZV9wb29sCmNyZWF0ZXBvb2xfMToKcHJvdG8gNSAwCmZyYW1lX2RpZyAtNQpndHhucyBSZWNlaXZlcgpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwo9PQphc3NlcnQKZnJhbWVfZGlnIC01Cmd0eG5zIEFtb3VudApwdXNoaW50IDEwMDAgLy8gMTAwMAo9PQphc3NlcnQKZnJhbWVfZGlnIC00CmZyYW1lX2RpZyAtMwpmcmFtZV9kaWcgLTIKZnJhbWVfZGlnIC0xCmNhbGxzdWIgaGFuZGxlY3JlYXRlcG9vbF8wCmludGNfMSAvLyAxCnJldHVybgoKLy8gY3JlYXRlX3Bvb2xfY2FzdGVyCmNyZWF0ZXBvb2xjYXN0ZXJfMjoKcHJvdG8gMCAwCmludGNfMCAvLyAwCnB1c2hieXRlcyAweCAvLyAiIgpkdXAKaW50Y18wIC8vIDAKZHVwCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAxCnR4bmEgQXBwbGljYXRpb25BcmdzIDIKZnJhbWVfYnVyeSAyCnR4bmEgQXBwbGljYXRpb25BcmdzIDMKaW50Y18wIC8vIDAKZ2V0Ynl0ZQpmcmFtZV9idXJ5IDMKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNAppbnRjXzAgLy8gMApnZXRieXRlCmZyYW1lX2J1cnkgNAp0eG4gR3JvdXBJbmRleAppbnRjXzEgLy8gMQotCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApndHhucyBUeXBlRW51bQppbnRjXzEgLy8gcGF5Cj09CmFzc2VydApmcmFtZV9kaWcgMApmcmFtZV9kaWcgMQpmcmFtZV9kaWcgMgpmcmFtZV9kaWcgMwpmcmFtZV9kaWcgNApjYWxsc3ViIGNyZWF0ZXBvb2xfMQpyZXRzdWI=",
         "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKcHVzaGludCAwIC8vIDAKcmV0dXJu"
     },
     "state": {
@@ -52,18 +52,34 @@ _APP_SPEC_JSON = r"""{
         }
     },
     "contract": {
-        "name": "zaibatsu",
+        "name": "Zaibatsu",
         "methods": [
             {
-                "name": "hello",
+                "name": "create_pool",
                 "args": [
                     {
+                        "type": "pay",
+                        "name": "payment"
+                    },
+                    {
                         "type": "string",
-                        "name": "name"
+                        "name": "pool_name"
+                    },
+                    {
+                        "type": "address",
+                        "name": "manager_addr"
+                    },
+                    {
+                        "type": "uint8",
+                        "name": "pool_tenor"
+                    },
+                    {
+                        "type": "uint8",
+                        "name": "pool_mpr"
                     }
                 ],
                 "returns": {
-                    "type": "string"
+                    "type": "void"
                 }
             }
         ],
@@ -147,12 +163,16 @@ def _convert_deploy_args(
 
 
 @dataclasses.dataclass(kw_only=True)
-class HelloArgs(_ArgsBase[str]):
-    name: str
+class CreatePoolArgs(_ArgsBase[None]):
+    payment: TransactionWithSigner
+    pool_name: str
+    manager_addr: str
+    pool_tenor: int
+    pool_mpr: int
 
     @staticmethod
     def method() -> str:
-        return "hello(string)string"
+        return "create_pool(pay,string,address,uint8,uint8)void"
 
 
 class Composer:
@@ -167,20 +187,32 @@ class Composer:
     def execute(self) -> AtomicTransactionResponse:
         return self.app_client.execute_atc(self.atc)
 
-    def hello(
+    def create_pool(
         self,
         *,
-        name: str,
+        payment: TransactionWithSigner,
+        pool_name: str,
+        manager_addr: str,
+        pool_tenor: int,
+        pool_mpr: int,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
     ) -> "Composer":
-        """Adds a call to `hello(string)string` ABI method
+        """Adds a call to `create_pool(pay,string,address,uint8,uint8)void` ABI method
         
-        :param str name: The `name` ABI parameter
+        :param TransactionWithSigner payment: The `payment` ABI parameter
+        :param str pool_name: The `pool_name` ABI parameter
+        :param str manager_addr: The `manager_addr` ABI parameter
+        :param int pool_tenor: The `pool_tenor` ABI parameter
+        :param int pool_mpr: The `pool_mpr` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
         :returns Composer: This Composer instance"""
 
-        args = HelloArgs(
-            name=name,
+        args = CreatePoolArgs(
+            payment=payment,
+            pool_name=pool_name,
+            manager_addr=manager_addr,
+            pool_tenor=pool_tenor,
+            pool_mpr=pool_mpr,
         )
         self.app_client.compose_call(
             self.atc,
@@ -224,7 +256,7 @@ class Composer:
 
 
 class ZaibatsuClient:
-    """A class for interacting with the zaibatsu app providing high productivity and
+    """A class for interacting with the Zaibatsu app providing high productivity and
     strongly typed methods to deploy and call the app"""
 
     @typing.overload
@@ -349,20 +381,32 @@ class ZaibatsuClient:
     def suggested_params(self, value: algosdk.transaction.SuggestedParams | None) -> None:
         self.app_client.suggested_params = value
 
-    def hello(
+    def create_pool(
         self,
         *,
-        name: str,
+        payment: TransactionWithSigner,
+        pool_name: str,
+        manager_addr: str,
+        pool_tenor: int,
+        pool_mpr: int,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
-    ) -> algokit_utils.ABITransactionResponse[str]:
-        """Calls `hello(string)string` ABI method
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Calls `create_pool(pay,string,address,uint8,uint8)void` ABI method
         
-        :param str name: The `name` ABI parameter
+        :param TransactionWithSigner payment: The `payment` ABI parameter
+        :param str pool_name: The `pool_name` ABI parameter
+        :param str manager_addr: The `manager_addr` ABI parameter
+        :param int pool_tenor: The `pool_tenor` ABI parameter
+        :param int pool_mpr: The `pool_mpr` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
-        :returns algokit_utils.ABITransactionResponse[str]: The result of the transaction"""
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
 
-        args = HelloArgs(
-            name=name,
+        args = CreatePoolArgs(
+            payment=payment,
+            pool_name=pool_name,
+            manager_addr=manager_addr,
+            pool_tenor=pool_tenor,
+            pool_mpr=pool_mpr,
         )
         result = self.app_client.call(
             call_abi_method=args.method(),

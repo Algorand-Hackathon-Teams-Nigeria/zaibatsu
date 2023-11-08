@@ -1,0 +1,184 @@
+#pragma version 8
+intcblock 0 1
+txn NumAppArgs
+intc_0 // 0
+==
+bnz main_l4
+txna ApplicationArgs 0
+pushbytes 0x2fbc238d // "create_pool(pay,string,address,uint8,uint8)void"
+==
+bnz main_l3
+err
+main_l3:
+txn OnCompletion
+intc_0 // NoOp
+==
+txn ApplicationID
+intc_0 // 0
+!=
+&&
+assert
+callsub createpoolcaster_2
+intc_1 // 1
+return
+main_l4:
+txn OnCompletion
+intc_0 // NoOp
+==
+bnz main_l6
+err
+main_l6:
+txn ApplicationID
+intc_0 // 0
+==
+assert
+intc_1 // 1
+return
+
+// handle_create_pool
+handlecreatepool_0:
+proto 4 0
+frame_dig -4
+extract 2 0
+sha256
+box_len
+store 1
+store 0
+load 1
+!
+assert
+frame_dig -4
+extract 2 0
+sha256
+box_del
+pop
+frame_dig -4
+extract 2 0
+sha256
+frame_dig -4
+extract 2 0
+box_put
+frame_dig -4
+extract 2 0
+sha256
+box_del
+pop
+frame_dig -4
+extract 2 0
+sha256
+frame_dig -3
+box_put
+frame_dig -4
+extract 2 0
+sha256
+box_del
+pop
+frame_dig -4
+extract 2 0
+sha256
+intc_0 // 0
+itob
+box_put
+frame_dig -4
+extract 2 0
+sha256
+box_del
+pop
+frame_dig -4
+extract 2 0
+sha256
+intc_0 // 0
+itob
+box_put
+frame_dig -4
+extract 2 0
+sha256
+box_del
+pop
+frame_dig -4
+extract 2 0
+sha256
+intc_0 // 0
+itob
+box_put
+frame_dig -4
+extract 2 0
+sha256
+box_del
+pop
+frame_dig -4
+extract 2 0
+sha256
+frame_dig -2
+itob
+box_put
+frame_dig -4
+extract 2 0
+sha256
+box_del
+pop
+frame_dig -4
+extract 2 0
+sha256
+frame_dig -1
+itob
+box_put
+retsub
+
+// create_pool
+createpool_1:
+proto 5 0
+frame_dig -5
+gtxns Receiver
+global CurrentApplicationAddress
+==
+assert
+frame_dig -5
+gtxns Amount
+pushint 1000 // 1000
+==
+assert
+frame_dig -4
+frame_dig -3
+frame_dig -2
+frame_dig -1
+callsub handlecreatepool_0
+intc_1 // 1
+return
+
+// create_pool_caster
+createpoolcaster_2:
+proto 0 0
+intc_0 // 0
+pushbytes 0x // ""
+dup
+intc_0 // 0
+dup
+txna ApplicationArgs 1
+frame_bury 1
+txna ApplicationArgs 2
+frame_bury 2
+txna ApplicationArgs 3
+intc_0 // 0
+getbyte
+frame_bury 3
+txna ApplicationArgs 4
+intc_0 // 0
+getbyte
+frame_bury 4
+txn GroupIndex
+intc_1 // 1
+-
+frame_bury 0
+frame_dig 0
+gtxns TypeEnum
+intc_1 // pay
+==
+assert
+frame_dig 0
+frame_dig 1
+frame_dig 2
+frame_dig 3
+frame_dig 4
+callsub createpool_1
+retsub
