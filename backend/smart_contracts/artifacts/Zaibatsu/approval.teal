@@ -1,15 +1,20 @@
 #pragma version 8
 intcblock 0 1
+bytecblock 0x 0x00
 txn NumAppArgs
 intc_0 // 0
 ==
-bnz main_l4
+bnz main_l6
 txna ApplicationArgs 0
-pushbytes 0x2fbc238d // "create_pool(pay,string,address,uint8,uint8)void"
+pushbytes 0xb6b131fb // "create_pool(string,address,uint8,uint8)void"
 ==
-bnz main_l3
+bnz main_l5
+txna ApplicationArgs 0
+pushbytes 0x515c03af // "pay_pool_creation_fee(pay)void"
+==
+bnz main_l4
 err
-main_l3:
+main_l4:
 txn OnCompletion
 intc_0 // NoOp
 ==
@@ -18,16 +23,28 @@ intc_0 // 0
 !=
 &&
 assert
-callsub createpoolcaster_2
+callsub paypoolcreationfeecaster_4
 intc_1 // 1
 return
-main_l4:
+main_l5:
 txn OnCompletion
 intc_0 // NoOp
 ==
-bnz main_l6
-err
+txn ApplicationID
+intc_0 // 0
+!=
+&&
+assert
+callsub createpoolcaster_3
+intc_1 // 1
+return
 main_l6:
+txn OnCompletion
+intc_0 // NoOp
+==
+bnz main_l8
+err
+main_l8:
 txn ApplicationID
 intc_0 // 0
 ==
@@ -38,134 +55,189 @@ return
 // handle_create_pool
 handlecreatepool_0:
 proto 4 0
+bytec_0 // ""
+dup
+intc_0 // 0
+dupn 4
+bytec_0 // ""
+dup
 frame_dig -4
 extract 2 0
 sha256
 box_len
-store 1
-store 0
-load 1
+store 3
+store 2
+load 3
 !
 assert
 frame_dig -4
 extract 2 0
 sha256
-box_del
-pop
+frame_bury 1
+frame_dig 1
+len
+itob
+extract 6 0
+frame_dig 1
+concat
+frame_bury 1
+intc_0 // 0
+frame_bury 2
+intc_0 // 0
+frame_bury 3
+intc_0 // 0
+frame_bury 4
+frame_dig 1
+frame_bury 8
+frame_dig 8
+frame_bury 7
+pushint 62 // 62
+frame_bury 5
+frame_dig 5
+frame_dig 8
+len
++
+frame_bury 6
+frame_dig 6
+pushint 65536 // 65536
+<
+assert
+frame_dig 5
+itob
+extract 6 0
 frame_dig -4
-extract 2 0
-sha256
-frame_dig -4
-extract 2 0
-box_put
-frame_dig -4
-extract 2 0
-sha256
-box_del
-pop
-frame_dig -4
-extract 2 0
-sha256
+frame_bury 8
+frame_dig 7
+frame_dig 8
+concat
+frame_bury 7
+frame_dig 6
+frame_bury 5
+frame_dig 5
+itob
+extract 6 0
+concat
 frame_dig -3
-box_put
-frame_dig -4
-extract 2 0
-sha256
-box_del
-pop
-frame_dig -4
-extract 2 0
-sha256
-intc_0 // 0
+concat
+frame_dig 2
 itob
-box_put
-frame_dig -4
-extract 2 0
-sha256
-box_del
-pop
-frame_dig -4
-extract 2 0
-sha256
+concat
+bytec_1 // 0x00
 intc_0 // 0
-itob
-box_put
-frame_dig -4
-extract 2 0
-sha256
-box_del
-pop
-frame_dig -4
-extract 2 0
-sha256
-intc_0 // 0
-itob
-box_put
-frame_dig -4
-extract 2 0
-sha256
-box_del
-pop
-frame_dig -4
-extract 2 0
-sha256
 frame_dig -2
+setbyte
+concat
+bytec_1 // 0x00
+intc_0 // 0
+frame_dig -1
+setbyte
+concat
+frame_dig 3
 itob
-box_put
-frame_dig -4
-extract 2 0
-sha256
+concat
+frame_dig 4
+itob
+concat
+frame_dig 7
+concat
+frame_bury 0
+frame_dig 1
 box_del
 pop
-frame_dig -4
-extract 2 0
-sha256
-frame_dig -1
-itob
+frame_dig 1
+frame_dig 0
 box_put
 retsub
 
 // create_pool
 createpool_1:
-proto 5 0
-frame_dig -5
-gtxns Receiver
-global CurrentApplicationAddress
-==
-assert
-frame_dig -5
-gtxns Amount
-pushint 1000 // 1000
-==
+proto 4 0
+frame_dig -3
+box_len
+store 1
+store 0
+load 1
 assert
 frame_dig -4
 frame_dig -3
 frame_dig -2
 frame_dig -1
 callsub handlecreatepool_0
+frame_dig -3
+box_del
+pop
+intc_1 // 1
+return
+
+// pay_pool_creation_fee
+paypoolcreationfee_2:
+proto 1 0
+bytec_0 // ""
+intc_0 // 0
+frame_dig -1
+gtxns Receiver
+global CurrentApplicationAddress
+==
+assert
+frame_dig -1
+gtxns Amount
+pushint 200000 // 200000
+==
+assert
+frame_dig -1
+gtxns Sender
+frame_bury 0
+frame_dig 0
+len
+pushint 32 // 32
+==
+assert
+intc_1 // 1
+!
+!
+frame_bury 1
+frame_dig 0
+box_del
+pop
+frame_dig 0
+bytec_1 // 0x00
+intc_0 // 0
+frame_dig 1
+setbit
+box_put
 intc_1 // 1
 return
 
 // create_pool_caster
-createpoolcaster_2:
+createpoolcaster_3:
 proto 0 0
-intc_0 // 0
-pushbytes 0x // ""
+bytec_0 // ""
 dup
 intc_0 // 0
 dup
 txna ApplicationArgs 1
-frame_bury 1
+frame_bury 0
 txna ApplicationArgs 2
-frame_bury 2
+frame_bury 1
 txna ApplicationArgs 3
 intc_0 // 0
 getbyte
-frame_bury 3
+frame_bury 2
 txna ApplicationArgs 4
 intc_0 // 0
 getbyte
-frame_bury 4
+frame_bury 3
+frame_dig 0
+frame_dig 1
+frame_dig 2
+frame_dig 3
+callsub createpool_1
+retsub
+
+// pay_pool_creation_fee_caster
+paypoolcreationfeecaster_4:
+proto 0 0
+intc_0 // 0
 txn GroupIndex
 intc_1 // 1
 -
@@ -176,9 +248,5 @@ intc_1 // pay
 ==
 assert
 frame_dig 0
-frame_dig 1
-frame_dig 2
-frame_dig 3
-frame_dig 4
-callsub createpool_1
+callsub paypoolcreationfee_2
 retsub

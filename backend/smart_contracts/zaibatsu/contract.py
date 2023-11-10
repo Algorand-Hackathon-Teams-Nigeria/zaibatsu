@@ -21,108 +21,148 @@ The plan
     *   The borrower pays the full price with interest up front
 """
 
-import beaker as be
-import pyteal as pt
+import beaker as B
+import pyteal as P
 from beaker.lib.storage import BoxMapping
 
 
+class Pool(P.abi.NamedTuple):
+    id: P.abi.Field[P.abi.String]
+    name: P.abi.Field[P.abi.String]
+    manager: P.abi.Field[P.abi.Address]
+    total: P.abi.Field[P.abi.Uint64]
+    tenor: P.abi.Field[P.abi.Uint8]
+    mpr: P.abi.Field[P.abi.Uint8]
+    total_paid_in: P.abi.Field[P.abi.Uint64]
+    total_paid_out: P.abi.Field[P.abi.Uint64]
+
+
 class AppGlobalState:
-    pool_name = BoxMapping(pt.abi.String, pt.abi.String)
-    # The address of the person managing this pool
-    pool_manager = BoxMapping(pt.abi.String, pt.abi.Address)
-    # The total amount of money in a pool
-    pool_total = BoxMapping(pt.abi.String, pt.abi.Uint64)
-    # The tenor for lend to the poll to mature in months
-    pool_tenor = BoxMapping(pt.abi.String, pt.abi.String)
-    # The Monthly Percentage Rate of the pool
-    pool_mpr = BoxMapping(pt.abi.String, pt.abi.String)
-    # The total amount paid into this pool ever
-    pool_total_paid_in = BoxMapping(pt.abi.String, pt.abi.String)
-    # The total amount paid out by this pool ever
-    pool_total_paid_out = BoxMapping(pt.abi.String, pt.abi.String)
+    pools = BoxMapping(P.abi.String, Pool)
+    can_create_pool = BoxMapping(P.abi.Address, P.abi.Bool)
 
 
-app = be.Application("Zaibatsu", state=AppGlobalState())
+app = B.Application("Zaibatsu", state=AppGlobalState())
 
 
-@pt.Subroutine(pt.TealType.none)
+@P.Subroutine(P.TealType.none)
 def transfer_asset(
-    asset_id: pt.abi.Uint64,
-    asset_amount: pt.abi.Uint64,
-    asset_sender: pt.abi.Address,
-    asset_reciever: pt.abi.Address
+    asset_id: P.abi.Uint64,
+    asset_amount: P.abi.Uint64,
+    asset_sender: P.abi.Address,
+    asset_reciever: P.abi.Address
 ):
-    return pt.Seq(pt.InnerTxnBuilder.Execute({
-        pt.TxnField.type_enum: pt.TxnType.AssetTransfer,
-        pt.TxnField.xfer_asset: asset_id.get(),
-        pt.TxnField.asset_amount: asset_amount.get(),
-        pt.TxnField.sender: asset_sender.get(),
-        pt.TxnField.asset_receiver: asset_reciever.get()
+    return P.Seq(P.InnerTxnBuilder.Execute({
+        P.TxnField.type_enum: P.TxnType.AssetTransfer,
+        P.TxnField.xfer_asset: asset_id.get(),
+        P.TxnField.asset_amount: asset_amount.get(),
+        P.TxnField.sender: asset_sender.get(),
+        P.TxnField.asset_receiver: asset_reciever.get()
     }))
 
 
-@pt.Subroutine(pt.TealType.none)
+@P.Subroutine(P.TealType.none)
 def handle_create_pool(
-    pool_name: pt.abi.String,
-    manager_addr: pt.abi.Address,
-    pool_tenor: pt.abi.Uint8,
-    pool_mpr: pt.abi.Uint8
-) -> pt.Expr:
-    pool_id = pt.Sha256(pool_name.get())
-    return pt.Seq(
-        pt.Assert(pt.Not(app.state.pool_name[pool_id].exists())),
-        app.state.pool_name[pool_id].set(pool_name.get()),
-        app.state.pool_manager[pool_id].set(manager_addr.get()),
-        app.state.pool_total[pool_id].set(pt.Itob(pt.Int(0))),
-        app.state.pool_total_paid_in[pool_id].set(pt.Itob(pt.Int(0))),
-        app.state.pool_total_paid_out[pool_id].set(pt.Itob(pt.Int(0))),
-        app.state.pool_tenor[pool_id].set(pt.Itob(pool_tenor.get())),
-        app.state.pool_mpr[pool_id].set(pt.Itob(pool_mpr.get()))
+    name: P.abi.String,
+    manager_addr: P.abi.Address,
+    tenor: P.abi.Uint8,
+    mpr: P.abi.Uint8
+) -> P.Expr:
+    pool_id = P.Sha256(name.get())
+
+    pool = Pool()
+
+    id = P.abi.String()
+    total = P.abi.Uint64()
+    total_paid_in = P.abi.Uint64()
+    total_paid_out = P.abi.Uint64()
+    return P.Seq(
+        P.Assert(P.Not(app.state.pools[pool_id].exists())),
+        id.set(pool_id),
+        total.set(P.Int(0)),
+        total_paid_in.set(P.Int(0)),
+        total_paid_out.set(P.Int(0)),
+        pool.set(id, name, manager_addr, total, tenor,
+                 mpr, total_paid_in, total_paid_out),
+        app.state.pools[id].set(pool)
     )
 
 
-@pt.Subroutine(pt.TealType.none)
-def add_to_pool(pool_id: pt.abi.String, amount: pt.abi.Uint64) -> pt.Expr:
-    curr_pool_total = app.state.pool_total[pool_id.get()].get()
-    curr_pool_paid_in = app.state.pool_total_paid_in[pool_id.get()].get()
-    return pt.Seq(
-        app.state.pool_total[pool_id.get()].set(
-            curr_pool_total + amount.get()),
-        app.state.pool_total_paid_in[pool_id.get()].set(
-            curr_pool_paid_in + amount.get())
+@P.Subroutine(P.TealType.none)
+def fund_pool(pool_id: P.abi.String, amount: P.abi.Uint64) -> P.Expr:
+    id = P.abi.String()
+    name = P.abi.String()
+    manager = P.abi.Address()
+    total = P.abi.Uint64()
+    tenor = P.abi.Uint8()
+    mpr = P.abi.Uint8()
+    total_paid_in = P.abi.Uint64()
+    total_paid_out = P.abi.Uint64()
+
+    pool = Pool()
+    new_total = P.abi.Uint64()
+    new_paid_in = P.abi.Uint64()
+
+    return P.Seq(
+        pool.decode(app.state.pools[pool_id.get()].get()),
+        id.set(pool.id),
+        name.set(pool.name),
+        manager.set(pool.manager),
+        total.set(pool.total),
+        tenor.set(pool.tenor),
+        mpr.set(pool.mpr),
+        total_paid_in.set(pool.total_paid_in),
+        total_paid_out.set(pool.total_paid_out),
+        new_total.set(total.get() + amount.get()),
+        new_paid_in.set(total_paid_in.get() + amount.get()),
+        pool.set(id, name, manager, total, tenor,
+                 mpr, total_paid_in, total_paid_out),
     )
 
-
-@pt.Subroutine(pt.TealType.none)
-def remove_from_pool(pool_id: pt.abi.String, amount: pt.abi.Uint64) -> pt.Expr:
-    curr_pool_total = app.state.pool_total[pool_id.get()].get()
-    curr_pool_paid_out = app.state.pool_total_paid_out[pool_id.get()].get()
-    return pt.Seq(
-        app.state.pool_total[pool_id.get()].set(
-            curr_pool_total - amount.get()),
-        app.state.pool_total_paid_out[pool_id.get()].set(
-            curr_pool_paid_out + amount.get())
-    )
+#
+# @P.Subroutine(P.TealType.none)
+# def debit_pool(pool_id: P.abi.String, amount: P.abi.Uint64) -> P.Expr:
+#     curr_pool_total = app.state.pool_total[pool_id.get()].get()
+#     curr_pool_paid_out = app.state.pool_total_paid_out[pool_id.get()].get()
+#     return P.Seq(
+#         app.state.pool_total[pool_id.get()].set(
+#             curr_pool_total - amount.get()),
+#         app.state.pool_total_paid_out[pool_id.get()].set(
+#             curr_pool_paid_out + amount.get())
+#     )
 
 
 @app.external
 def create_pool(
-    payment: pt.abi.PaymentTransaction,
-    pool_name: pt.abi.String,
-    manager_addr: pt.abi.Address,
-    pool_tenor: pt.abi.Uint8,
-    pool_mpr: pt.abi.Uint8
-) -> pt.Expr:
-    return pt.Seq(
-        pt.Assert(
-            payment.get().receiver() == pt.Global.current_application_address()
-        ),
-        pt.Assert(payment.get().amount() == pt.Int(1000)),
+    pool_name: P.abi.String,
+    manager_addr: P.abi.Address,
+    pool_tenor: P.abi.Uint8,
+    pool_mpr: P.abi.Uint8
+) -> P.Expr:
+    return P.Seq(
+        P.Assert(app.state.can_create_pool[manager_addr.get()].exists()),
         handle_create_pool(
             pool_name,
             manager_addr,
             pool_tenor,
             pool_mpr
         ),
-        pt.Approve()
+        P.Pop(app.state.can_create_pool[manager_addr.get()].delete()),
+        P.Approve()
+    )
+
+
+@app.external
+def pay_pool_creation_fee(payment: P.abi.PaymentTransaction):
+    address = P.abi.Address()
+    paid = P.abi.Bool()
+    return P.Seq(
+        P.Assert(
+            payment.get().receiver() == P.Global.current_application_address()
+        ),
+        P.Assert(payment.get().amount() == P.Int(200000)),
+        address.set(payment.get().sender()),
+        paid.set(P.Int(1)),
+        app.state.can_create_pool[address.get()].set(paid),
+        P.Approve()
     )

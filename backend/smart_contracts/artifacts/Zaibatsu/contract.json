@@ -5,10 +5,6 @@
             "name": "create_pool",
             "args": [
                 {
-                    "type": "pay",
-                    "name": "payment"
-                },
-                {
                     "type": "string",
                     "name": "pool_name"
                 },
@@ -23,6 +19,18 @@
                 {
                     "type": "uint8",
                     "name": "pool_mpr"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            }
+        },
+        {
+            "name": "pay_pool_creation_fee",
+            "args": [
+                {
+                    "type": "pay",
+                    "name": "payment"
                 }
             ],
             "returns": {

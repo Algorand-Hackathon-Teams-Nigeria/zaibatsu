@@ -28,9 +28,5 @@ def deploy(
         on_update=algokit_utils.OnUpdate.AppendApp,
     )
 
-    # name = "world"
-    # response = app_client.create_pool()
-    # logger.info(
-    #     f"Called create_pool on {app_spec.contract.name} ({app_client.app_id}) "
-    #     f"with name={name}, received: {response.return_value}"
-    # )
+    res = app_client.add_address(address=app_client.app_address)
+    print(res)
