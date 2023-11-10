@@ -1,7 +1,7 @@
+import { useWallet } from '@txnlab/use-wallet'
+import { ConnectWallet, ConnectedAccount } from '../../wallet'
+
 export default function NavBar() {
-  return (
-    <div className="w-full mb-7 flex items-center justify-end">
-      <button className="btn btn-primary btn-outline">Connect Wallet</button>
-    </div>
-  )
+  const { activeAddress } = useWallet()
+  return <div className="mb-7">{activeAddress ? <ConnectedAccount /> : <ConnectWallet />}</div>
 }
