@@ -1,0 +1,42 @@
+{
+    "name": "Zaibatsu",
+    "methods": [
+        {
+            "name": "create_pool",
+            "args": [
+                {
+                    "type": "string",
+                    "name": "pool_name"
+                },
+                {
+                    "type": "address",
+                    "name": "manager_addr"
+                },
+                {
+                    "type": "uint8",
+                    "name": "pool_tenor"
+                },
+                {
+                    "type": "uint8",
+                    "name": "pool_mpr"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            }
+        },
+        {
+            "name": "pay_pool_creation_fee",
+            "args": [
+                {
+                    "type": "pay",
+                    "name": "payment"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            }
+        }
+    ],
+    "networks": {}
+}
