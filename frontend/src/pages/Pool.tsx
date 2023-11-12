@@ -1,7 +1,23 @@
 import { PoolInfo } from '../components'
 import { BiSearch } from 'react-icons/bi'
+import { createAppClient, getAlgodClient } from '../utils/network/contract'
+import { useWallet } from '@txnlab/use-wallet'
+import React from 'react'
 
 export default function Pool() {
+  const { signer, activeAddress } = useWallet()
+  const appClient = createAppClient(signer, activeAddress ?? '')
+  const algodClient = getAlgodClient()
+
+  React.useEffect(() => {
+    async function getAppBoxes() {
+      const appId = await appClient.appClient.getAppReference().then((ref) => ref.appId)
+      const boxes = await algodClient.getApplicationBoxes(Number(appId)).do()
+      console.log({ boxes, appId })
+    }
+
+    getAppBoxes().catch(console.error)
+  })
   return (
     <main className="">
       <PoolInfo />

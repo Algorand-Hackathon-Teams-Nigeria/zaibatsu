@@ -5,12 +5,12 @@
             "name": "create_pool",
             "args": [
                 {
-                    "type": "string",
-                    "name": "pool_name"
+                    "type": "pay",
+                    "name": "payment"
                 },
                 {
-                    "type": "address",
-                    "name": "manager_addr"
+                    "type": "string",
+                    "name": "pool_name"
                 },
                 {
                     "type": "uint8",
@@ -19,18 +19,6 @@
                 {
                     "type": "uint8",
                     "name": "pool_mpr"
-                }
-            ],
-            "returns": {
-                "type": "void"
-            }
-        },
-        {
-            "name": "pay_pool_creation_fee",
-            "args": [
-                {
-                    "type": "pay",
-                    "name": "payment"
                 }
             ],
             "returns": {

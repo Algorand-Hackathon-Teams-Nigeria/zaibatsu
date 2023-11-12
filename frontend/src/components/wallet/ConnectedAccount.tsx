@@ -1,10 +1,13 @@
 import { useWallet } from '@txnlab/use-wallet'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 import React from 'react'
+import { CreatePool } from '../pool'
 
 export default function ConnectedAccoutn() {
   const { activeAccount, providers } = useWallet()
   const [open, setOpen] = React.useState(false)
+
+  const modalRef = React.useRef() as React.MutableRefObject<HTMLDialogElement>
 
   function handleDisconect() {
     if (providers) {
@@ -24,9 +27,15 @@ export default function ConnectedAccoutn() {
   function handleCopyAddress() {
     navigator.clipboard.writeText(activeAccount?.address ?? '')
   }
+
   return (
     <div className="flex items-center gap-4 justify-end">
-      <button className="btn btn-lg btn-primary">Create Pool</button>
+      <button onClick={() => modalRef.current.show()} className="btn btn-lg btn-primary">
+        Create Pool
+      </button>
+      <dialog ref={modalRef} className="modal">
+        <CreatePool />
+      </dialog>
       <div className="dropdown">
         <label tabIndex={0} onClick={() => setOpen((curr) => !curr)} className="btn btn-lg btn-outline btn-primary">
           <img src="/user.svg" />
