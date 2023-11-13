@@ -21,19 +21,19 @@ from algosdk.atomic_transaction_composer import (
 
 _APP_SPEC_JSON = r"""{
     "hints": {
-        "create_pool(string,address,uint8,uint8)void": {
+        "create_pool(pay,string,string,uint8,uint8)void": {
             "call_config": {
                 "no_op": "CALL"
             }
         },
-        "pay_pool_creation_fee(pay)void": {
+        "lend_to_pool(axfer,string)void": {
             "call_config": {
                 "no_op": "CALL"
             }
         }
     },
     "source": {
-        "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMQpieXRlY2Jsb2NrIDB4IDB4MDAKdHhuIE51bUFwcEFyZ3MKaW50Y18wIC8vIDAKPT0KYm56IG1haW5fbDYKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhiNmIxMzFmYiAvLyAiY3JlYXRlX3Bvb2woc3RyaW5nLGFkZHJlc3MsdWludDgsdWludDgpdm9pZCIKPT0KYm56IG1haW5fbDUKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHg1MTVjMDNhZiAvLyAicGF5X3Bvb2xfY3JlYXRpb25fZmVlKHBheSl2b2lkIgo9PQpibnogbWFpbl9sNAplcnIKbWFpbl9sNDoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBwYXlwb29sY3JlYXRpb25mZWVjYXN0ZXJfNAppbnRjXzEgLy8gMQpyZXR1cm4KbWFpbl9sNToKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBjcmVhdGVwb29sY2FzdGVyXzMKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDY6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KYm56IG1haW5fbDgKZXJyCm1haW5fbDg6CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCj09CmFzc2VydAppbnRjXzEgLy8gMQpyZXR1cm4KCi8vIGhhbmRsZV9jcmVhdGVfcG9vbApoYW5kbGVjcmVhdGVwb29sXzA6CnByb3RvIDQgMApieXRlY18wIC8vICIiCmR1cAppbnRjXzAgLy8gMApkdXBuIDQKYnl0ZWNfMCAvLyAiIgpkdXAKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1Ngpib3hfbGVuCnN0b3JlIDMKc3RvcmUgMgpsb2FkIDMKIQphc3NlcnQKZnJhbWVfZGlnIC00CmV4dHJhY3QgMiAwCnNoYTI1NgpmcmFtZV9idXJ5IDEKZnJhbWVfZGlnIDEKbGVuCml0b2IKZXh0cmFjdCA2IDAKZnJhbWVfZGlnIDEKY29uY2F0CmZyYW1lX2J1cnkgMQppbnRjXzAgLy8gMApmcmFtZV9idXJ5IDIKaW50Y18wIC8vIDAKZnJhbWVfYnVyeSAzCmludGNfMCAvLyAwCmZyYW1lX2J1cnkgNApmcmFtZV9kaWcgMQpmcmFtZV9idXJ5IDgKZnJhbWVfZGlnIDgKZnJhbWVfYnVyeSA3CnB1c2hpbnQgNjIgLy8gNjIKZnJhbWVfYnVyeSA1CmZyYW1lX2RpZyA1CmZyYW1lX2RpZyA4CmxlbgorCmZyYW1lX2J1cnkgNgpmcmFtZV9kaWcgNgpwdXNoaW50IDY1NTM2IC8vIDY1NTM2CjwKYXNzZXJ0CmZyYW1lX2RpZyA1Cml0b2IKZXh0cmFjdCA2IDAKZnJhbWVfZGlnIC00CmZyYW1lX2J1cnkgOApmcmFtZV9kaWcgNwpmcmFtZV9kaWcgOApjb25jYXQKZnJhbWVfYnVyeSA3CmZyYW1lX2RpZyA2CmZyYW1lX2J1cnkgNQpmcmFtZV9kaWcgNQppdG9iCmV4dHJhY3QgNiAwCmNvbmNhdApmcmFtZV9kaWcgLTMKY29uY2F0CmZyYW1lX2RpZyAyCml0b2IKY29uY2F0CmJ5dGVjXzEgLy8gMHgwMAppbnRjXzAgLy8gMApmcmFtZV9kaWcgLTIKc2V0Ynl0ZQpjb25jYXQKYnl0ZWNfMSAvLyAweDAwCmludGNfMCAvLyAwCmZyYW1lX2RpZyAtMQpzZXRieXRlCmNvbmNhdApmcmFtZV9kaWcgMwppdG9iCmNvbmNhdApmcmFtZV9kaWcgNAppdG9iCmNvbmNhdApmcmFtZV9kaWcgNwpjb25jYXQKZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAxCmJveF9kZWwKcG9wCmZyYW1lX2RpZyAxCmZyYW1lX2RpZyAwCmJveF9wdXQKcmV0c3ViCgovLyBjcmVhdGVfcG9vbApjcmVhdGVwb29sXzE6CnByb3RvIDQgMApmcmFtZV9kaWcgLTMKYm94X2xlbgpzdG9yZSAxCnN0b3JlIDAKbG9hZCAxCmFzc2VydApmcmFtZV9kaWcgLTQKZnJhbWVfZGlnIC0zCmZyYW1lX2RpZyAtMgpmcmFtZV9kaWcgLTEKY2FsbHN1YiBoYW5kbGVjcmVhdGVwb29sXzAKZnJhbWVfZGlnIC0zCmJveF9kZWwKcG9wCmludGNfMSAvLyAxCnJldHVybgoKLy8gcGF5X3Bvb2xfY3JlYXRpb25fZmVlCnBheXBvb2xjcmVhdGlvbmZlZV8yOgpwcm90byAxIDAKYnl0ZWNfMCAvLyAiIgppbnRjXzAgLy8gMApmcmFtZV9kaWcgLTEKZ3R4bnMgUmVjZWl2ZXIKZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMQpndHhucyBBbW91bnQKcHVzaGludCAyMDAwMDAgLy8gMjAwMDAwCj09CmFzc2VydApmcmFtZV9kaWcgLTEKZ3R4bnMgU2VuZGVyCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApsZW4KcHVzaGludCAzMiAvLyAzMgo9PQphc3NlcnQKaW50Y18xIC8vIDEKIQohCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMApib3hfZGVsCnBvcApmcmFtZV9kaWcgMApieXRlY18xIC8vIDB4MDAKaW50Y18wIC8vIDAKZnJhbWVfZGlnIDEKc2V0Yml0CmJveF9wdXQKaW50Y18xIC8vIDEKcmV0dXJuCgovLyBjcmVhdGVfcG9vbF9jYXN0ZXIKY3JlYXRlcG9vbGNhc3Rlcl8zOgpwcm90byAwIDAKYnl0ZWNfMCAvLyAiIgpkdXAKaW50Y18wIC8vIDAKZHVwCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAwCnR4bmEgQXBwbGljYXRpb25BcmdzIDIKZnJhbWVfYnVyeSAxCnR4bmEgQXBwbGljYXRpb25BcmdzIDMKaW50Y18wIC8vIDAKZ2V0Ynl0ZQpmcmFtZV9idXJ5IDIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNAppbnRjXzAgLy8gMApnZXRieXRlCmZyYW1lX2J1cnkgMwpmcmFtZV9kaWcgMApmcmFtZV9kaWcgMQpmcmFtZV9kaWcgMgpmcmFtZV9kaWcgMwpjYWxsc3ViIGNyZWF0ZXBvb2xfMQpyZXRzdWIKCi8vIHBheV9wb29sX2NyZWF0aW9uX2ZlZV9jYXN0ZXIKcGF5cG9vbGNyZWF0aW9uZmVlY2FzdGVyXzQ6CnByb3RvIDAgMAppbnRjXzAgLy8gMAp0eG4gR3JvdXBJbmRleAppbnRjXzEgLy8gMQotCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApndHhucyBUeXBlRW51bQppbnRjXzEgLy8gcGF5Cj09CmFzc2VydApmcmFtZV9kaWcgMApjYWxsc3ViIHBheXBvb2xjcmVhdGlvbmZlZV8yCnJldHN1Yg==",
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMSAzMiA5NCA2NTUzNgpieXRlY2Jsb2NrIDB4IDB4MDAKdHhuIE51bUFwcEFyZ3MKaW50Y18wIC8vIDAKPT0KYm56IG1haW5fbDYKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhiODg2NDU1NSAvLyAiY3JlYXRlX3Bvb2wocGF5LHN0cmluZyxzdHJpbmcsdWludDgsdWludDgpdm9pZCIKPT0KYm56IG1haW5fbDUKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhkM2Q0MzY0NCAvLyAibGVuZF90b19wb29sKGF4ZmVyLHN0cmluZyl2b2lkIgo9PQpibnogbWFpbl9sNAplcnIKbWFpbl9sNDoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBsZW5kdG9wb29sY2FzdGVyXzMKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDU6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgY3JlYXRlcG9vbGNhc3Rlcl8yCmludGNfMSAvLyAxCnJldHVybgptYWluX2w2Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CmJueiBtYWluX2w4CmVycgptYWluX2w4Ogp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAo9PQphc3NlcnQKaW50Y18xIC8vIDEKcmV0dXJuCgovLyBjcmVhdGVfcG9vbApjcmVhdGVwb29sXzA6CnByb3RvIDUgMApieXRlY18wIC8vICIiCmZyYW1lX2RpZyAtNQpjYWxsc3ViIHBheXBvb2xjcmVhdGlvbmZlZV82CmZyYW1lX2RpZyAtNQpndHhucyBTZW5kZXIKZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAwCmxlbgppbnRjXzIgLy8gMzIKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtNApmcmFtZV9kaWcgLTMKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIC0yCmZyYW1lX2RpZyAtMQpjYWxsc3ViIGhhbmRsZWNyZWF0ZXBvb2xfNAppbnRjXzEgLy8gMQpyZXR1cm4KCi8vIGxlbmRfdG9fcG9vbApsZW5kdG9wb29sXzE6CnByb3RvIDIgMApmcmFtZV9kaWcgLTIKZnJhbWVfZGlnIC0xCmNhbGxzdWIgZnVuZHBvb2xfNQpyZXRzdWIKCi8vIGNyZWF0ZV9wb29sX2Nhc3RlcgpjcmVhdGVwb29sY2FzdGVyXzI6CnByb3RvIDAgMAppbnRjXzAgLy8gMApieXRlY18wIC8vICIiCmR1cAppbnRjXzAgLy8gMApkdXAKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpmcmFtZV9idXJ5IDEKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgpmcmFtZV9idXJ5IDIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwppbnRjXzAgLy8gMApnZXRieXRlCmZyYW1lX2J1cnkgMwp0eG5hIEFwcGxpY2F0aW9uQXJncyA0CmludGNfMCAvLyAwCmdldGJ5dGUKZnJhbWVfYnVyeSA0CnR4biBHcm91cEluZGV4CmludGNfMSAvLyAxCi0KZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAwCmd0eG5zIFR5cGVFbnVtCmludGNfMSAvLyBwYXkKPT0KYXNzZXJ0CmZyYW1lX2RpZyAwCmZyYW1lX2RpZyAxCmZyYW1lX2RpZyAyCmZyYW1lX2RpZyAzCmZyYW1lX2RpZyA0CmNhbGxzdWIgY3JlYXRlcG9vbF8wCnJldHN1YgoKLy8gbGVuZF90b19wb29sX2Nhc3RlcgpsZW5kdG9wb29sY2FzdGVyXzM6CnByb3RvIDAgMAppbnRjXzAgLy8gMApieXRlY18wIC8vICIiCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAxCnR4biBHcm91cEluZGV4CmludGNfMSAvLyAxCi0KZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAwCmd0eG5zIFR5cGVFbnVtCnB1c2hpbnQgNCAvLyBheGZlcgo9PQphc3NlcnQKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKY2FsbHN1YiBsZW5kdG9wb29sXzEKcmV0c3ViCgovLyBoYW5kbGVfY3JlYXRlX3Bvb2wKaGFuZGxlY3JlYXRlcG9vbF80Ogpwcm90byA1IDAKYnl0ZWNfMCAvLyAiIgpkdXAKaW50Y18wIC8vIDAKZHVwbiAyCmJ5dGVjXzAgLy8gIiIKaW50Y18wIC8vIDAKZHVwCmJ5dGVjXzAgLy8gIiIKZHVwCmZyYW1lX2RpZyAwCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMQpmcmFtZV9idXJ5IDEKaW50Y18wIC8vIDAKZnJhbWVfYnVyeSAyCmludGNfMCAvLyAwCmZyYW1lX2J1cnkgMwppbnRjXzAgLy8gMApmcmFtZV9idXJ5IDQKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKZnJhbWVfYnVyeSA5CmZyYW1lX2RpZyA5CmZyYW1lX2J1cnkgOAppbnRjXzMgLy8gOTQKZnJhbWVfYnVyeSA2CmZyYW1lX2RpZyA2CmZyYW1lX2RpZyA5CmxlbgorCmZyYW1lX2J1cnkgNwpmcmFtZV9kaWcgNwppbnRjIDQgLy8gNjU1MzYKPAphc3NlcnQKZnJhbWVfZGlnIDYKaXRvYgpleHRyYWN0IDYgMApjb25jYXQKZnJhbWVfZGlnIC00CmZyYW1lX2J1cnkgOQpmcmFtZV9kaWcgOApmcmFtZV9kaWcgOQpjb25jYXQKZnJhbWVfYnVyeSA4CmZyYW1lX2RpZyA3CmZyYW1lX2J1cnkgNgpmcmFtZV9kaWcgNgppdG9iCmV4dHJhY3QgNiAwCmNvbmNhdApmcmFtZV9kaWcgLTMKY29uY2F0CmJ5dGVjXzEgLy8gMHgwMAppbnRjXzAgLy8gMApmcmFtZV9kaWcgLTIKc2V0Ynl0ZQpjb25jYXQKYnl0ZWNfMSAvLyAweDAwCmludGNfMCAvLyAwCmZyYW1lX2RpZyAtMQpzZXRieXRlCmNvbmNhdApmcmFtZV9kaWcgMgppdG9iCmNvbmNhdApmcmFtZV9kaWcgMwppdG9iCmNvbmNhdApmcmFtZV9kaWcgNAppdG9iCmNvbmNhdApmcmFtZV9kaWcgOApjb25jYXQKZnJhbWVfYnVyeSA1CmZyYW1lX2RpZyAtNQpleHRyYWN0IDIgMApib3hfZGVsCnBvcApmcmFtZV9kaWcgLTUKZXh0cmFjdCAyIDAKZnJhbWVfZGlnIDUKYm94X3B1dApyZXRzdWIKCi8vIGZ1bmRfcG9vbApmdW5kcG9vbF81Ogpwcm90byAyIDAKYnl0ZWNfMCAvLyAiIgpkdXBuIDQKaW50Y18wIC8vIDAKZHVwbiA2CmJ5dGVjXzAgLy8gIiIKZHVwCmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApib3hfZ2V0CnN0b3JlIDEKc3RvcmUgMApsb2FkIDEKYXNzZXJ0CmxvYWQgMApmcmFtZV9idXJ5IDAKZnJhbWVfZGlnIDAKZXh0cmFjdCAwIDMyCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMApmcmFtZV9kaWcgMAppbnRjXzIgLy8gMzIKZXh0cmFjdF91aW50MTYKZnJhbWVfZGlnIDAKcHVzaGludCAzNCAvLyAzNApleHRyYWN0X3VpbnQxNgpzdWJzdHJpbmczCmZyYW1lX2J1cnkgMgpmcmFtZV9kaWcgMApmcmFtZV9kaWcgMApwdXNoaW50IDM0IC8vIDM0CmV4dHJhY3RfdWludDE2CmRpZyAxCmxlbgpzdWJzdHJpbmczCmZyYW1lX2J1cnkgMwpmcmFtZV9kaWcgMApleHRyYWN0IDM2IDMyCmZyYW1lX2J1cnkgNApmcmFtZV9kaWcgMApwdXNoaW50IDY4IC8vIDY4CmdldGJ5dGUKZnJhbWVfYnVyeSA1CmZyYW1lX2RpZyAwCnB1c2hpbnQgNjkgLy8gNjkKZ2V0Ynl0ZQpmcmFtZV9idXJ5IDYKZnJhbWVfZGlnIDAKcHVzaGludCA3MCAvLyA3MApleHRyYWN0X3VpbnQ2NApmcmFtZV9idXJ5IDcKZnJhbWVfZGlnIDAKcHVzaGludCA3OCAvLyA3OApleHRyYWN0X3VpbnQ2NApmcmFtZV9idXJ5IDgKZnJhbWVfZGlnIDAKcHVzaGludCA4NiAvLyA4NgpleHRyYWN0X3VpbnQ2NApmcmFtZV9idXJ5IDkKZnJhbWVfZGlnIDcKZnJhbWVfZGlnIC0yCmd0eG5zIEFzc2V0QW1vdW50CisKZnJhbWVfYnVyeSA3CmZyYW1lX2RpZyA4CmZyYW1lX2RpZyAtMgpndHhucyBBc3NldEFtb3VudAorCmZyYW1lX2J1cnkgOApmcmFtZV9kaWcgMQpmcmFtZV9kaWcgMgpmcmFtZV9idXJ5IDEzCmZyYW1lX2RpZyAxMwpmcmFtZV9idXJ5IDEyCmludGNfMyAvLyA5NApmcmFtZV9idXJ5IDEwCmZyYW1lX2RpZyAxMApmcmFtZV9kaWcgMTMKbGVuCisKZnJhbWVfYnVyeSAxMQpmcmFtZV9kaWcgMTEKaW50YyA0IC8vIDY1NTM2CjwKYXNzZXJ0CmZyYW1lX2RpZyAxMAppdG9iCmV4dHJhY3QgNiAwCmNvbmNhdApmcmFtZV9kaWcgMwpmcmFtZV9idXJ5IDEzCmZyYW1lX2RpZyAxMgpmcmFtZV9kaWcgMTMKY29uY2F0CmZyYW1lX2J1cnkgMTIKZnJhbWVfZGlnIDExCmZyYW1lX2J1cnkgMTAKZnJhbWVfZGlnIDEwCml0b2IKZXh0cmFjdCA2IDAKY29uY2F0CmZyYW1lX2RpZyA0CmNvbmNhdApieXRlY18xIC8vIDB4MDAKaW50Y18wIC8vIDAKZnJhbWVfZGlnIDUKc2V0Ynl0ZQpjb25jYXQKYnl0ZWNfMSAvLyAweDAwCmludGNfMCAvLyAwCmZyYW1lX2RpZyA2CnNldGJ5dGUKY29uY2F0CmZyYW1lX2RpZyA3Cml0b2IKY29uY2F0CmZyYW1lX2RpZyA4Cml0b2IKY29uY2F0CmZyYW1lX2RpZyA5Cml0b2IKY29uY2F0CmZyYW1lX2RpZyAxMgpjb25jYXQKZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApib3hfZGVsCnBvcApmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKZnJhbWVfZGlnIDAKYm94X3B1dApyZXRzdWIKCi8vIHBheV9wb29sX2NyZWF0aW9uX2ZlZQpwYXlwb29sY3JlYXRpb25mZWVfNjoKcHJvdG8gMSAwCmZyYW1lX2RpZyAtMQpndHhucyBSZWNlaXZlcgpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwo9PQphc3NlcnQKZnJhbWVfZGlnIC0xCmd0eG5zIEFtb3VudApwdXNoaW50IDIwMDAwMCAvLyAyMDAwMDAKPT0KYXNzZXJ0CnJldHN1Yg==",
         "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKcHVzaGludCAwIC8vIDAKcmV0dXJu"
     },
     "state": {
@@ -63,12 +63,16 @@ _APP_SPEC_JSON = r"""{
                 "name": "create_pool",
                 "args": [
                     {
-                        "type": "string",
-                        "name": "pool_name"
+                        "type": "pay",
+                        "name": "payment"
                     },
                     {
-                        "type": "address",
-                        "name": "manager_addr"
+                        "type": "string",
+                        "name": "pool_id"
+                    },
+                    {
+                        "type": "string",
+                        "name": "pool_name"
                     },
                     {
                         "type": "uint8",
@@ -84,11 +88,15 @@ _APP_SPEC_JSON = r"""{
                 }
             },
             {
-                "name": "pay_pool_creation_fee",
+                "name": "lend_to_pool",
                 "args": [
                     {
-                        "type": "pay",
-                        "name": "payment"
+                        "type": "axfer",
+                        "name": "txn"
+                    },
+                    {
+                        "type": "string",
+                        "name": "pool_id"
                     }
                 ],
                 "returns": {
@@ -177,23 +185,25 @@ def _convert_deploy_args(
 
 @dataclasses.dataclass(kw_only=True)
 class CreatePoolArgs(_ArgsBase[None]):
+    payment: TransactionWithSigner
+    pool_id: str
     pool_name: str
-    manager_addr: str
     pool_tenor: int
     pool_mpr: int
 
     @staticmethod
     def method() -> str:
-        return "create_pool(string,address,uint8,uint8)void"
+        return "create_pool(pay,string,string,uint8,uint8)void"
 
 
 @dataclasses.dataclass(kw_only=True)
-class PayPoolCreationFeeArgs(_ArgsBase[None]):
-    payment: TransactionWithSigner
+class LendToPoolArgs(_ArgsBase[None]):
+    txn: TransactionWithSigner
+    pool_id: str
 
     @staticmethod
     def method() -> str:
-        return "pay_pool_creation_fee(pay)void"
+        return "lend_to_pool(axfer,string)void"
 
 
 class Composer:
@@ -211,24 +221,27 @@ class Composer:
     def create_pool(
         self,
         *,
+        payment: TransactionWithSigner,
+        pool_id: str,
         pool_name: str,
-        manager_addr: str,
         pool_tenor: int,
         pool_mpr: int,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
     ) -> "Composer":
-        """Adds a call to `create_pool(string,address,uint8,uint8)void` ABI method
+        """Adds a call to `create_pool(pay,string,string,uint8,uint8)void` ABI method
         
+        :param TransactionWithSigner payment: The `payment` ABI parameter
+        :param str pool_id: The `pool_id` ABI parameter
         :param str pool_name: The `pool_name` ABI parameter
-        :param str manager_addr: The `manager_addr` ABI parameter
         :param int pool_tenor: The `pool_tenor` ABI parameter
         :param int pool_mpr: The `pool_mpr` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
         :returns Composer: This Composer instance"""
 
         args = CreatePoolArgs(
+            payment=payment,
+            pool_id=pool_id,
             pool_name=pool_name,
-            manager_addr=manager_addr,
             pool_tenor=pool_tenor,
             pool_mpr=pool_mpr,
         )
@@ -240,20 +253,23 @@ class Composer:
         )
         return self
 
-    def pay_pool_creation_fee(
+    def lend_to_pool(
         self,
         *,
-        payment: TransactionWithSigner,
+        txn: TransactionWithSigner,
+        pool_id: str,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
     ) -> "Composer":
-        """Adds a call to `pay_pool_creation_fee(pay)void` ABI method
+        """Adds a call to `lend_to_pool(axfer,string)void` ABI method
         
-        :param TransactionWithSigner payment: The `payment` ABI parameter
+        :param TransactionWithSigner txn: The `txn` ABI parameter
+        :param str pool_id: The `pool_id` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
         :returns Composer: This Composer instance"""
 
-        args = PayPoolCreationFeeArgs(
-            payment=payment,
+        args = LendToPoolArgs(
+            txn=txn,
+            pool_id=pool_id,
         )
         self.app_client.compose_call(
             self.atc,
@@ -425,24 +441,27 @@ class ZaibatsuClient:
     def create_pool(
         self,
         *,
+        payment: TransactionWithSigner,
+        pool_id: str,
         pool_name: str,
-        manager_addr: str,
         pool_tenor: int,
         pool_mpr: int,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
     ) -> algokit_utils.ABITransactionResponse[None]:
-        """Calls `create_pool(string,address,uint8,uint8)void` ABI method
+        """Calls `create_pool(pay,string,string,uint8,uint8)void` ABI method
         
+        :param TransactionWithSigner payment: The `payment` ABI parameter
+        :param str pool_id: The `pool_id` ABI parameter
         :param str pool_name: The `pool_name` ABI parameter
-        :param str manager_addr: The `manager_addr` ABI parameter
         :param int pool_tenor: The `pool_tenor` ABI parameter
         :param int pool_mpr: The `pool_mpr` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
         :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
 
         args = CreatePoolArgs(
+            payment=payment,
+            pool_id=pool_id,
             pool_name=pool_name,
-            manager_addr=manager_addr,
             pool_tenor=pool_tenor,
             pool_mpr=pool_mpr,
         )
@@ -453,20 +472,23 @@ class ZaibatsuClient:
         )
         return result
 
-    def pay_pool_creation_fee(
+    def lend_to_pool(
         self,
         *,
-        payment: TransactionWithSigner,
+        txn: TransactionWithSigner,
+        pool_id: str,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
     ) -> algokit_utils.ABITransactionResponse[None]:
-        """Calls `pay_pool_creation_fee(pay)void` ABI method
+        """Calls `lend_to_pool(axfer,string)void` ABI method
         
-        :param TransactionWithSigner payment: The `payment` ABI parameter
+        :param TransactionWithSigner txn: The `txn` ABI parameter
+        :param str pool_id: The `pool_id` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
         :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
 
-        args = PayPoolCreationFeeArgs(
-            payment=payment,
+        args = LendToPoolArgs(
+            txn=txn,
+            pool_id=pool_id,
         )
         result = self.app_client.call(
             call_abi_method=args.method(),

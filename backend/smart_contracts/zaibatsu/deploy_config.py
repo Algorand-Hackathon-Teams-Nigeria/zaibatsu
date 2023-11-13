@@ -27,6 +27,3 @@ def deploy(
         on_schema_break=algokit_utils.OnSchemaBreak.AppendApp,
         on_update=algokit_utils.OnUpdate.AppendApp,
     )
-
-    res = app_client.add_address(address=app_client.app_address)
-    print(res)

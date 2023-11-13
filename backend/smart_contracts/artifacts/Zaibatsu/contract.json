@@ -5,12 +5,16 @@
             "name": "create_pool",
             "args": [
                 {
-                    "type": "string",
-                    "name": "pool_name"
+                    "type": "pay",
+                    "name": "payment"
                 },
                 {
-                    "type": "address",
-                    "name": "manager_addr"
+                    "type": "string",
+                    "name": "pool_id"
+                },
+                {
+                    "type": "string",
+                    "name": "pool_name"
                 },
                 {
                     "type": "uint8",
@@ -26,11 +30,15 @@
             }
         },
         {
-            "name": "pay_pool_creation_fee",
+            "name": "lend_to_pool",
             "args": [
                 {
-                    "type": "pay",
-                    "name": "payment"
+                    "type": "axfer",
+                    "name": "txn"
+                },
+                {
+                    "type": "string",
+                    "name": "pool_id"
                 }
             ],
             "returns": {

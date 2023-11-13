@@ -6,6 +6,7 @@ export default function ConnectWallet() {
   const { providers, activeAddress } = useWallet()
   const modalRef = React.useRef() as React.MutableRefObject<HTMLDialogElement>
   const isKmd = (provider: Provider) => provider.metadata.name.toLowerCase() === 'kmd'
+
   return (
     <React.Fragment>
       <div className="w-full mb-7 flex items-center justify-end">

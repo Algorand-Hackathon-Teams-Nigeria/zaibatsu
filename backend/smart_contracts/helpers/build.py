@@ -38,8 +38,6 @@ def build(output_dir: Path, app: beaker.Application) -> Path:
                 "later. Please update AlgoKit"
             )
         else:
-            raise Exception(
-                f"Could not generate typed client:\n{result.stdout}"
-            )
+            raise Exception(f"Could not generate typed client:\n{result.stdout}")
 
     return output_dir / "application.json"

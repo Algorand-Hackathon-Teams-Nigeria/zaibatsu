@@ -7,6 +7,8 @@ import { PeraWalletConnect } from '@perawallet/connect'
 import { DaffiWalletConnect } from '@daffiwallet/connect'
 import { getAlgodConfigFromViteEnvironment } from '../../../utils/network/getAlgoClientConfigs'
 import algosdk from 'algosdk'
+import { SnackbarProvider } from 'notistack'
+import AppDataProvider from '../AppDataProvider'
 
 let providersArray: ProvidersArray
 if (import.meta.env.VITE_ALGOD_NETWORK === '') {
@@ -22,9 +24,10 @@ if (import.meta.env.VITE_ALGOD_NETWORK === '') {
 
 export default function NavLayout() {
   const location = useLocation()
-  const isActive = (url: URLType) => location.pathname === url.href
 
+  const isActive = (url: URLType) => location.pathname === url.href
   const algodConfig = getAlgodConfigFromViteEnvironment()
+
 
   const walletProviders = useInitializeProviders({
     providers: providersArray,
@@ -37,36 +40,40 @@ export default function NavLayout() {
     algosdkStatic: algosdk,
   })
   return (
-    <WalletProvider value={walletProviders}>
-      <div>
-        <div className="drawer lg:drawer-open">
-          <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content p-5">
-            <NavBar />
-            <Outlet />
-          </div>
-          <div className="drawer-side bg-primary/10">
-            <div className="pl-20 p-4 pb-14">
-              <Link to="/">
-                <img className="max-w-[6rem]" src="/logo.svg" />
-              </Link>
-            </div>
-            <ul>
-              {urls.map((url) => (
-                <li
-                  className={`py-2 my-4 transition-all border-l-4 ${
-                    isActive(url) ? 'bg-white text-primary border-primary' : 'border-transparent'
-                  }`}
-                >
-                  <Link className="px-16 pr-20" to={url.href}>
-                    {url.name}
+    <SnackbarProvider maxSnack={3}>
+      <WalletProvider value={walletProviders}>
+        <AppDataProvider>
+          <div>
+            <div className="drawer lg:drawer-open">
+              <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+              <div className="drawer-content p-5">
+                <NavBar />
+                <Outlet />
+              </div>
+              <div className="drawer-side bg-primary/10">
+                <div className="pl-20 p-4 pb-14">
+                  <Link to="/">
+                    <img className="max-w-[6rem]" src="/logo.svg" />
                   </Link>
-                </li>
-              ))}
-            </ul>
+                </div>
+                <ul>
+                  {urls.map((url) => (
+                    <li
+                      key={url.href}
+                      className={`py-2 my-4 transition-all border-l-4 ${isActive(url) ? 'bg-white text-primary border-primary' : 'border-transparent'
+                        }`}
+                    >
+                      <Link className="px-16 pr-20" to={url.href}>
+                        {url.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </WalletProvider>
+        </AppDataProvider>
+      </WalletProvider>
+    </SnackbarProvider>
   )
 }
