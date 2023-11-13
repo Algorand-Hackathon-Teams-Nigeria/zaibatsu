@@ -1,23 +1,41 @@
-import { PoolInfo } from '../components'
+import { PoolInfo, PoolTable } from '../components'
 import { BiSearch } from 'react-icons/bi'
-import { createAppClient, getAlgodClient } from '../utils/network/contract'
-import { useWallet } from '@txnlab/use-wallet'
+import { getAlgodClient } from '../utils/network/contract'
 import React from 'react'
+import { useAtom } from 'jotai'
+import { appRefAtom } from '../state/atoms'
+import { PoolData } from '../types'
+// import { poolCodec } from '../contracts/abiTypes'
 
 export default function Pool() {
-  const { signer, activeAddress } = useWallet()
-  const appClient = createAppClient(signer, activeAddress ?? '')
+  const [loading, setLoading] = React.useState(true)
+  const [pools, setPools] = React.useState<PoolData[]>([])
+  const [appRef] = useAtom(appRefAtom)
   const algodClient = getAlgodClient()
 
   React.useEffect(() => {
-    async function getAppBoxes() {
-      const appId = await appClient.appClient.getAppReference().then((ref) => ref.appId)
-      const boxes = await algodClient.getApplicationBoxes(Number(appId)).do()
-      console.log({ boxes, appId })
+    const getPools = async () => {
+      try {
+        const boxes = await algodClient.getApplicationBoxes(Number(appRef?.appId)).do()
+        const textDecoder = new TextDecoder()
+        const boxPromises = boxes.boxes.map(async (box) => {
+          const boxData = await algodClient.getApplicationBoxByName(Number(appRef?.appId), box.name).do()
+          // const value = poolCodec.decode(boxData.value)
+          // console.log({ value })
+          return { name: textDecoder.decode(boxData.name).split('-')[0], id: box.name }
+        })
+        await Promise.all(boxPromises).then((res) => {
+          setPools(res)
+          setLoading(false)
+        })
+      } catch (error) {
+        console.error('Fetch Error: ', error)
+        setLoading(false)
+      }
     }
+    getPools()
+  }, [])
 
-    getAppBoxes().catch(console.error)
-  })
   return (
     <main className="">
       <PoolInfo />
@@ -28,6 +46,11 @@ export default function Pool() {
           <input className="bg-transparent outline-none" placeholder="Search anything here" />
         </div>
       </div>
+      {loading ? (
+        <span className="loading loading-infinity loading-lg" />
+      ) : (
+        <React.Fragment>{pools.length > 0 ? <PoolTable pools={pools} /> : <p>No Open Pools</p>}</React.Fragment>
+      )}
     </main>
   )
 }

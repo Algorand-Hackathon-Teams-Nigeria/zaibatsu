@@ -10,6 +10,10 @@
                 },
                 {
                     "type": "string",
+                    "name": "pool_id"
+                },
+                {
+                    "type": "string",
                     "name": "pool_name"
                 },
                 {
@@ -19,6 +23,22 @@
                 {
                     "type": "uint8",
                     "name": "pool_mpr"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            }
+        },
+        {
+            "name": "lend_to_pool",
+            "args": [
+                {
+                    "type": "axfer",
+                    "name": "txn"
+                },
+                {
+                    "type": "string",
+                    "name": "pool_id"
                 }
             ],
             "returns": {

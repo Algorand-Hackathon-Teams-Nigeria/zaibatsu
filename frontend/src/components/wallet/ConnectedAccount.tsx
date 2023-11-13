@@ -1,11 +1,10 @@
 import { useWallet } from '@txnlab/use-wallet'
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
+import { FaAngleDown } from 'react-icons/fa'
 import React from 'react'
 import { CreatePool } from '../pool'
 
 export default function ConnectedAccoutn() {
   const { activeAccount, providers } = useWallet()
-  const [open, setOpen] = React.useState(false)
 
   const modalRef = React.useRef() as React.MutableRefObject<HTMLDialogElement>
 
@@ -15,9 +14,6 @@ export default function ConnectedAccoutn() {
       if (activeProvider) {
         activeProvider.disconnect()
       } else {
-        // Required for logout/cleanup of inactive providers
-        // For instance, when you login to localnet wallet and switch network
-        // to testnet/mainnet or vice verse.
         localStorage.removeItem('txnlab-use-wallet')
         window.location.reload()
       }
@@ -37,10 +33,10 @@ export default function ConnectedAccoutn() {
         <CreatePool />
       </dialog>
       <div className="dropdown">
-        <label tabIndex={0} onClick={() => setOpen((curr) => !curr)} className="btn btn-lg btn-outline btn-primary">
+        <label tabIndex={0} className="btn btn-lg btn-outline btn-primary">
           <img src="/user.svg" />
           <p className="max-w-[15rem] overflow-hidden text-ellipsis">{activeAccount?.address}</p>
-          {open ? <FaAngleUp /> : <FaAngleDown />}
+          <FaAngleDown />
         </label>
         <ul
           tabIndex={0}

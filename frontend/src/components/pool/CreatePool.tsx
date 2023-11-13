@@ -1,66 +1,56 @@
 import React from 'react'
 import { GrClose } from 'react-icons/gr'
-import { createAppClient, getAlgodClient } from '../../utils/network/contract'
+import { getAlgodClient } from '../../utils/network/contract'
 import { useWallet } from '@txnlab/use-wallet'
 import { enqueueSnackbar } from 'notistack'
 import algosdk from 'algosdk'
+import { useAtom } from 'jotai'
+import { appClientAtom, appRefAtom } from '../../state/atoms'
 
 export default function CreatePool() {
   const nameRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
   const mprRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
   const tenorRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
-
-  const { signer, activeAddress } = useWallet()
+  const [appClient] = useAtom(appClientAtom)
+  const [appRef] = useAtom(appRefAtom)
+  const { activeAddress } = useWallet()
 
   async function handleCreatePool() {
-    if (activeAddress) {
+    if (activeAddress && appClient && appRef) {
       const algodClient = getAlgodClient()
-
-      const appClient = createAppClient(signer, activeAddress)
-
-      const deployParams = {
-        onSchemaBreak: 'append',
-        onUpdate: 'append',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any
-
-      await appClient.deploy(deployParams).catch((err) => {
-        enqueueSnackbar(`Deploy Error: ${err}`, { variant: 'error' })
-        return
-      })
-
-      const app = await appClient.appClient.getAppReference()
 
       const suggestedParams = await algodClient.getTransactionParams().do()
       const transaction = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
         from: activeAddress,
-        to: app.appAddress,
+        to: appRef.appAddress,
         amount: 200000,
         suggestedParams,
       })
 
-      const boxName = await crypto.subtle
-        .digest('SHA-256', new TextEncoder().encode(nameRef.current.value))
-        .then((res) => new Uint8Array(res))
+      const pool_id = `${nameRef.current.value}-${new Date().toUTCString()}`
+
+      const boxName = new Uint8Array(new TextEncoder().encode(pool_id))
 
       await appClient
         .createPool(
           {
             payment: transaction,
+            pool_id,
             pool_name: nameRef.current.value,
             pool_mpr: parseInt(mprRef.current.value),
             pool_tenor: parseInt(mprRef.current.value),
           },
-          { ...suggestedParams, boxes: [{ appIndex: Number(app.appId), name: boxName }] },
-        )
+          { ...suggestedParams, boxes: [{ appIndex: Number(appRef.appId), name: boxName }] },
+        ).then(() => {
+          enqueueSnackbar('Success: Pool created', { variant: 'success' })
+        })
         .catch((err) => {
           enqueueSnackbar(`Pool Creation Error: ${err}`, { variant: 'error' })
           return
         })
 
-      enqueueSnackbar('Success: Pool created', { variant: 'success' })
     } else {
-      enqueueSnackbar('Cannot create pool wallet not registered', { variant: 'error' })
+      enqueueSnackbar('Cannot create pool: Wallet not connected', { variant: 'error' })
       return
     }
   }
@@ -72,10 +62,6 @@ export default function CreatePool() {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-medium">Pool name</label>
             <input ref={nameRef} type="text" placeholder="Enter name" className="input w-full input-bordered" />
-          </div>
-          <div className="flex mt-7 flex-col gap-2">
-            <label className="text-sm font-medium">Assets</label>
-            <input type="text" placeholder="Enter assets" className="input w-full input-bordered" />
           </div>
           <div className="flex mt-7 flex-col gap-2">
             <label className="text-sm font-medium">Inrest (MPR)</label>
