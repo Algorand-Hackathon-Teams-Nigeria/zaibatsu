@@ -25,17 +25,17 @@ export default function ConnectedAccoutn() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-end gap-4 justify-end">
-      <button onClick={() => modalRef.current.show()} className="btn btn-lg btn-primary md:max-w-fit w-full">
+    <div className="flex flex-col sm:flex-row gap-4 justify-end">
+      <button onClick={() => modalRef.current.show()} className="btn flex-1 btn-sm lg:btn-lg btn-primary md:max-w-fit">
         Create Pool
       </button>
       <dialog ref={modalRef} className="modal">
         <CreatePool />
       </dialog>
       <div className="dropdown">
-        <label tabIndex={0} className="btn btn-lg btn-outline btn-primary">
-          <img src="/user.svg" />
-          <p className="max-w-[15rem] overflow-hidden text-ellipsis">{activeAccount?.address}</p>
+        <label tabIndex={0} className="btn flex-1 btn-sm lg:btn-lg btn-outline btn-primary">
+          <img src="/user.svg" className='h-[90%]'/>
+          <p className="max-w-[65vw] sm:max-w-[15rem] overflow-hidden text-ellipsis">{activeAccount?.address}</p>
           <FaAngleDown />
         </label>
         <ul

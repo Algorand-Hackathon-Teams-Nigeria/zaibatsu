@@ -1,5 +1,6 @@
 export interface PoolData {
   id: Uint8Array,
+  fullName: string,
   name: string,
   privateKey: string,
   address: string,

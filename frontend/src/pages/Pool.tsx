@@ -3,13 +3,13 @@ import { BiSearch } from 'react-icons/bi'
 import { getAlgodClient } from '../utils/network/contract'
 import React from 'react'
 import { useAtom } from 'jotai'
-import { appClientAtom, appRefAtom } from '../state/atoms'
+import { appClientAtom, appRefAtom, poolsAtom } from '../state/atoms'
 import { PoolData } from '../types'
 import { poolCodec } from '../utils/abiTypes'
 
 export default function Pool() {
   const [loading, setLoading] = React.useState(true)
-  const [pools, setPools] = React.useState<PoolData[]>([])
+  const [pools, setPools] = useAtom(poolsAtom)
   const [appClient] = useAtom(appClientAtom)
   const [appRef] = useAtom(appRefAtom)
   const algodClient = getAlgodClient()
@@ -28,6 +28,7 @@ export default function Pool() {
             const poolVal = poolCodec.decode(box.value) as Array<string>
             return {
               id: box.name,
+              fullName: new TextDecoder().decode(box.name),
               name: poolVal[2],
               address: poolVal[0],
               privateKey: poolVal[1],

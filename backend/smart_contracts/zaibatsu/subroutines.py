@@ -44,10 +44,8 @@ def fund_pool(
     # Pool Fund info
     return P.Seq(
         # Get current pool values
-        (pool := Pool()).decode(app.state.pools[pool_id].get()),
+        (pool := Pool()).decode(app.state.pools[pool_id.get()].get()),
         (asset_id := P.abi.String()).set(pool.asset_id),
-
-        P.Assert(txn.get().xfer_asset() == P.Btoi(asset_id.get())),
 
         # Pool Account info
         (address := P.abi.Address()).set(pool.address),
@@ -113,20 +111,20 @@ def handle_pool_borrow(
 
 @P.Subroutine(P.TealType.none)
 def record_pool_fund_transaction(
+    lend_id: P.abi.String,
     pool_id: P.abi.String,
     txn: P.abi.AssetTransferTransaction,
 ):
     return P.Seq(
-        (pool := Pool()).decode(app.state.fund_records[pool_id].get()),
+        (pool := Pool()).decode(app.state.pools[pool_id.get()].get()),
         (mpr_at_fund := P.abi.String()).set(pool.mpr),
         (amount := P.abi.String()).set(P.Itob(txn.get().asset_amount())),
         (funder_addr := P.abi.Address()).set(txn.get().sender()),
-        (txn_id := P.abi.String()).set(txn.get().tx_id()),
         (pool_record := PoolFundRecord()).set(
             pool_id, mpr_at_fund,
-            amount, funder_addr, txn_id
+            amount, funder_addr, lend_id
         ),
-        app.state.fund_records[txn_id.get()].set(pool_record.encode())
+        app.state.fund_records[lend_id.get()].set(pool_record.encode())
     )
 
 
