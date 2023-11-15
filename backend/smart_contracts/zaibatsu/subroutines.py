@@ -1,6 +1,6 @@
 import pyteal as P
 from algosdk import account
-from .state import Pool  # , PoolLendRecord
+from .state import Pool, PoolBorrowRecord, PoolFundRecord
 from .contract import app
 
 
@@ -9,38 +9,30 @@ def handle_create_pool(
     pool_id: P.abi.String,
     name: P.abi.String,
     manager: P.abi.Address,
-    mpr: P.abi.Uint8,
-    tenor: P.abi.Uint8
+    mpr: P.abi.String,
+    tenor: P.abi.String,
+    asset_id: P.abi.String
 ) -> P.Expr:
     # Create Pool Account
-    private_key, address = account.generate_account()
-    address = P.abi.Address()
-    private_key = P.abi.String()
-
-    # Create Pool Funds - initially all 0
-    total = P.abi.Uint64()
-    paid_in = P.abi.Uint64()
-    paid_out = P.abi.Uint64()
-
-    pool = Pool()
+    private_key_str, address_str = account.generate_account()
 
     return P.Seq(
         # Set Pool Account values
-        address.set(address),
-        private_key.set(private_key),
+        (address := P.abi.Address()).set(address_str),
+        (private_key := P.abi.String()).set(P.Bytes(private_key_str)),
 
         # Set Pool Fund Values
-        total.set(P.Int(0)),
-        paid_in.set(P.Int(0)),
-        paid_out.set(P.Int(0)),
+        (total := P.abi.String()).set(P.Bytes("0")),
+        (paid_in := P.abi.String()).set(P.Bytes("0")),
+        (paid_out := P.abi.String()).set(P.Bytes("0")),
 
         # Set Pool acount, info and funds
-        pool.set(
+        (pool := Pool()).set(
             address, private_key,
-            name, manager, mpr, tenor,
+            name, manager, mpr, tenor, asset_id,
             total, paid_in, paid_out
         ),
-        app.state.pools[pool_id.get()].set(pool)
+        app.state.pools[pool_id.get()].set(pool.encode())
     )
 
 
@@ -49,52 +41,39 @@ def fund_pool(
     txn: P.abi.AssetTransferTransaction,
     pool_id: P.abi.String
 ) -> P.Expr:
-    pool = Pool()
-
-    # Pool Account info
-    address = P.abi.Address()
-    private_key = P.abi.String()
-
-    # General Pool Info
-    name = P.abi.String()
-    manager = P.abi.Address()
-    mpr = P.abi.Uint8()
-    tenor = P.abi.Uint8()
-
     # Pool Fund info
-    total = P.abi.Uint64()
-    paid_in = P.abi.Uint64()
-    paid_out = P.abi.Uint64()
-
     return P.Seq(
         # Get current pool values
-        pool.decode(app.state.pools[pool_id.get()].get()),
+        (pool := Pool()).decode(app.state.pools[pool_id].get()),
+        (asset_id := P.abi.String()).set(pool.asset_id),
+
+        P.Assert(txn.get().xfer_asset() == P.Btoi(asset_id.get())),
 
         # Pool Account info
-        address.set(pool.address),
-        private_key.set(pool.private_key),
+        (address := P.abi.Address()).set(pool.address),
+        (private_key := P.abi.String()).set(pool.private_key),
 
         # General Pool Info
-        name.set(pool.name),
-        manager.set(pool.manager),
-        mpr.set(pool.mpr),
-        tenor.set(pool.tenor),
+        (name := P.abi.String()).set(pool.name),
+        (manager := P.abi.Address()).set(pool.manager),
+        (mpr := P.abi.String()).set(pool.mpr),
+        (tenor := P.abi.String()).set(pool.tenor),
 
         # Pool Fund info
-        total.set(pool.total),
-        paid_in.set(pool.paid_in),
-        paid_out.set(pool.paid_out),
+        (total := P.abi.String()).set(pool.total),
+        (paid_in := P.abi.String()).set(pool.paid_in),
+        (paid_out := P.abi.String()).set(pool.paid_out),
 
         # Update total and paid_in
-        total.set(total.get() + txn.get().asset_amount()),
-        paid_in.set(paid_in.get() + txn.get().asset_amount()),
+        total.set(P.Itob(P.Btoi(total.get()) + txn.get().asset_amount())),
+        paid_in.set(P.Itob(P.Btoi(paid_in.get()) + txn.get().asset_amount())),
 
         pool.set(
             address, private_key,
-            name, manager, mpr, tenor,
+            name, manager, mpr, tenor, asset_id,
             total, paid_in, paid_out
         ),
-        app.state.pools[pool_id.get()].set(pool)
+        app.state.pools[pool_id.get()].set(pool.encode())
     )
 
 
@@ -104,18 +83,72 @@ def pay_pool_creation_fee(payment: P.abi.PaymentTransaction):
         P.Assert(
             payment.get().receiver() == P.Global.current_application_address()
         ),
-        P.Assert(payment.get().amount() == P.Int(200000)),
+        P.Assert(payment.get().amount() == P.Int(300000)),
     )
 
 
-# @P.Subroutine(P.TealType.none)
-# def record_pool_fund_transaction(
-# pool_id: P.abi.String, payment: P.abi.PaymentTransaction):
-#     pool_record = PoolLendRecord()
-#     pool = Pool()
-#     pool_info = PoolInfo()
-#     return P.Seq(
-#         pool.decode(app.state.lending_records[pool_id.get()].get()),
-#         pool_info.set(pool.info),
-#         pool_record.set(pool_id, pool_info.mpr)
-#     )
+@P.Subroutine(P.TealType.none)
+def handle_pool_borrow(
+    txn: P.abi.AssetTransferTransaction,
+    dollar_rate: P.abi.Uint64,
+    pool_id: P.abi.String,
+    amount: P.abi.Uint64
+):
+    return P.Seq(
+        (amt_in_dolls := P.abi.Uint64()).set(txn.get().asset_amount() * dollar_rate.get()),
+        (pool := Pool()).decode(app.state.pools[pool_id].get()),
+        (pool_mpr := P.abi.String()).set(pool.mpr),
+        (pool_addr := P.abi.Address()).set(pool.address),
+        (pool_asset_id := P.abi.String()).set(pool.asset_id),
+        P.Assert((((amt_in_dolls.get() * P.Btoi(pool_mpr.get())) / P.Int(100)) + amt_in_dolls.get()) == amount.get()),
+        P.InnerTxnBuilder.Execute({
+            P.TxnField.type_enum: P.TxnType.AssetTransfer,
+            P.TxnField.asset_amount: amount.get(),
+            P.TxnField.asset_receiver: txn.get().sender(),
+            P.TxnField.asset_sender: pool_addr.get(),
+            P.TxnField.xfer_asset: P.Btoi(pool_asset_id.get()),
+        })
+    )
+
+
+@P.Subroutine(P.TealType.none)
+def record_pool_fund_transaction(
+    pool_id: P.abi.String,
+    txn: P.abi.AssetTransferTransaction,
+):
+    return P.Seq(
+        (pool := Pool()).decode(app.state.fund_records[pool_id].get()),
+        (mpr_at_fund := P.abi.String()).set(pool.mpr),
+        (amount := P.abi.String()).set(P.Itob(txn.get().asset_amount())),
+        (funder_addr := P.abi.Address()).set(txn.get().sender()),
+        (txn_id := P.abi.String()).set(txn.get().tx_id()),
+        (pool_record := PoolFundRecord()).set(
+            pool_id, mpr_at_fund,
+            amount, funder_addr, txn_id
+        ),
+        app.state.fund_records[txn_id.get()].set(pool_record.encode())
+    )
+
+
+@P.Subroutine(P.TealType.none)
+def record_pool_borrow_transaction(
+    pool_id: P.abi.String,
+    txn: P.abi.AssetTransferTransaction,
+    amount_borrowed: P.abi.Uint64
+):
+    return P.Seq(
+        (pool := Pool()).decode(app.state.pools[pool_id.get()].get()),
+        (asset_collateralized_id := P.abi.String()).set(P.Itob(txn.get().xfer_asset())),
+        (amount_collateralized := P.abi.String()).set(P.Itob(txn.get().asset_amount())),
+        (mpr_at_borrow := P.abi.String()).set(pool.mpr),
+        (txn_id := P.abi.String()).set(txn.get().tx_id()),
+
+        # Convert Int to Bytes
+        (amount_borrowed_str := P.abi.String()).set(P.Itob(amount_borrowed.get())),
+        (borrow_record := PoolBorrowRecord()).set(
+            pool_id, asset_collateralized_id,
+            amount_collateralized, amount_borrowed_str,
+            mpr_at_borrow, txn_id
+        ),
+        app.state.borrow_records[txn_id.get()].set(borrow_record.encode())
+    )

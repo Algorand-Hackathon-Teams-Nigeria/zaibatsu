@@ -46,9 +46,11 @@ export default function NavLayout() {
           <div>
             <div className="drawer lg:drawer-open">
               <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-              <div className="drawer-content p-5">
+              <div className="drawer-content">
                 <NavBar />
-                <Outlet />
+                <div className='p-4'>
+                  <Outlet />
+                </div>
               </div>
               <div className="drawer-side bg-primary/10">
                 <div className="pl-20 p-4 pb-14">

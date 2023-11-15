@@ -1,115 +1,171 @@
 #pragma version 8
-intcblock 0 1 32 94 65536
-bytecblock 0x 0x00
+intcblock 65536 0 1 68
+bytecblock 0x 0x30
 txn NumAppArgs
-intc_0 // 0
+intc_1 // 0
+==
+bnz main_l8
+txna ApplicationArgs 0
+pushbytes 0x0ac18e7c // "create_pool(pay,string,string,string,string,string)void"
+==
+bnz main_l7
+txna ApplicationArgs 0
+pushbytes 0x63bebe4e // "lend_to_pool(txn,axfer,string)void"
 ==
 bnz main_l6
 txna ApplicationArgs 0
-pushbytes 0xb8864555 // "create_pool(pay,string,string,uint8,uint8)void"
+pushbytes 0x4d267345 // "borrow_from_pool(axfer,uint64,string,uint64)void"
 ==
 bnz main_l5
-txna ApplicationArgs 0
-pushbytes 0xd3d43644 // "lend_to_pool(axfer,string)void"
-==
-bnz main_l4
 err
-main_l4:
-txn OnCompletion
-intc_0 // NoOp
-==
-txn ApplicationID
-intc_0 // 0
-!=
-&&
-assert
-callsub lendtopoolcaster_3
-intc_1 // 1
-return
 main_l5:
 txn OnCompletion
-intc_0 // NoOp
+intc_1 // NoOp
 ==
 txn ApplicationID
-intc_0 // 0
+intc_1 // 0
 !=
 &&
 assert
-callsub createpoolcaster_2
-intc_1 // 1
+callsub borrowfrompoolcaster_6
+intc_2 // 1
 return
 main_l6:
 txn OnCompletion
-intc_0 // NoOp
+intc_1 // NoOp
 ==
-bnz main_l8
-err
-main_l8:
 txn ApplicationID
-intc_0 // 0
+intc_1 // 0
+!=
+&&
+assert
+callsub lendtopoolcaster_5
+intc_2 // 1
+return
+main_l7:
+txn OnCompletion
+intc_1 // NoOp
+==
+txn ApplicationID
+intc_1 // 0
+!=
+&&
+assert
+callsub createpoolcaster_4
+intc_2 // 1
+return
+main_l8:
+txn OnCompletion
+intc_1 // NoOp
+==
+bnz main_l12
+txn OnCompletion
+intc_2 // OptIn
+==
+bnz main_l11
+err
+main_l11:
+txn ApplicationID
+intc_1 // 0
+!=
+assert
+callsub optin_0
+intc_2 // 1
+return
+main_l12:
+txn ApplicationID
+intc_1 // 0
 ==
 assert
-intc_1 // 1
+intc_2 // 1
+return
+
+// opt_in
+optin_0:
+proto 0 0
+intc_2 // 1
 return
 
 // create_pool
-createpool_0:
-proto 5 0
+createpool_1:
+proto 6 0
 bytec_0 // ""
-frame_dig -5
-callsub paypoolcreationfee_6
-frame_dig -5
+frame_dig -6
+callsub paypoolcreationfee_9
+frame_dig -6
 gtxns Sender
 frame_bury 0
 frame_dig 0
 len
-intc_2 // 32
+pushint 32 // 32
 ==
 assert
+frame_dig -5
 frame_dig -4
-frame_dig -3
 frame_dig 0
-frame_dig -2
 frame_dig -1
-callsub handlecreatepool_4
-intc_1 // 1
+frame_dig -3
+frame_dig -2
+callsub handlecreatepool_7
+intc_2 // 1
 return
 
 // lend_to_pool
-lendtopool_1:
-proto 2 0
+lendtopool_2:
+proto 3 0
+frame_dig -3
+gtxns Sender
+frame_dig -2
+gtxns Sender
+==
+assert
 frame_dig -2
 frame_dig -1
-callsub fundpool_5
-retsub
+callsub fundpool_8
+frame_dig -1
+frame_dig -2
+callsub recordpoolfundtransaction_11
+intc_2 // 1
+return
+
+// borrow_from_pool
+borrowfrompool_3:
+proto 4 0
+frame_dig -4
+frame_dig -3
+frame_dig -2
+frame_dig -1
+callsub handlepoolborrow_10
+frame_dig -2
+frame_dig -4
+frame_dig -1
+callsub recordpoolborrowtransaction_12
+intc_2 // 1
+return
 
 // create_pool_caster
-createpoolcaster_2:
+createpoolcaster_4:
 proto 0 0
-intc_0 // 0
+intc_1 // 0
 bytec_0 // ""
-dup
-intc_0 // 0
-dup
+dupn 4
 txna ApplicationArgs 1
 frame_bury 1
 txna ApplicationArgs 2
 frame_bury 2
 txna ApplicationArgs 3
-intc_0 // 0
-getbyte
 frame_bury 3
 txna ApplicationArgs 4
-intc_0 // 0
-getbyte
 frame_bury 4
+txna ApplicationArgs 5
+frame_bury 5
 txn GroupIndex
-intc_1 // 1
+intc_2 // 1
 -
 frame_bury 0
 frame_dig 0
 gtxns TypeEnum
-intc_1 // pay
+intc_2 // pay
 ==
 assert
 frame_dig 0
@@ -117,18 +173,54 @@ frame_dig 1
 frame_dig 2
 frame_dig 3
 frame_dig 4
-callsub createpool_0
+frame_dig 5
+callsub createpool_1
 retsub
 
 // lend_to_pool_caster
-lendtopoolcaster_3:
+lendtopoolcaster_5:
 proto 0 0
-intc_0 // 0
+intc_1 // 0
+dup
 bytec_0 // ""
 txna ApplicationArgs 1
-frame_bury 1
+frame_bury 2
 txn GroupIndex
-intc_1 // 1
+pushint 2 // 2
+-
+frame_bury 0
+txn GroupIndex
+intc_2 // 1
+-
+frame_bury 1
+frame_dig 1
+gtxns TypeEnum
+pushint 4 // axfer
+==
+assert
+frame_dig 0
+frame_dig 1
+frame_dig 2
+callsub lendtopool_2
+retsub
+
+// borrow_from_pool_caster
+borrowfrompoolcaster_6:
+proto 0 0
+intc_1 // 0
+dup
+bytec_0 // ""
+intc_1 // 0
+txna ApplicationArgs 1
+btoi
+frame_bury 1
+txna ApplicationArgs 2
+frame_bury 2
+txna ApplicationArgs 3
+btoi
+frame_bury 3
+txn GroupIndex
+intc_2 // 1
 -
 frame_bury 0
 frame_dig 0
@@ -138,37 +230,64 @@ pushint 4 // axfer
 assert
 frame_dig 0
 frame_dig 1
-callsub lendtopool_1
+frame_dig 2
+frame_dig 3
+callsub borrowfrompool_3
 retsub
 
 // handle_create_pool
-handlecreatepool_4:
-proto 5 0
+handlecreatepool_7:
+proto 6 0
 bytec_0 // ""
-dup
-intc_0 // 0
-dupn 2
-bytec_0 // ""
-intc_0 // 0
+dupn 5
+intc_1 // 0
 dup
 bytec_0 // ""
 dup
-frame_dig 0
+pushbytes 0x2eaf1ce1093eda23fc74a3f65d7e7ae487ed2bc321b598c400a0fc5f60fa22e2 // F2XRZYIJH3NCH7DUUP3F27T24SD62K6DEG2ZRRAAUD6F6YH2ELRF4QVVZY
 frame_bury 0
-frame_dig 1
+pushbytes 0x576e4f6c594938357467596a2f56704e306c7661447845626a526a666b534e6756766772722b754d4653307572787a6843543761492f78306f2f5a64666e726b682b3072777947316d4d51416f50786659506f6934673d3d // "WnOlYI85tgYj/VpN0lvaDxEbjRjfkSNgVvgrr+uMFS0urxzhCT7aI/x0o/Zdfnrkh+0rwyG1mMQAoPxfYPoi4g=="
 frame_bury 1
-intc_0 // 0
+frame_dig 1
+len
+itob
+extract 6 0
+frame_dig 1
+concat
+frame_bury 1
+bytec_1 // "0"
 frame_bury 2
-intc_0 // 0
+frame_dig 2
+len
+itob
+extract 6 0
+frame_dig 2
+concat
+frame_bury 2
+bytec_1 // "0"
 frame_bury 3
-intc_0 // 0
+frame_dig 3
+len
+itob
+extract 6 0
+frame_dig 3
+concat
+frame_bury 3
+bytec_1 // "0"
+frame_bury 4
+frame_dig 4
+len
+itob
+extract 6 0
+frame_dig 4
+concat
 frame_bury 4
 frame_dig 0
 frame_dig 1
 frame_bury 9
 frame_dig 9
 frame_bury 8
-intc_3 // 94
+pushint 80 // 80
 frame_bury 6
 frame_dig 6
 frame_dig 9
@@ -176,7 +295,28 @@ len
 +
 frame_bury 7
 frame_dig 7
-intc 4 // 65536
+intc_0 // 65536
+<
+assert
+frame_dig 6
+itob
+extract 6 0
+concat
+frame_dig -5
+frame_bury 9
+frame_dig 8
+frame_dig 9
+concat
+frame_bury 8
+frame_dig 7
+frame_bury 6
+frame_dig 6
+frame_dig 9
+len
++
+frame_bury 7
+frame_dig 7
+intc_0 // 65536
 <
 assert
 frame_dig 6
@@ -184,6 +324,113 @@ itob
 extract 6 0
 concat
 frame_dig -4
+concat
+frame_dig -3
+frame_bury 9
+frame_dig 8
+frame_dig 9
+concat
+frame_bury 8
+frame_dig 7
+frame_bury 6
+frame_dig 6
+frame_dig 9
+len
++
+frame_bury 7
+frame_dig 7
+intc_0 // 65536
+<
+assert
+frame_dig 6
+itob
+extract 6 0
+concat
+frame_dig -2
+frame_bury 9
+frame_dig 8
+frame_dig 9
+concat
+frame_bury 8
+frame_dig 7
+frame_bury 6
+frame_dig 6
+frame_dig 9
+len
++
+frame_bury 7
+frame_dig 7
+intc_0 // 65536
+<
+assert
+frame_dig 6
+itob
+extract 6 0
+concat
+frame_dig -1
+frame_bury 9
+frame_dig 8
+frame_dig 9
+concat
+frame_bury 8
+frame_dig 7
+frame_bury 6
+frame_dig 6
+frame_dig 9
+len
++
+frame_bury 7
+frame_dig 7
+intc_0 // 65536
+<
+assert
+frame_dig 6
+itob
+extract 6 0
+concat
+frame_dig 2
+frame_bury 9
+frame_dig 8
+frame_dig 9
+concat
+frame_bury 8
+frame_dig 7
+frame_bury 6
+frame_dig 6
+frame_dig 9
+len
++
+frame_bury 7
+frame_dig 7
+intc_0 // 65536
+<
+assert
+frame_dig 6
+itob
+extract 6 0
+concat
+frame_dig 3
+frame_bury 9
+frame_dig 8
+frame_dig 9
+concat
+frame_bury 8
+frame_dig 7
+frame_bury 6
+frame_dig 6
+frame_dig 9
+len
++
+frame_bury 7
+frame_dig 7
+intc_0 // 65536
+<
+assert
+frame_dig 6
+itob
+extract 6 0
+concat
+frame_dig 4
 frame_bury 9
 frame_dig 8
 frame_dig 9
@@ -195,51 +442,29 @@ frame_dig 6
 itob
 extract 6 0
 concat
-frame_dig -3
-concat
-bytec_1 // 0x00
-intc_0 // 0
-frame_dig -2
-setbyte
-concat
-bytec_1 // 0x00
-intc_0 // 0
-frame_dig -1
-setbyte
-concat
-frame_dig 2
-itob
-concat
-frame_dig 3
-itob
-concat
-frame_dig 4
-itob
-concat
 frame_dig 8
 concat
 frame_bury 5
-frame_dig -5
+frame_dig -6
 extract 2 0
 box_del
 pop
-frame_dig -5
+frame_dig -6
 extract 2 0
 frame_dig 5
 box_put
 retsub
 
 // fund_pool
-fundpool_5:
+fundpool_8:
 proto 2 0
 bytec_0 // ""
-dupn 4
-intc_0 // 0
-dupn 6
+dupn 10
+intc_1 // 0
+dup
 bytec_0 // ""
 dup
 frame_dig -1
-extract 2 0
 box_get
 store 1
 store 0
@@ -248,112 +473,280 @@ assert
 load 0
 frame_bury 0
 frame_dig 0
-extract 0 32
+frame_dig 0
+pushint 72 // 72
+extract_uint16
+frame_dig 0
+pushint 74 // 74
+extract_uint16
+substring3
 frame_bury 1
+frame_dig -2
+gtxns XferAsset
+frame_dig 1
+extract 2 0
+btoi
+==
+assert
+frame_dig 0
+extract 0 32
+frame_bury 2
 frame_dig 0
 frame_dig 0
-intc_2 // 32
+pushint 32 // 32
 extract_uint16
 frame_dig 0
 pushint 34 // 34
 extract_uint16
 substring3
-frame_bury 2
+frame_bury 3
 frame_dig 0
 frame_dig 0
 pushint 34 // 34
+extract_uint16
+frame_dig 0
+intc_3 // 68
+extract_uint16
+substring3
+frame_bury 4
+frame_dig 0
+extract 36 32
+frame_bury 5
+frame_dig 0
+frame_dig 0
+intc_3 // 68
+extract_uint16
+frame_dig 0
+pushint 70 // 70
+extract_uint16
+substring3
+frame_bury 6
+frame_dig 0
+frame_dig 0
+pushint 70 // 70
+extract_uint16
+frame_dig 0
+pushint 72 // 72
+extract_uint16
+substring3
+frame_bury 7
+frame_dig 0
+frame_dig 0
+pushint 74 // 74
+extract_uint16
+frame_dig 0
+pushint 76 // 76
+extract_uint16
+substring3
+frame_bury 8
+frame_dig 0
+frame_dig 0
+pushint 76 // 76
+extract_uint16
+frame_dig 0
+pushint 78 // 78
+extract_uint16
+substring3
+frame_bury 9
+frame_dig 0
+frame_dig 0
+pushint 78 // 78
 extract_uint16
 dig 1
 len
 substring3
-frame_bury 3
-frame_dig 0
-extract 36 32
-frame_bury 4
-frame_dig 0
-pushint 68 // 68
-getbyte
-frame_bury 5
-frame_dig 0
-pushint 69 // 69
-getbyte
-frame_bury 6
-frame_dig 0
-pushint 70 // 70
-extract_uint64
-frame_bury 7
-frame_dig 0
-pushint 78 // 78
-extract_uint64
-frame_bury 8
-frame_dig 0
-pushint 86 // 86
-extract_uint64
-frame_bury 9
-frame_dig 7
-frame_dig -2
-gtxns AssetAmount
-+
-frame_bury 7
-frame_dig 8
-frame_dig -2
-gtxns AssetAmount
-+
-frame_bury 8
-frame_dig 1
-frame_dig 2
-frame_bury 13
-frame_dig 13
-frame_bury 12
-intc_3 // 94
 frame_bury 10
-frame_dig 10
-frame_dig 13
-len
+frame_dig 8
+extract 2 0
+btoi
+frame_dig -2
+gtxns AssetAmount
 +
-frame_bury 11
-frame_dig 11
-intc 4 // 65536
-<
-assert
-frame_dig 10
+itob
+frame_bury 8
+frame_dig 8
+len
 itob
 extract 6 0
+frame_dig 8
 concat
+frame_bury 8
+frame_dig 9
+extract 2 0
+btoi
+frame_dig -2
+gtxns AssetAmount
++
+itob
+frame_bury 9
+frame_dig 9
+len
+itob
+extract 6 0
+frame_dig 9
+concat
+frame_bury 9
+frame_dig 2
 frame_dig 3
+frame_bury 14
+frame_dig 14
 frame_bury 13
-frame_dig 12
-frame_dig 13
-concat
-frame_bury 12
+pushint 80 // 80
+frame_bury 11
 frame_dig 11
-frame_bury 10
-frame_dig 10
+frame_dig 14
+len
++
+frame_bury 12
+frame_dig 12
+intc_0 // 65536
+<
+assert
+frame_dig 11
 itob
 extract 6 0
 concat
 frame_dig 4
+frame_bury 14
+frame_dig 13
+frame_dig 14
 concat
-bytec_1 // 0x00
-intc_0 // 0
+frame_bury 13
+frame_dig 12
+frame_bury 11
+frame_dig 11
+frame_dig 14
+len
++
+frame_bury 12
+frame_dig 12
+intc_0 // 65536
+<
+assert
+frame_dig 11
+itob
+extract 6 0
+concat
 frame_dig 5
-setbyte
 concat
-bytec_1 // 0x00
-intc_0 // 0
 frame_dig 6
-setbyte
+frame_bury 14
+frame_dig 13
+frame_dig 14
+concat
+frame_bury 13
+frame_dig 12
+frame_bury 11
+frame_dig 11
+frame_dig 14
+len
++
+frame_bury 12
+frame_dig 12
+intc_0 // 65536
+<
+assert
+frame_dig 11
+itob
+extract 6 0
 concat
 frame_dig 7
+frame_bury 14
+frame_dig 13
+frame_dig 14
+concat
+frame_bury 13
+frame_dig 12
+frame_bury 11
+frame_dig 11
+frame_dig 14
+len
++
+frame_bury 12
+frame_dig 12
+intc_0 // 65536
+<
+assert
+frame_dig 11
 itob
+extract 6 0
+concat
+frame_dig 1
+frame_bury 14
+frame_dig 13
+frame_dig 14
+concat
+frame_bury 13
+frame_dig 12
+frame_bury 11
+frame_dig 11
+frame_dig 14
+len
++
+frame_bury 12
+frame_dig 12
+intc_0 // 65536
+<
+assert
+frame_dig 11
+itob
+extract 6 0
 concat
 frame_dig 8
+frame_bury 14
+frame_dig 13
+frame_dig 14
+concat
+frame_bury 13
+frame_dig 12
+frame_bury 11
+frame_dig 11
+frame_dig 14
+len
++
+frame_bury 12
+frame_dig 12
+intc_0 // 65536
+<
+assert
+frame_dig 11
 itob
+extract 6 0
 concat
 frame_dig 9
-itob
+frame_bury 14
+frame_dig 13
+frame_dig 14
 concat
+frame_bury 13
 frame_dig 12
+frame_bury 11
+frame_dig 11
+frame_dig 14
+len
++
+frame_bury 12
+frame_dig 12
+intc_0 // 65536
+<
+assert
+frame_dig 11
+itob
+extract 6 0
+concat
+frame_dig 10
+frame_bury 14
+frame_dig 13
+frame_dig 14
+concat
+frame_bury 13
+frame_dig 12
+frame_bury 11
+frame_dig 11
+itob
+extract 6 0
+concat
+frame_dig 13
 concat
 frame_bury 0
 frame_dig -1
@@ -367,7 +760,7 @@ box_put
 retsub
 
 // pay_pool_creation_fee
-paypoolcreationfee_6:
+paypoolcreationfee_9:
 proto 1 0
 frame_dig -1
 gtxns Receiver
@@ -376,7 +769,414 @@ global CurrentApplicationAddress
 assert
 frame_dig -1
 gtxns Amount
-pushint 200000 // 200000
+pushint 300000 // 300000
 ==
 assert
+retsub
+
+// handle_pool_borrow
+handlepoolborrow_10:
+proto 4 0
+intc_1 // 0
+bytec_0 // ""
+dupn 3
+frame_dig -4
+gtxns AssetAmount
+frame_dig -3
+*
+frame_bury 0
+frame_dig -2
+box_get
+store 5
+store 4
+load 5
+assert
+load 4
+frame_bury 1
+frame_dig 1
+frame_dig 1
+intc_3 // 68
+extract_uint16
+frame_dig 1
+pushint 70 // 70
+extract_uint16
+substring3
+frame_bury 2
+frame_dig 1
+extract 0 32
+frame_bury 3
+frame_dig 1
+frame_dig 1
+pushint 72 // 72
+extract_uint16
+frame_dig 1
+pushint 74 // 74
+extract_uint16
+substring3
+frame_bury 4
+frame_dig 0
+frame_dig 2
+extract 2 0
+btoi
+*
+pushint 100 // 100
+/
+frame_dig 0
++
+frame_dig -1
+==
+assert
+itxn_begin
+pushint 4 // axfer
+itxn_field TypeEnum
+frame_dig -1
+itxn_field AssetAmount
+frame_dig -4
+gtxns Sender
+itxn_field AssetReceiver
+frame_dig 3
+itxn_field AssetSender
+frame_dig 4
+extract 2 0
+btoi
+itxn_field XferAsset
+itxn_submit
+retsub
+
+// record_pool_fund_transaction
+recordpoolfundtransaction_11:
+proto 2 0
+bytec_0 // ""
+dupn 5
+intc_1 // 0
+dup
+bytec_0 // ""
+dup
+frame_dig -2
+box_get
+store 3
+store 2
+load 3
+assert
+load 2
+frame_bury 0
+frame_dig 0
+frame_dig 0
+intc_3 // 68
+extract_uint16
+frame_dig 0
+pushint 70 // 70
+extract_uint16
+substring3
+frame_bury 1
+frame_dig -1
+gtxns AssetAmount
+itob
+frame_bury 2
+frame_dig 2
+len
+itob
+extract 6 0
+frame_dig 2
+concat
+frame_bury 2
+frame_dig -1
+gtxns Sender
+frame_bury 3
+frame_dig 3
+len
+pushint 32 // 32
+==
+assert
+frame_dig -1
+gtxns TxID
+frame_bury 4
+frame_dig 4
+len
+itob
+extract 6 0
+frame_dig 4
+concat
+frame_bury 4
+frame_dig -2
+frame_bury 9
+frame_dig 9
+frame_bury 8
+pushint 40 // 40
+frame_bury 6
+frame_dig 6
+frame_dig 9
+len
++
+frame_bury 7
+frame_dig 7
+intc_0 // 65536
+<
+assert
+frame_dig 6
+itob
+extract 6 0
+frame_dig 1
+frame_bury 9
+frame_dig 8
+frame_dig 9
+concat
+frame_bury 8
+frame_dig 7
+frame_bury 6
+frame_dig 6
+frame_dig 9
+len
++
+frame_bury 7
+frame_dig 7
+intc_0 // 65536
+<
+assert
+frame_dig 6
+itob
+extract 6 0
+concat
+frame_dig 2
+frame_bury 9
+frame_dig 8
+frame_dig 9
+concat
+frame_bury 8
+frame_dig 7
+frame_bury 6
+frame_dig 6
+frame_dig 9
+len
++
+frame_bury 7
+frame_dig 7
+intc_0 // 65536
+<
+assert
+frame_dig 6
+itob
+extract 6 0
+concat
+frame_dig 3
+concat
+frame_dig 4
+frame_bury 9
+frame_dig 8
+frame_dig 9
+concat
+frame_bury 8
+frame_dig 7
+frame_bury 6
+frame_dig 6
+itob
+extract 6 0
+concat
+frame_dig 8
+concat
+frame_bury 5
+frame_dig 4
+extract 2 0
+box_del
+pop
+frame_dig 4
+extract 2 0
+frame_dig 5
+box_put
+retsub
+
+// record_pool_borrow_transaction
+recordpoolborrowtransaction_12:
+proto 3 0
+bytec_0 // ""
+dupn 6
+intc_1 // 0
+dup
+bytec_0 // ""
+dup
+frame_dig -3
+extract 2 0
+box_get
+store 7
+store 6
+load 7
+assert
+load 6
+frame_bury 0
+frame_dig -2
+gtxns XferAsset
+itob
+frame_bury 1
+frame_dig 1
+len
+itob
+extract 6 0
+frame_dig 1
+concat
+frame_bury 1
+frame_dig -2
+gtxns AssetAmount
+itob
+frame_bury 2
+frame_dig 2
+len
+itob
+extract 6 0
+frame_dig 2
+concat
+frame_bury 2
+frame_dig 0
+frame_dig 0
+intc_3 // 68
+extract_uint16
+frame_dig 0
+pushint 70 // 70
+extract_uint16
+substring3
+frame_bury 3
+frame_dig -2
+gtxns TxID
+frame_bury 4
+frame_dig 4
+len
+itob
+extract 6 0
+frame_dig 4
+concat
+frame_bury 4
+frame_dig -1
+itob
+frame_bury 5
+frame_dig 5
+len
+itob
+extract 6 0
+frame_dig 5
+concat
+frame_bury 5
+frame_dig -3
+frame_bury 10
+frame_dig 10
+frame_bury 9
+pushint 12 // 12
+frame_bury 7
+frame_dig 7
+frame_dig 10
+len
++
+frame_bury 8
+frame_dig 8
+intc_0 // 65536
+<
+assert
+frame_dig 7
+itob
+extract 6 0
+frame_dig 1
+frame_bury 10
+frame_dig 9
+frame_dig 10
+concat
+frame_bury 9
+frame_dig 8
+frame_bury 7
+frame_dig 7
+frame_dig 10
+len
++
+frame_bury 8
+frame_dig 8
+intc_0 // 65536
+<
+assert
+frame_dig 7
+itob
+extract 6 0
+concat
+frame_dig 2
+frame_bury 10
+frame_dig 9
+frame_dig 10
+concat
+frame_bury 9
+frame_dig 8
+frame_bury 7
+frame_dig 7
+frame_dig 10
+len
++
+frame_bury 8
+frame_dig 8
+intc_0 // 65536
+<
+assert
+frame_dig 7
+itob
+extract 6 0
+concat
+frame_dig 5
+frame_bury 10
+frame_dig 9
+frame_dig 10
+concat
+frame_bury 9
+frame_dig 8
+frame_bury 7
+frame_dig 7
+frame_dig 10
+len
++
+frame_bury 8
+frame_dig 8
+intc_0 // 65536
+<
+assert
+frame_dig 7
+itob
+extract 6 0
+concat
+frame_dig 3
+frame_bury 10
+frame_dig 9
+frame_dig 10
+concat
+frame_bury 9
+frame_dig 8
+frame_bury 7
+frame_dig 7
+frame_dig 10
+len
++
+frame_bury 8
+frame_dig 8
+intc_0 // 65536
+<
+assert
+frame_dig 7
+itob
+extract 6 0
+concat
+frame_dig 4
+frame_bury 10
+frame_dig 9
+frame_dig 10
+concat
+frame_bury 9
+frame_dig 8
+frame_bury 7
+frame_dig 7
+itob
+extract 6 0
+concat
+frame_dig 9
+concat
+frame_bury 6
+frame_dig 4
+extract 2 0
+box_del
+pop
+frame_dig 4
+extract 2 0
+frame_dig 6
+box_put
 retsub

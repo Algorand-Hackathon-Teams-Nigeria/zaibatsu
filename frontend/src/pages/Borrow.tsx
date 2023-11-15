@@ -1,3 +1,10 @@
+import { SelectPool } from "../components";
+
 export default function Borrow() {
-  return <main>Borrow</main>
+  return (
+    <main>
+      <h3>Borrow</h3>
+      <SelectPool />
+    </main>
+  )
 }
