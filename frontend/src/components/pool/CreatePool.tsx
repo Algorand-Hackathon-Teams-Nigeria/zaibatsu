@@ -33,7 +33,6 @@ export default function CreatePool() {
       const pool_id = `${nameRef.current.value}-${new Date().toUTCString()}-pool`
 
       const boxName = new Uint8Array(new TextEncoder().encode(pool_id))
-      console.log({boxName})
 
       await appClient
         .createPool(

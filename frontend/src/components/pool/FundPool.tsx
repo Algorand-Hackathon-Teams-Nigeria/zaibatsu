@@ -32,7 +32,7 @@ export default function FundPool({ pool }: FundPoolProps) {
   }, [])
 
   function getAssetBallance() {
-    const bal =  userAccount?.assets
+    const bal = userAccount?.assets
       .find((ast) => ast['asset-id'].toString() === asset?.asset_id)?.amount ?? 0
     return bal.toFixed(2)
   }
@@ -42,23 +42,43 @@ export default function FundPool({ pool }: FundPoolProps) {
       const algodClient = getAlgodClient()
 
       const suggestedParams = await algodClient.getTransactionParams().do()
-      const optInTxn = algosdk.makeApplicationOptInTxnFromObject({
+      const feeTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        from: activeAddress,
+        to: pool.address,
+        amount: 300000,
+        suggestedParams,
+      })
+
+      await appClient.payTransactionFee({ txn: feeTxn })
+
+      const optInTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
         from: pool.address,
-        appIndex: Number(appRef.appId),
+        to: pool.address,
+        amount: 0,
+        assetIndex: Number(asset.asset_id),
         suggestedParams
-      }).signTxn(new TextEncoder().encode(pool.privateKey))
+      })
+      const signedTxn = optInTxn.signTxn(new Buffer(pool.privateKey, "base64"))
+      await algodClient.sendRawTransaction(signedTxn).do()
+      await algosdk.waitForConfirmation(algodClient, optInTxn.txID().toString(), 3)
 
       const assetTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
         from: activeAddress,
-        to: appRef.appAddress,
+        to: pool.address,
         amount: Number(amountRef.current.value),
         assetIndex: Number(asset.asset_id),
         suggestedParams,
       })
 
+      const recordId = `${assetTxn.txID().slice(0, 6)}-${Math.random()}`
+
       appClient.lendToPool(
-        { opt_in_txn: optInTxn, txn: assetTxn, pool_id: new TextDecoder().decode(pool.id) },
-        { boxes: [{ appIndex: Number(appRef.appId), name: pool.id }] }
+        { lend_id: recordId, txn: assetTxn, pool_id: new TextDecoder().decode(pool.id) },
+        {
+          boxes: [
+            { appIndex: Number(appRef.appId), name: new Uint8Array(new TextEncoder().encode(pool.fullName)) },
+            { appIndex: Number(appRef.appId), name: new Uint8Array(new TextEncoder().encode(recordId)) }]
+        }
       )
         .then(() => {
           enqueueSnackbar(`Success: ${pool.name} funded with ${amountRef.current.value} ${asset.unit}`, { variant: "success" })
@@ -78,7 +98,7 @@ export default function FundPool({ pool }: FundPoolProps) {
       <fieldset className="mb-6">
         <div className="flex flex-col w-full gap-3">
           <label htmlFor="pool-asset">Asset</label>
-          <AssetsDropdown defaultAsset={asset} net='testnet' onSelect={(asset: AssetData) => setAsset(asset)} />
+          <AssetsDropdown editable={false} defaultAsset={asset} net='testnet' onSelect={(asset: AssetData) => setAsset(asset)} />
         </div>
         <div className="flex flex-col w-full gap-3 mt-5">
           <label className="flex items-center justify-between" htmlFor="pool-asset">

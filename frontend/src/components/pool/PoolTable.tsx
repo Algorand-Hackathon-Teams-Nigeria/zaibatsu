@@ -1,24 +1,55 @@
 import React from "react";
 import { PoolActions } from ".";
 import { PoolData } from "../../types";
+import { AssetData, getAssetList } from "../../utils/assets";
 
 interface PoolTableProps {
   pools: PoolData[]
 }
 
 export default function PoolTable({ pools }: PoolTableProps) {
+  const [assetList, setAssetList] = React.useState<AssetData[]>([])
+
+  React.useEffect(() => {
+    async function getAssets() {
+      const assets = await getAssetList({net: "testnet", page: 1})
+      setAssetList(assets)
+    }
+
+    getAssets()
+  }, [])
+
+  console.log(pools)
+
   return (
     <React.Fragment>
       <table className='table mt-3 lg:hidden'>
         <tbody>
           {pools.map((pool, id) => (
-            <tr key={id} className="grid grid-cols-1">
-              <th className='font-medium pl-0'>{pool.name}</th>
-              <td>Assets  -</td>
-              <td>Total Supplied: {pool.paidIn}</td>
-              <td>Total Borrowed: {pool.paidOut}</td>
-              <td>Pool MPR: {pool.mpr}</td>
-              <td>Tenor: {pool.tenor}</td>
+            <tr key={id} className="mt-3 grid grid-cols-1">
+              <th className='font-semibold tex-lg pl-0'>{pool.name}</th>
+              <td className="pl-0 font-medium flex w-full items-center justify-between">
+                <span>Asset</span>
+                <span className="h-full">
+                  <img className="h-full" src={assetList.find(asset => asset.asset_id === pool.assetId)?.image}/>
+                </span>
+              </td>
+              <td className="pl-0 font-medium flex w-full items-center justify-between">
+                <span>Total Supplied:</span>
+                <span>{pool.paidIn}</span>
+              </td>
+              <td className="pl-0 font-medium flex w-full items-center justify-between">
+                <span>Total Borrowed:</span>
+                <span>{pool.paidOut}</span>
+              </td>
+              <td className="pl-0 font-medium flex w-full items-center justify-between">
+                <span>Pool MPR:</span>
+                <span>{pool.mpr}</span>
+              </td>
+              <td className="pl-0 font-medium flex w-full items-center justify-between">
+                <span>Tenor:</span>
+                <span>{pool.tenor}</span>
+              </td>
               <PoolActions pool={pool} />
             </tr>
           ))}
@@ -29,7 +60,7 @@ export default function PoolTable({ pools }: PoolTableProps) {
           <thead>
             <tr>
               <th className="pl-0">Pool name</th>
-              <th>Assets</th>
+              <th>Asset</th>
               <th>Total Supplied</th>
               <th>Total Borrowed</th>
               <th>Pool MPR</th>
@@ -40,7 +71,11 @@ export default function PoolTable({ pools }: PoolTableProps) {
             {pools.map((pool, id) => (
               <tr key={id}>
                 <th className='font-medium pl-0'>{pool.name}</th>
-                <td>-</td>
+                <td>
+                  <span className="h-full">
+                    <img className="h-7" src={assetList.find(asset => asset.asset_id === pool.assetId)?.image}/>
+                  </span>
+                </td>
                 <td>{pool.paidIn}</td>
                 <td>{pool.paidOut}</td>
                 <td>{pool.mpr}</td>

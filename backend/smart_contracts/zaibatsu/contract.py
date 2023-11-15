@@ -56,15 +56,14 @@ def create_pool(
 
 @app.external
 def lend_to_pool(
-    opt_in_txn: P.abi.Transaction,
+    lend_id: P.abi.String,
     txn: P.abi.AssetTransferTransaction,
     pool_id: P.abi.String,
 ) -> P.Expr:
     from .subroutines import fund_pool, record_pool_fund_transaction
     return P.Seq(
-        P.Assert(opt_in_txn.get().sender() == txn.get().sender()),
         fund_pool(txn, pool_id),
-        record_pool_fund_transaction(pool_id, txn),
+        record_pool_fund_transaction(lend_id, pool_id, txn),
         P.Approve()
     )
 
@@ -79,5 +78,13 @@ def borrow_from_pool(
     return P.Seq(
         handle_pool_borrow(txn, dollar_rate, pool_id, amount),
         record_pool_borrow_transaction(pool_id, txn, amount),
+        P.Approve()
+    )
+
+
+@app.external
+def pay_transaction_fee(txn: P.abi.PaymentTransaction):
+    return P.Seq(
+        P.Assert(txn.get().amount() > P.Int(1000)),
         P.Approve()
     )

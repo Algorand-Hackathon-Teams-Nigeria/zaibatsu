@@ -37,8 +37,8 @@
             "name": "lend_to_pool",
             "args": [
                 {
-                    "type": "txn",
-                    "name": "opt_in_txn"
+                    "type": "string",
+                    "name": "lend_id"
                 },
                 {
                     "type": "axfer",
@@ -71,6 +71,18 @@
                 {
                     "type": "uint64",
                     "name": "amount"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            }
+        },
+        {
+            "name": "pay_transaction_fee",
+            "args": [
+                {
+                    "type": "pay",
+                    "name": "txn"
                 }
             ],
             "returns": {

@@ -25,7 +25,7 @@ class PoolFundRecord(P.abi.NamedTuple):
     mpr_at_fund: P.abi.Field[P.abi.String]
     amount: P.abi.Field[P.abi.String]
     funder_addr: P.abi.Field[P.abi.Address]
-    txn_id: P.abi.Field[P.abi.String]
+    lend_id: P.abi.Field[P.abi.String]
 
 
 class PoolBorrowRecord(P.abi.NamedTuple):

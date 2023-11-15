@@ -6,9 +6,10 @@ interface AssetsDropdownProps {
   onSelect?: (asset: AssetData) => void,
   net: "mainnet" | "testnet",
   defaultAsset?:  AssetData
+  editable?: boolean
 }
 
-export default function AssetsDropdown({ onSelect, net, defaultAsset }: AssetsDropdownProps) {
+export default function AssetsDropdown({ onSelect, net, defaultAsset, editable = true }: AssetsDropdownProps) {
   const [loading, setLoading] = React.useState(true)
   const [assetList, setAssetList] = React.useState<AssetData[]>([])
   const [activeAsset, setActiveAsset] = React.useState<AssetData | undefined>(defaultAsset)
@@ -33,7 +34,7 @@ export default function AssetsDropdown({ onSelect, net, defaultAsset }: AssetsDr
 
   return (
     <details ref={dropdownRef} className="dropdown">
-      <summary tabIndex={0} className="btn btn-md btn-ghost w-full btn-outline">
+      <summary tabIndex={0} className={`btn btn-md btn-ghost w-full btn-outline ${ !editable ? "pointer-events-none opacity-50": ""}`}>
         <div className='flex items-center gap-4'>
           {activeAsset ? (
             <React.Fragment>

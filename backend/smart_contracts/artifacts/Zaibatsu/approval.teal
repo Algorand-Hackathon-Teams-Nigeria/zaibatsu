@@ -1,80 +1,96 @@
 #pragma version 8
-intcblock 65536 0 1 68
+intcblock 0 65536 1 68
 bytecblock 0x 0x30
 txn NumAppArgs
-intc_1 // 0
+intc_0 // 0
 ==
-bnz main_l8
+bnz main_l10
 txna ApplicationArgs 0
 pushbytes 0x0ac18e7c // "create_pool(pay,string,string,string,string,string)void"
 ==
-bnz main_l7
+bnz main_l9
 txna ApplicationArgs 0
-pushbytes 0x63bebe4e // "lend_to_pool(txn,axfer,string)void"
+pushbytes 0xf199ceeb // "lend_to_pool(string,axfer,string)void"
 ==
-bnz main_l6
+bnz main_l8
 txna ApplicationArgs 0
 pushbytes 0x4d267345 // "borrow_from_pool(axfer,uint64,string,uint64)void"
 ==
-bnz main_l5
-err
-main_l5:
-txn OnCompletion
-intc_1 // NoOp
+bnz main_l7
+txna ApplicationArgs 0
+pushbytes 0x4aa52128 // "pay_transaction_fee(pay)void"
 ==
-txn ApplicationID
-intc_1 // 0
-!=
-&&
-assert
-callsub borrowfrompoolcaster_6
-intc_2 // 1
-return
+bnz main_l6
+err
 main_l6:
 txn OnCompletion
-intc_1 // NoOp
+intc_0 // NoOp
 ==
 txn ApplicationID
-intc_1 // 0
+intc_0 // 0
 !=
 &&
 assert
-callsub lendtopoolcaster_5
+callsub paytransactionfeecaster_8
 intc_2 // 1
 return
 main_l7:
 txn OnCompletion
-intc_1 // NoOp
+intc_0 // NoOp
 ==
 txn ApplicationID
-intc_1 // 0
+intc_0 // 0
 !=
 &&
 assert
-callsub createpoolcaster_4
+callsub borrowfrompoolcaster_7
 intc_2 // 1
 return
 main_l8:
 txn OnCompletion
-intc_1 // NoOp
+intc_0 // NoOp
 ==
-bnz main_l12
+txn ApplicationID
+intc_0 // 0
+!=
+&&
+assert
+callsub lendtopoolcaster_6
+intc_2 // 1
+return
+main_l9:
+txn OnCompletion
+intc_0 // NoOp
+==
+txn ApplicationID
+intc_0 // 0
+!=
+&&
+assert
+callsub createpoolcaster_5
+intc_2 // 1
+return
+main_l10:
+txn OnCompletion
+intc_0 // NoOp
+==
+bnz main_l14
 txn OnCompletion
 intc_2 // OptIn
 ==
-bnz main_l11
+bnz main_l13
 err
-main_l11:
+main_l13:
 txn ApplicationID
-intc_1 // 0
+intc_0 // 0
 !=
 assert
 callsub optin_0
 intc_2 // 1
 return
-main_l12:
+main_l14:
 txn ApplicationID
-intc_1 // 0
+intc_0 // 0
 ==
 assert
 intc_2 // 1
@@ -91,7 +107,7 @@ createpool_1:
 proto 6 0
 bytec_0 // ""
 frame_dig -6
-callsub paypoolcreationfee_9
+callsub paypoolcreationfee_11
 frame_dig -6
 gtxns Sender
 frame_bury 0
@@ -106,25 +122,20 @@ frame_dig 0
 frame_dig -1
 frame_dig -3
 frame_dig -2
-callsub handlecreatepool_7
+callsub handlecreatepool_9
 intc_2 // 1
 return
 
 // lend_to_pool
 lendtopool_2:
 proto 3 0
+frame_dig -2
+frame_dig -1
+callsub fundpool_10
 frame_dig -3
-gtxns Sender
-frame_dig -2
-gtxns Sender
-==
-assert
-frame_dig -2
-frame_dig -1
-callsub fundpool_8
 frame_dig -1
 frame_dig -2
-callsub recordpoolfundtransaction_11
+callsub recordpoolfundtransaction_13
 intc_2 // 1
 return
 
@@ -135,18 +146,29 @@ frame_dig -4
 frame_dig -3
 frame_dig -2
 frame_dig -1
-callsub handlepoolborrow_10
+callsub handlepoolborrow_12
 frame_dig -2
 frame_dig -4
 frame_dig -1
-callsub recordpoolborrowtransaction_12
+callsub recordpoolborrowtransaction_14
+intc_2 // 1
+return
+
+// pay_transaction_fee
+paytransactionfee_4:
+proto 1 0
+frame_dig -1
+gtxns Amount
+pushint 1000 // 1000
+>
+assert
 intc_2 // 1
 return
 
 // create_pool_caster
-createpoolcaster_4:
+createpoolcaster_5:
 proto 0 0
-intc_1 // 0
+intc_0 // 0
 bytec_0 // ""
 dupn 4
 txna ApplicationArgs 1
@@ -178,17 +200,15 @@ callsub createpool_1
 retsub
 
 // lend_to_pool_caster
-lendtopoolcaster_5:
+lendtopoolcaster_6:
 proto 0 0
-intc_1 // 0
-dup
+bytec_0 // ""
+intc_0 // 0
 bytec_0 // ""
 txna ApplicationArgs 1
-frame_bury 2
-txn GroupIndex
-pushint 2 // 2
--
 frame_bury 0
+txna ApplicationArgs 2
+frame_bury 2
 txn GroupIndex
 intc_2 // 1
 -
@@ -205,12 +225,12 @@ callsub lendtopool_2
 retsub
 
 // borrow_from_pool_caster
-borrowfrompoolcaster_6:
+borrowfrompoolcaster_7:
 proto 0 0
-intc_1 // 0
+intc_0 // 0
 dup
 bytec_0 // ""
-intc_1 // 0
+intc_0 // 0
 txna ApplicationArgs 1
 btoi
 frame_bury 1
@@ -235,18 +255,35 @@ frame_dig 3
 callsub borrowfrompool_3
 retsub
 
+// pay_transaction_fee_caster
+paytransactionfeecaster_8:
+proto 0 0
+intc_0 // 0
+txn GroupIndex
+intc_2 // 1
+-
+frame_bury 0
+frame_dig 0
+gtxns TypeEnum
+intc_2 // pay
+==
+assert
+frame_dig 0
+callsub paytransactionfee_4
+retsub
+
 // handle_create_pool
-handlecreatepool_7:
+handlecreatepool_9:
 proto 6 0
 bytec_0 // ""
 dupn 5
-intc_1 // 0
+intc_0 // 0
 dup
 bytec_0 // ""
 dup
-pushbytes 0x2eaf1ce1093eda23fc74a3f65d7e7ae487ed2bc321b598c400a0fc5f60fa22e2 // F2XRZYIJH3NCH7DUUP3F27T24SD62K6DEG2ZRRAAUD6F6YH2ELRF4QVVZY
+pushbytes 0x70cc137f03f7bdcc3d6dd088ad7b6016291f10164e70a570d831fe6de4ede217 // ODGBG7YD6664YPLN2CEK263ACYUR6EAWJZYKK4GYGH7G3ZHN4ILS7O7BGM
 frame_bury 0
-pushbytes 0x576e4f6c594938357467596a2f56704e306c7661447845626a526a666b534e6756766772722b754d4653307572787a6843543761492f78306f2f5a64666e726b682b3072777947316d4d51416f50786659506f6934673d3d // "WnOlYI85tgYj/VpN0lvaDxEbjRjfkSNgVvgrr+uMFS0urxzhCT7aI/x0o/Zdfnrkh+0rwyG1mMQAoPxfYPoi4g=="
+pushbytes 0x2f7944656137386c73484444555855485a5230466739307a4c696972356c616d6a76596e336f44414c5a35777a424e2f412f65397a44317430496974653241574b523851466b3577705844594d663574354f336946773d3d // "/yDea78lsHDDUXUHZR0Fg90zLiir5lamjvYn3oDALZ5wzBN/A/e9zD1t0Iite2AWKR8QFk5wpXDYMf5t5O3iFw=="
 frame_bury 1
 frame_dig 1
 len
@@ -295,7 +332,7 @@ len
 +
 frame_bury 7
 frame_dig 7
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 6
@@ -316,7 +353,7 @@ len
 +
 frame_bury 7
 frame_dig 7
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 6
@@ -339,7 +376,7 @@ len
 +
 frame_bury 7
 frame_dig 7
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 6
@@ -360,7 +397,7 @@ len
 +
 frame_bury 7
 frame_dig 7
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 6
@@ -381,7 +418,7 @@ len
 +
 frame_bury 7
 frame_dig 7
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 6
@@ -402,7 +439,7 @@ len
 +
 frame_bury 7
 frame_dig 7
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 6
@@ -423,7 +460,7 @@ len
 +
 frame_bury 7
 frame_dig 7
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 6
@@ -456,15 +493,16 @@ box_put
 retsub
 
 // fund_pool
-fundpool_8:
+fundpool_10:
 proto 2 0
 bytec_0 // ""
 dupn 10
-intc_1 // 0
+intc_0 // 0
 dup
 bytec_0 // ""
 dup
 frame_dig -1
+extract 2 0
 box_get
 store 1
 store 0
@@ -481,13 +519,6 @@ pushint 74 // 74
 extract_uint16
 substring3
 frame_bury 1
-frame_dig -2
-gtxns XferAsset
-frame_dig 1
-extract 2 0
-btoi
-==
-assert
 frame_dig 0
 extract 0 32
 frame_bury 2
@@ -599,7 +630,7 @@ len
 +
 frame_bury 12
 frame_dig 12
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 11
@@ -620,7 +651,7 @@ len
 +
 frame_bury 12
 frame_dig 12
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 11
@@ -643,7 +674,7 @@ len
 +
 frame_bury 12
 frame_dig 12
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 11
@@ -664,7 +695,7 @@ len
 +
 frame_bury 12
 frame_dig 12
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 11
@@ -685,7 +716,7 @@ len
 +
 frame_bury 12
 frame_dig 12
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 11
@@ -706,7 +737,7 @@ len
 +
 frame_bury 12
 frame_dig 12
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 11
@@ -727,7 +758,7 @@ len
 +
 frame_bury 12
 frame_dig 12
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 11
@@ -760,7 +791,7 @@ box_put
 retsub
 
 // pay_pool_creation_fee
-paypoolcreationfee_9:
+paypoolcreationfee_11:
 proto 1 0
 frame_dig -1
 gtxns Receiver
@@ -775,9 +806,9 @@ assert
 retsub
 
 // handle_pool_borrow
-handlepoolborrow_10:
+handlepoolborrow_12:
 proto 4 0
-intc_1 // 0
+intc_0 // 0
 bytec_0 // ""
 dupn 3
 frame_dig -4
@@ -844,15 +875,16 @@ itxn_submit
 retsub
 
 // record_pool_fund_transaction
-recordpoolfundtransaction_11:
-proto 2 0
+recordpoolfundtransaction_13:
+proto 3 0
 bytec_0 // ""
-dupn 5
-intc_1 // 0
+dupn 4
+intc_0 // 0
 dup
 bytec_0 // ""
 dup
 frame_dig -2
+extract 2 0
 box_get
 store 3
 store 2
@@ -888,109 +920,99 @@ len
 pushint 32 // 32
 ==
 assert
-frame_dig -1
-gtxns TxID
-frame_bury 4
-frame_dig 4
-len
-itob
-extract 6 0
-frame_dig 4
-concat
-frame_bury 4
 frame_dig -2
-frame_bury 9
-frame_dig 9
 frame_bury 8
+frame_dig 8
+frame_bury 7
 pushint 40 // 40
-frame_bury 6
-frame_dig 6
-frame_dig 9
+frame_bury 5
+frame_dig 5
+frame_dig 8
 len
 +
-frame_bury 7
-frame_dig 7
-intc_0 // 65536
+frame_bury 6
+frame_dig 6
+intc_1 // 65536
 <
 assert
-frame_dig 6
+frame_dig 5
 itob
 extract 6 0
 frame_dig 1
-frame_bury 9
-frame_dig 8
-frame_dig 9
-concat
 frame_bury 8
 frame_dig 7
-frame_bury 6
+frame_dig 8
+concat
+frame_bury 7
 frame_dig 6
-frame_dig 9
+frame_bury 5
+frame_dig 5
+frame_dig 8
 len
 +
-frame_bury 7
-frame_dig 7
-intc_0 // 65536
+frame_bury 6
+frame_dig 6
+intc_1 // 65536
 <
 assert
-frame_dig 6
+frame_dig 5
 itob
 extract 6 0
 concat
 frame_dig 2
-frame_bury 9
-frame_dig 8
-frame_dig 9
-concat
 frame_bury 8
 frame_dig 7
-frame_bury 6
+frame_dig 8
+concat
+frame_bury 7
 frame_dig 6
-frame_dig 9
+frame_bury 5
+frame_dig 5
+frame_dig 8
 len
 +
-frame_bury 7
-frame_dig 7
-intc_0 // 65536
+frame_bury 6
+frame_dig 6
+intc_1 // 65536
 <
 assert
-frame_dig 6
+frame_dig 5
 itob
 extract 6 0
 concat
 frame_dig 3
 concat
-frame_dig 4
-frame_bury 9
-frame_dig 8
-frame_dig 9
-concat
+frame_dig -3
 frame_bury 8
 frame_dig 7
-frame_bury 6
+frame_dig 8
+concat
+frame_bury 7
 frame_dig 6
+frame_bury 5
+frame_dig 5
 itob
 extract 6 0
 concat
-frame_dig 8
+frame_dig 7
 concat
-frame_bury 5
-frame_dig 4
+frame_bury 4
+frame_dig -3
 extract 2 0
 box_del
 pop
-frame_dig 4
+frame_dig -3
 extract 2 0
-frame_dig 5
+frame_dig 4
 box_put
 retsub
 
 // record_pool_borrow_transaction
-recordpoolborrowtransaction_12:
+recordpoolborrowtransaction_14:
 proto 3 0
 bytec_0 // ""
 dupn 6
-intc_1 // 0
+intc_0 // 0
 dup
 bytec_0 // ""
 dup
@@ -1066,7 +1088,7 @@ len
 +
 frame_bury 8
 frame_dig 8
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 7
@@ -1086,7 +1108,7 @@ len
 +
 frame_bury 8
 frame_dig 8
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 7
@@ -1107,7 +1129,7 @@ len
 +
 frame_bury 8
 frame_dig 8
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 7
@@ -1128,7 +1150,7 @@ len
 +
 frame_bury 8
 frame_dig 8
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 7
@@ -1149,7 +1171,7 @@ len
 +
 frame_bury 8
 frame_dig 8
-intc_0 // 65536
+intc_1 // 65536
 <
 assert
 frame_dig 7
