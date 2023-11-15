@@ -8,5 +8,5 @@ const poolAccountCodec = algosdk.ABIType.from(poolAccountTuple)
 const poolInfoCodec = algosdk.ABIType.from(poolInfoTuple)
 const poolFundsCodec = algosdk.ABIType.from(poolFundsTuple)
 
-const poolCodec = algosdk.ABIType.from('(address,string,string,address,uint8,uint8,uint64,uint64,uint64)')
+const poolCodec = algosdk.ABITupleType.from('(address,string,string,address,string,string,string,string,string,string)');
 export { poolCodec, poolAccountCodec, poolInfoCodec, poolFundsCodec }

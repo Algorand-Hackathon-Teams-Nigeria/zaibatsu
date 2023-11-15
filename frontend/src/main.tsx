@@ -1,3 +1,4 @@
+import '@mantine/core/styles.css';
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -9,6 +10,7 @@ import Lend from './pages/Lend'
 import Borrow from './pages/Borrow'
 import { NavLayout } from './components'
 import Activity from './pages/Activity'
+import { MantineProvider } from '@mantine/core';
 
 const router = createBrowserRouter([
   {
@@ -41,7 +43,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <RouterProvider router={router} />
+      <MantineProvider>
+        <RouterProvider router={router} />
+      </MantineProvider>
     </ErrorBoundary>
   </React.StrictMode>,
 )

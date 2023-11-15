@@ -3,31 +3,46 @@ import { BiSearch } from 'react-icons/bi'
 import { getAlgodClient } from '../utils/network/contract'
 import React from 'react'
 import { useAtom } from 'jotai'
-import { appRefAtom } from '../state/atoms'
+import { appClientAtom, appRefAtom } from '../state/atoms'
 import { PoolData } from '../types'
-// import { poolCodec } from '../contracts/abiTypes'
+import { poolCodec } from '../utils/abiTypes'
 
 export default function Pool() {
   const [loading, setLoading] = React.useState(true)
   const [pools, setPools] = React.useState<PoolData[]>([])
+  const [appClient] = useAtom(appClientAtom)
   const [appRef] = useAtom(appRefAtom)
   const algodClient = getAlgodClient()
 
   React.useEffect(() => {
     const getPools = async () => {
       try {
-        const boxes = await algodClient.getApplicationBoxes(Number(appRef?.appId)).do()
-        const textDecoder = new TextDecoder()
-        const boxPromises = boxes.boxes.map(async (box) => {
-          const boxData = await algodClient.getApplicationBoxByName(Number(appRef?.appId), box.name).do()
-          // const value = poolCodec.decode(boxData.value)
-          // console.log({ value })
-          return { name: textDecoder.decode(boxData.name).split('-')[0], id: box.name }
-        })
-        await Promise.all(boxPromises).then((res) => {
-          setPools(res)
-          setLoading(false)
-        })
+        const boxNames = await appClient?.appClient.getBoxNames()
+        if (boxNames) {
+          const boxPromises = boxNames.map(async (boxName) => {
+            return await algodClient.getApplicationBoxByName(Number(appRef?.appId), boxName.nameRaw).do()
+          })
+          let boxes = await Promise.all(boxPromises)
+          boxes = boxes.filter(box => new TextDecoder().decode(box.name).endsWith("pool"))
+          const poolValues = boxes.map(box => {
+            const poolVal = poolCodec.decode(box.value) as Array<string>
+            return {
+              id: box.name,
+              name: poolVal[2],
+              address: poolVal[0],
+              privateKey: poolVal[1],
+              manager_address: poolVal[3],
+              mpr: poolVal[4],
+              tenor: poolVal[5],
+              assetId: poolVal[6],
+              total: poolVal[7],
+              paidIn: poolVal[8],
+              paidOut: poolVal[9]
+            }
+          })
+          setPools(poolValues)
+        }
+        setLoading(false)
       } catch (error) {
         console.error('Fetch Error: ', error)
         setLoading(false)

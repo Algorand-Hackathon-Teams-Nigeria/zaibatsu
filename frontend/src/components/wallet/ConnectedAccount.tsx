@@ -25,8 +25,8 @@ export default function ConnectedAccoutn() {
   }
 
   return (
-    <div className="flex items-center gap-4 justify-end">
-      <button onClick={() => modalRef.current.show()} className="btn btn-lg btn-primary">
+    <div className="flex flex-col md:flex-row items-end gap-4 justify-end">
+      <button onClick={() => modalRef.current.show()} className="btn btn-lg btn-primary md:max-w-fit w-full">
         Create Pool
       </button>
       <dialog ref={modalRef} className="modal">

@@ -25,28 +25,30 @@ import beaker as B
 import pyteal as P
 from .state import AppGlobalState
 
-app = B.Application("Zaibatsu", state=AppGlobalState())
+app = B.Application("Zaibatsu", state=AppGlobalState()).apply(B.unconditional_opt_in_approval)
 
 
 @app.external
 def create_pool(
-    payment: P.abi.PaymentTransaction,
+    txn: P.abi.PaymentTransaction,
     pool_id: P.abi.String,
     pool_name: P.abi.String,
-    pool_tenor: P.abi.Uint8,
-    pool_mpr: P.abi.Uint8
+    pool_tenor: P.abi.String,
+    pool_asset_id: P.abi.String,
+    pool_mpr: P.abi.String
 ) -> P.Expr:
     from .subroutines import pay_pool_creation_fee, handle_create_pool
     manager_address = P.abi.Address()
     return P.Seq(
-        pay_pool_creation_fee(payment),
-        manager_address.set(payment.get().sender()),
+        pay_pool_creation_fee(txn),
+        manager_address.set(txn.get().sender()),
         handle_create_pool(
             pool_id,
             pool_name,
             manager_address,
+            pool_mpr,
             pool_tenor,
-            pool_mpr
+            pool_asset_id
         ),
         P.Approve()
     )
@@ -54,10 +56,28 @@ def create_pool(
 
 @app.external
 def lend_to_pool(
+    opt_in_txn: P.abi.Transaction,
     txn: P.abi.AssetTransferTransaction,
     pool_id: P.abi.String,
 ) -> P.Expr:
-    from .subroutines import fund_pool
+    from .subroutines import fund_pool, record_pool_fund_transaction
     return P.Seq(
-        fund_pool(txn, pool_id)
+        P.Assert(opt_in_txn.get().sender() == txn.get().sender()),
+        fund_pool(txn, pool_id),
+        record_pool_fund_transaction(pool_id, txn),
+        P.Approve()
+    )
+
+@app.external
+def borrow_from_pool(
+    txn: P.abi.AssetTransferTransaction,
+    dollar_rate: P.abi.Uint64,
+    pool_id: P.abi.String,
+    amount: P.abi.Uint64
+):
+    from .subroutines import handle_pool_borrow, record_pool_borrow_transaction
+    return P.Seq(
+        handle_pool_borrow(txn, dollar_rate, pool_id, amount),
+        record_pool_borrow_transaction(pool_id, txn, amount),
+        P.Approve()
     )

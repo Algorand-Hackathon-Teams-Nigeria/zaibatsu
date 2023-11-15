@@ -6,7 +6,7 @@
             "args": [
                 {
                     "type": "pay",
-                    "name": "payment"
+                    "name": "txn"
                 },
                 {
                     "type": "string",
@@ -17,11 +17,15 @@
                     "name": "pool_name"
                 },
                 {
-                    "type": "uint8",
+                    "type": "string",
                     "name": "pool_tenor"
                 },
                 {
-                    "type": "uint8",
+                    "type": "string",
+                    "name": "pool_asset_id"
+                },
+                {
+                    "type": "string",
                     "name": "pool_mpr"
                 }
             ],
@@ -33,12 +37,40 @@
             "name": "lend_to_pool",
             "args": [
                 {
+                    "type": "txn",
+                    "name": "opt_in_txn"
+                },
+                {
                     "type": "axfer",
                     "name": "txn"
                 },
                 {
                     "type": "string",
                     "name": "pool_id"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            }
+        },
+        {
+            "name": "borrow_from_pool",
+            "args": [
+                {
+                    "type": "axfer",
+                    "name": "txn"
+                },
+                {
+                    "type": "uint64",
+                    "name": "dollar_rate"
+                },
+                {
+                    "type": "string",
+                    "name": "pool_id"
+                },
+                {
+                    "type": "uint64",
+                    "name": "amount"
                 }
             ],
             "returns": {

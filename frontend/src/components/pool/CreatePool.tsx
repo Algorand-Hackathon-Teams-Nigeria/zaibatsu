@@ -6,8 +6,11 @@ import { enqueueSnackbar } from 'notistack'
 import algosdk from 'algosdk'
 import { useAtom } from 'jotai'
 import { appClientAtom, appRefAtom } from '../../state/atoms'
+import { AssetsDropdown } from '../asset'
+import { AssetData } from '../../utils/assets'
 
 export default function CreatePool() {
+  const [asset, setAsset] = React.useState<AssetData | undefined>()
   const nameRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
   const mprRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
   const tenorRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
@@ -16,29 +19,31 @@ export default function CreatePool() {
   const { activeAddress } = useWallet()
 
   async function handleCreatePool() {
-    if (activeAddress && appClient && appRef) {
+    if (activeAddress && appClient && appRef && asset) {
       const algodClient = getAlgodClient()
 
       const suggestedParams = await algodClient.getTransactionParams().do()
       const transaction = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
         from: activeAddress,
         to: appRef.appAddress,
-        amount: 200000,
+        amount: 300000,
         suggestedParams,
       })
 
-      const pool_id = `${nameRef.current.value}-${new Date().toUTCString()}`
+      const pool_id = `${nameRef.current.value}-${new Date().toUTCString()}-pool`
 
       const boxName = new Uint8Array(new TextEncoder().encode(pool_id))
+      console.log({boxName})
 
       await appClient
         .createPool(
           {
-            payment: transaction,
+            txn: transaction,
             pool_id,
             pool_name: nameRef.current.value,
-            pool_mpr: parseInt(mprRef.current.value),
-            pool_tenor: parseInt(mprRef.current.value),
+            pool_mpr: mprRef.current.value,
+            pool_tenor: tenorRef.current.value,
+            pool_asset_id: asset.asset_id
           },
           { ...suggestedParams, boxes: [{ appIndex: Number(appRef.appId), name: boxName }] },
         ).then(() => {
@@ -62,6 +67,10 @@ export default function CreatePool() {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-medium">Pool name</label>
             <input ref={nameRef} type="text" placeholder="Enter name" className="input w-full input-bordered" />
+          </div>
+          <div className="flex mt-7 flex-col gap-2">
+            <label className="text-sm font-medium">Asset</label>
+            <AssetsDropdown net='testnet' onSelect={(selected: AssetData) => setAsset(selected)}/>
           </div>
           <div className="flex mt-7 flex-col gap-2">
             <label className="text-sm font-medium">Inrest (MPR)</label>

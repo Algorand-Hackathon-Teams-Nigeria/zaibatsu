@@ -1,9 +1,10 @@
 import React from 'react'
 import { useAtom } from 'jotai'
-import { appClientAtom, appRefAtom } from '../../state/atoms'
+import { appClientAtom, appRefAtom, userAccountAtom } from '../../state/atoms'
 import { useWallet } from '@txnlab/use-wallet'
 import { createAppClient, getAlgodClient } from '../../utils/network/contract'
 import { enqueueSnackbar } from 'notistack'
+import { Account } from "../../types/dataTypes"
 
 interface AppDataProviderProps {
   children: React.ReactNode
@@ -12,6 +13,7 @@ interface AppDataProviderProps {
 export default function AppDataProvider({ children }: AppDataProviderProps) {
   const [, setAppRef] = useAtom(appRefAtom)
   const [, setAppClient] = useAtom(appClientAtom)
+  const [, setUserAccount] = useAtom(userAccountAtom)
   const { signer, activeAddress, activeAccount } = useWallet()
 
   React.useEffect(() => {
@@ -21,7 +23,6 @@ export default function AppDataProvider({ children }: AppDataProviderProps) {
         const newAppClient = createAppClient(signer, activeAddress)
         const newAppRef = await newAppClient.appClient.getAppReference()
         const account = await algodClient.accountInformation(activeAccount.address).do()
-        console.log({ account })
 
         const deployParams = {
           onSchemaBreak: 'append',
@@ -35,6 +36,7 @@ export default function AppDataProvider({ children }: AppDataProviderProps) {
         })
         setAppClient(newAppClient)
         setAppRef(newAppRef)
+        setUserAccount(account as Account)
       }
     }
     getGlobalAppState()

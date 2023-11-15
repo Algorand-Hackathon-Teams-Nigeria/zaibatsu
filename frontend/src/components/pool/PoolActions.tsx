@@ -12,8 +12,8 @@ export default function PoolAction({ pool }: PoolActionProps) {
     <React.Fragment>
       <td className="flex items-center gap-4">
         <button type="button" onClick={() => fundRef.current.showModal()}
-          className="btn btn-sm btn-primary rounded">Supply</button>
-        <button className="btn btn-sm btn-outline btn-primary rounded">Borrow</button>
+          className="btn btn-sm flex-1 lg:w-fit btn-primary rounded">Supply</button>
+        <button className="btn flex-1 lg:w-fit  btn-sm btn-outline btn-primary rounded">Borrow</button>
       </td>
       <dialog className="modal" ref={fundRef}>
         <div className="modal-box rounded-lg">
