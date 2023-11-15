@@ -19,8 +19,6 @@ export default function PoolTable({ pools }: PoolTableProps) {
     getAssets()
   }, [])
 
-  console.log(pools)
-
   return (
     <React.Fragment>
       <table className='table mt-3 lg:hidden'>

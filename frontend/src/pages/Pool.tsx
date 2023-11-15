@@ -4,7 +4,6 @@ import { getAlgodClient } from '../utils/network/contract'
 import React from 'react'
 import { useAtom } from 'jotai'
 import { appClientAtom, appRefAtom, poolsAtom } from '../state/atoms'
-import { PoolData } from '../types'
 import { poolCodec } from '../utils/abiTypes'
 
 export default function Pool() {
