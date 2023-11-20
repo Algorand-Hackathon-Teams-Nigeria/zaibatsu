@@ -53,7 +53,7 @@ const AppCalls = ({ openModal, setModalState }: AppCallsInterface) => {
     const deployParams = {
       onSchemaBreak: 'append',
       onUpdate: 'append',
-    }
+    } as any
     await appClient.deploy(deployParams).catch((e: Error) => {
       enqueueSnackbar(`Error deploying the contract: ${e.message}`, { variant: 'error' })
       setLoading(false)

@@ -57,7 +57,7 @@
   "scripts": {
     "generate:app-clients": "algokit generate client -o src/contracts/{contract_name}.ts ../backend",
     "dev": "npm run generate:app-clients && vite",
-    "build": "npm run generate:app-clients && tsc && vite build",
+    "build": "tsc && vite build",
     "test": "jest --coverage --passWithNoTests",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
