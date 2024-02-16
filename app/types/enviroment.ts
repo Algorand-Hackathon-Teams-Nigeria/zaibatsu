@@ -1,0 +1,17 @@
+export type EnvData = {
+  WALLET_CONNECT_PROJECT_ID?: string;
+  WALLET_CONNECT_PROJECT_NAME?: string;
+  WALLET_CONNECT_PROJECT_DESCRIPTION?: string;
+  WALLET_CONNECT_PROJECT_URL?: string;
+  WALLET_CONNECT_PROJECT_ICON_URL?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  WALLET_CONNECT_PROJECT_THEME?: any;
+  ALGORAND_ENVIRONMENT?: string;
+  ALGORAND_ALGOD_TOKEN?: string;
+  ALGORAND_ALGOD_SERVER?: string;
+  ALGORAND_ALGOD_PORT?: string;
+  ALGORAND_ALGOD_NETWORK?: string;
+  ALGORAND_INDEXER_TOKEN?: string;
+  ALGORAND_INDEXER_SERVER?: string;
+  ALGORAND_INDEXER_PORT?: string;
+};
