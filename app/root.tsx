@@ -16,6 +16,7 @@ import WalletProvider from "@providers/wallet";
 
 import "@fontsource-variable/inter/wght.css";
 import "@fontsource-variable/trispace/wght.css";
+import { AppShellWithNavigation } from "./components/organisms";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwind },
@@ -63,7 +64,9 @@ export default function App() {
                 __html: `window.ENV= ${JSON.stringify(data.ENV)}`,
               }}
             />
-            <Outlet />
+            <AppShellWithNavigation>
+              <Outlet />
+            </AppShellWithNavigation>
           </WalletProvider>
         </RecoilRoot>
         <ScrollRestoration />
