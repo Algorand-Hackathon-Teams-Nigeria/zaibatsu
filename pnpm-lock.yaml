@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@algorandfoundation/algokit-utils':
+    specifier: ^5.5.0
+    version: 5.5.0(algosdk@2.7.0)
   '@blockshake/defly-connect':
     specifier: ^1.1.6
     version: 1.1.6(algosdk@2.7.0)
@@ -143,6 +146,16 @@ packages:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /@algorandfoundation/algokit-utils@5.5.0(algosdk@2.7.0):
+    resolution: {integrity: sha512-GxzN8WdaX4BsYxOeyUFFRm3CZSfcwT2AICQ3Lgyg1HfzaUUcjsraCehMpS90/1IyMn9Cz7UF4aSlka3YdZP7Lw==}
+    engines: {node: '>=18.0'}
+    peerDependencies:
+      algosdk: ^2.7.0
+    dependencies:
+      algosdk: 2.7.0
+      buffer: 6.0.3
+    dev: false
 
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}

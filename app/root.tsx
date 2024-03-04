@@ -26,6 +26,7 @@ export const links: LinksFunction = () => [
 export async function loader() {
   return json({
     ENV: {
+      ZAIBATSU_SERVICE_APPLICATION_ID: process.env.ZAIBATSU_SERVICE_APPLICATION_ID,
       WALLET_CONNECT_PROJECT_ID: process.env.WALLET_CONNECT_PROJECT_ID,
       WALLET_CONNECT_PROJECT_NAME: process.env.WALLET_CONNECT_PROJECT_NAME,
       WALLET_CONNECT_PROJECT_DESCRIPTION:

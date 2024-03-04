@@ -11,6 +11,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@algorandfoundation/algokit-utils": "^5.5.0",
     "@blockshake/defly-connect": "^1.1.6",
     "@daffiwallet/connect": "^1.0.3",
     "@fontsource-variable/inter": "^5.0.16",
