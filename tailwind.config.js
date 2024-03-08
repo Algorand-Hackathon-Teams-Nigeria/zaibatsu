@@ -27,6 +27,18 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        grey: {
+          1: " hsl(var(--grey-01))",
+          2: " hsl(var(--grey-02))",
+          3: " hsl(var(--grey-03))",
+          4: " hsl(var(--grey-04))",
+          5: " hsl(var(--grey-05))",
+          6: " hsl(var(--grey-06))",
+        },
+        secondaryPool: {
+          DEFAULT: "hsl(var(--secondary-pool))",
+          foreground: "hsl(var(--secondary-pool-foreground))",
+        },
         primary: {
           DEFAULT: "#00a86b",
           foreground: "hsl(var(--primary-foreground))",
