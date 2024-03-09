@@ -1682,32 +1682,32 @@ var ZaibatsuServiceCallFactory = class {
     };
   }
   compose() {
-    let client = this, atc = new AtomicTransactionComposer(), promiseChain = Promise.resolve(), resultMappers = [];
+    let client2 = this, atc = new AtomicTransactionComposer(), promiseChain = Promise.resolve(), resultMappers = [];
     return {
       createZaibatsuToken(args, params) {
-        return promiseChain = promiseChain.then(() => client.createZaibatsuToken(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Asset), this;
+        return promiseChain = promiseChain.then(() => client2.createZaibatsuToken(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Asset), this;
       },
       fundAccountWithZuto(args, params) {
-        return promiseChain = promiseChain.then(() => client.fundAccountWithZuto(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Asset), this;
+        return promiseChain = promiseChain.then(() => client2.fundAccountWithZuto(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Asset), this;
       },
       savePool(args, params) {
-        return promiseChain = promiseChain.then(() => client.savePool(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Pool), this;
+        return promiseChain = promiseChain.then(() => client2.savePool(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Pool), this;
       },
       lendToPool(args, params) {
-        return promiseChain = promiseChain.then(() => client.lendToPool(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(PoolContribution), this;
+        return promiseChain = promiseChain.then(() => client2.lendToPool(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(PoolContribution), this;
       },
       clearState(args) {
-        return promiseChain = promiseChain.then(() => client.clearState({ ...args, sendParams: { ...args?.sendParams, skipSending: !0, atc } })), resultMappers.push(void 0), this;
+        return promiseChain = promiseChain.then(() => client2.clearState({ ...args, sendParams: { ...args?.sendParams, skipSending: !0, atc } })), resultMappers.push(void 0), this;
       },
       addTransaction(txn, defaultSender) {
-        return promiseChain = promiseChain.then(async () => atc.addTransaction(await algokit.getTransactionWithSigner(txn, defaultSender ?? client.sender))), this;
+        return promiseChain = promiseChain.then(async () => atc.addTransaction(await algokit.getTransactionWithSigner(txn, defaultSender ?? client2.sender))), this;
       },
       async atc() {
         return await promiseChain, atc;
       },
       async simulate(options) {
         await promiseChain;
-        let result = await atc.simulate(client.algod, new modelsv2.SimulateRequest({ txnGroups: [], ...options }));
+        let result = await atc.simulate(client2.algod, new modelsv2.SimulateRequest({ txnGroups: [], ...options }));
         return {
           ...result,
           returns: result.methodResults?.map((val, i) => resultMappers[i] !== void 0 ? resultMappers[i](val.returnValue) : val.returnValue)
@@ -1715,7 +1715,7 @@ var ZaibatsuServiceCallFactory = class {
       },
       async execute(sendParams) {
         await promiseChain;
-        let result = await algokit.sendAtomicTransactionComposer({ atc, sendParams }, client.algod);
+        let result = await algokit.sendAtomicTransactionComposer({ atc, sendParams }, client2.algod);
         return {
           ...result,
           returns: result.returns?.map((val, i) => resultMappers[i] !== void 0 ? resultMappers[i](val.returnValue) : val.returnValue)
@@ -1730,32 +1730,32 @@ var getAlgodClient = () => {
   let env = getEnv();
   return env?.ALGORAND_ALGOD_PORT, new algosdk2.Algodv2(env?.ALGORAND_ALGOD_TOKEN ?? "", env?.ALGORAND_ALGOD_SERVER ?? "", env?.ALGORAND_ALGOD_PORT ?? "");
 }, createZaibatsuServiceClient = (sender) => {
-  let env = getEnv(), client = getAlgodClient(), appDetails = {
+  let env = getEnv(), client2 = getAlgodClient(), appDetails = {
     resolveBy: "id",
     id: Number(env?.ZAIBATSU_SERVICE_APPLICATION_ID),
     sender
   };
-  return new ZaibatsuServiceClient(appDetails, client);
+  return new ZaibatsuServiceClient(appDetails, client2);
 };
 
 // app/providers/contract/index.tsx
 import { useWallet as useWallet2 } from "@txnlab/use-wallet";
 import { jsxDEV as jsxDEV13 } from "react/jsx-dev-runtime";
-var ContractContext = createContext(null), useContract = () => {
+var { activeAddress, signer } = useWallet2(), client = createZaibatsuServiceClient({ addr: activeAddress, signer }), ContractContext = createContext(null), useContract = () => {
   let context = useContext(ContractContext);
   if (!context)
     throw new Error("useContract must be used within a ContractProvider");
   return context;
 }, ContractProvider = ({ children }) => {
-  let { activeAddress, signer } = useWallet2(), [serviceClient, setServiceClient] = useState(null);
+  let { activeAddress: activeAddress2, signer: signer2 } = useWallet2(), [serviceClient, setServiceClient] = useState(null);
   return useEffect(() => {
-    if (activeAddress && signer) {
-      let client = createZaibatsuServiceClient({ addr: activeAddress, signer });
-      setServiceClient(client);
+    if (activeAddress2 && signer2) {
+      let client2 = createZaibatsuServiceClient({ addr: activeAddress2, signer: signer2 });
+      setServiceClient(client2);
     }
-  }, [activeAddress, signer]), /* @__PURE__ */ jsxDEV13(ContractContext.Provider, { value: { serviceClient }, children }, void 0, !1, {
+  }, [activeAddress2, signer2]), /* @__PURE__ */ jsxDEV13(ContractContext.Provider, { value: { serviceClient }, children }, void 0, !1, {
     fileName: "app/providers/contract/index.tsx",
-    lineNumber: 29,
+    lineNumber: 34,
     columnNumber: 10
   }, this);
 }, contract_default = ContractProvider;
@@ -1842,15 +1842,15 @@ function App() {
         ),
         /* @__PURE__ */ jsxDEV14(contract_default, { children: /* @__PURE__ */ jsxDEV14(o_app_shell_with_navigation_default, { children: /* @__PURE__ */ jsxDEV14(Outlet, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 70,
+          lineNumber: 71,
           columnNumber: 17
         }, this) }, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 69,
+          lineNumber: 70,
           columnNumber: 15
         }, this) }, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 68,
+          lineNumber: 69,
           columnNumber: 13
         }, this)
       ] }, void 0, !0, {
@@ -1864,17 +1864,17 @@ function App() {
       }, this),
       /* @__PURE__ */ jsxDEV14(ScrollRestoration, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 75,
+        lineNumber: 76,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV14(Scripts, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 76,
+        lineNumber: 77,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV14(LiveReload, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 77,
+        lineNumber: 78,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
@@ -2589,7 +2589,7 @@ var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", classNam
 }, this);
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-MOSDU7QX.js", imports: ["/build/_shared/chunk-WRM53ZUV.js", "/build/_shared/chunk-BHQCQFCN.js", "/build/_shared/chunk-ATRQC2ZO.js", "/build/_shared/chunk-FGAZNT4N.js", "/build/_shared/chunk-PAEK5ACD.js", "/build/_shared/chunk-QJQJJ6FU.js", "/build/_shared/chunk-JM3EFX3L.js", "/build/_shared/chunk-MYHRZK7S.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-MC5FUNG4.js", imports: ["/build/_shared/chunk-DMHNC7M5.js", "/build/_shared/chunk-UZBO32L3.js", "/build/_shared/chunk-7PSQEEMX.js", "/build/_shared/chunk-R5V3VJTO.js", "/build/_shared/chunk-73NW7KFA.js", "/build/_shared/chunk-JUPUTQ6K.js"], hasAction: !1, hasLoader: !0, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-ZFDLP6T7.js", imports: ["/build/_shared/chunk-35I73MX4.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activities": { id: "routes/activities", parentId: "root", path: "activities", index: void 0, caseSensitive: void 0, module: "/build/routes/activities-N4RJ4A4K.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activity": { id: "routes/activity", parentId: "root", path: "activity", index: void 0, caseSensitive: void 0, module: "/build/routes/activity-4NPS74LF.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/borrow": { id: "routes/borrow", parentId: "root", path: "borrow", index: void 0, caseSensitive: void 0, module: "/build/routes/borrow-PU5JD47R.js", imports: ["/build/_shared/chunk-UE43ZWDY.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/lend": { id: "routes/lend", parentId: "root", path: "lend", index: void 0, caseSensitive: void 0, module: "/build/routes/lend-DA3XGAF5.js", imports: ["/build/_shared/chunk-UE43ZWDY.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/pool": { id: "routes/pool", parentId: "root", path: "pool", index: void 0, caseSensitive: void 0, module: "/build/routes/pool-CGI4EONU.js", imports: ["/build/_shared/chunk-35I73MX4.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/profile": { id: "routes/profile", parentId: "root", path: "profile", index: void 0, caseSensitive: void 0, module: "/build/routes/profile-G7HGUNYE.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 } }, version: "52ca4001", hmr: { runtime: "/build/_shared\\chunk-PAEK5ACD.js", timestamp: 1710003473190 }, url: "/build/manifest-52CA4001.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-MOSDU7QX.js", imports: ["/build/_shared/chunk-WRM53ZUV.js", "/build/_shared/chunk-BHQCQFCN.js", "/build/_shared/chunk-ATRQC2ZO.js", "/build/_shared/chunk-FGAZNT4N.js", "/build/_shared/chunk-PAEK5ACD.js", "/build/_shared/chunk-QJQJJ6FU.js", "/build/_shared/chunk-JM3EFX3L.js", "/build/_shared/chunk-MYHRZK7S.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-A6YW2STT.js", imports: ["/build/_shared/chunk-DMHNC7M5.js", "/build/_shared/chunk-DCEKC72K.js", "/build/_shared/chunk-7PSQEEMX.js", "/build/_shared/chunk-R5V3VJTO.js", "/build/_shared/chunk-73NW7KFA.js", "/build/_shared/chunk-JUPUTQ6K.js"], hasAction: !1, hasLoader: !0, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-5OHCDQMR.js", imports: ["/build/_shared/chunk-FX6VEMM6.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activities": { id: "routes/activities", parentId: "root", path: "activities", index: void 0, caseSensitive: void 0, module: "/build/routes/activities-N4RJ4A4K.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activity": { id: "routes/activity", parentId: "root", path: "activity", index: void 0, caseSensitive: void 0, module: "/build/routes/activity-4NPS74LF.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/borrow": { id: "routes/borrow", parentId: "root", path: "borrow", index: void 0, caseSensitive: void 0, module: "/build/routes/borrow-PU5JD47R.js", imports: ["/build/_shared/chunk-UE43ZWDY.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/lend": { id: "routes/lend", parentId: "root", path: "lend", index: void 0, caseSensitive: void 0, module: "/build/routes/lend-DA3XGAF5.js", imports: ["/build/_shared/chunk-UE43ZWDY.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/pool": { id: "routes/pool", parentId: "root", path: "pool", index: void 0, caseSensitive: void 0, module: "/build/routes/pool-VTZJHBAS.js", imports: ["/build/_shared/chunk-FX6VEMM6.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/profile": { id: "routes/profile", parentId: "root", path: "profile", index: void 0, caseSensitive: void 0, module: "/build/routes/profile-G7HGUNYE.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 } }, version: "9973f7ca", hmr: { runtime: "/build/_shared\\chunk-PAEK5ACD.js", timestamp: 1710010821780 }, url: "/build/manifest-9973F7CA.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public\\build", future = { v3_fetcherPersist: !1, v3_relativeSplatPath: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

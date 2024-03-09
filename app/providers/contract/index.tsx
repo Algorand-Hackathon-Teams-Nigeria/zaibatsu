@@ -2,8 +2,12 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { createZaibatsuServiceClient } from "@/services/contract/utils";
 import { useWallet } from "@txnlab/use-wallet";
 
+const { activeAddress, signer } = useWallet();
+// @ts-ignore
+const client = createZaibatsuServiceClient({ addr: activeAddress, signer });
+
 interface ContractContextType {
-  serviceClient: any;
+  serviceClient: typeof client;
 }
 const ContractContext = createContext<ContractContextType | null>(null);
 
@@ -20,6 +24,7 @@ const ContractProvider: React.FC = ({ children }: any) => {
   const [serviceClient, setServiceClient] = useState<any>(null);
 
   useEffect(() => {
+    // @ts-ignore
     if (activeAddress && signer) {
       const client = createZaibatsuServiceClient({ addr: activeAddress, signer });
       setServiceClient(client);
