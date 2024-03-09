@@ -7,6 +7,10 @@ export default {
     modules: {
       buffer: true,
       events: true,
+      crypto: true,
+      url: true,
+      path: true,
+      fs: true,
     },
   },
   // appDirectory: "app",

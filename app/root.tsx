@@ -2,26 +2,28 @@ import { cssBundleHref } from "@remix-run/css-bundle";
 import tailwind from "./tailwind.css";
 import type { LinksFunction } from "@remix-run/node";
 import { RecoilRoot } from "recoil";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  json,
-  useLoaderData,
-} from "@remix-run/react";
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, json, useLoaderData } from "@remix-run/react";
 import WalletProvider from "@providers/wallet";
 
 import "@fontsource-variable/inter/wght.css";
 import "@fontsource-variable/trispace/wght.css";
 import { AppShellWithNavigation } from "./components/organisms";
-
+import { MetaFunction } from "@remix-run/node";
+import ContractProvider from "./providers/contract";
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwind },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Zaibatsu" },
+    {
+      name: "description",
+      content: "Bridging the gap between decentralized and centralized currencies",
+    },
+  ];
+};
 
 export async function loader() {
   return json({
@@ -29,11 +31,9 @@ export async function loader() {
       ZAIBATSU_SERVICE_APPLICATION_ID: process.env.ZAIBATSU_SERVICE_APPLICATION_ID,
       WALLET_CONNECT_PROJECT_ID: process.env.WALLET_CONNECT_PROJECT_ID,
       WALLET_CONNECT_PROJECT_NAME: process.env.WALLET_CONNECT_PROJECT_NAME,
-      WALLET_CONNECT_PROJECT_DESCRIPTION:
-        process.env.WALLET_CONNECT_PROJECT_DESCRIPTION,
+      WALLET_CONNECT_PROJECT_DESCRIPTION: process.env.WALLET_CONNECT_PROJECT_DESCRIPTION,
       WALLET_CONNECT_PROJECT_URL: process.env.WALLET_CONNECT_PROJECT_URL,
-      WALLET_CONNECT_PROJECT_ICON_URL:
-        process.env.WALLET_CONNECT_PROJECT_ICON_URL,
+      WALLET_CONNECT_PROJECT_ICON_URL: process.env.WALLET_CONNECT_PROJECT_ICON_URL,
       WALLET_CONNECT_PROJECT_THEME: process.env.WALLET_CONNECT_PROJECT_THEME,
       ALGORAND_ENVIRONMENT: process.env.ALGORAND_ENVIRONMENT,
       ALGORAND_ALGOD_TOKEN: process.env.ALGORAND_ALGOD_TOKEN,
@@ -65,9 +65,11 @@ export default function App() {
                 __html: `window.ENV= ${JSON.stringify(data.ENV)}`,
               }}
             />
-            <AppShellWithNavigation>
-              <Outlet />
-            </AppShellWithNavigation>
+            <ContractProvider>
+              <AppShellWithNavigation>
+                <Outlet />
+              </AppShellWithNavigation>
+            </ContractProvider>
           </WalletProvider>
         </RecoilRoot>
         <ScrollRestoration />

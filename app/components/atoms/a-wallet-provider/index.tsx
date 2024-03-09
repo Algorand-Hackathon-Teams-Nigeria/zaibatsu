@@ -15,14 +15,14 @@ const WalletProvider: React.FC<Props> = ({ provider, onClick }) => {
     <button
       disabled={provider.isConnected}
       onClick={handleClick}
-      className="h-20 w-full md:h-auto flex md:flex-col md:justify-center aspect-square items-center gap-4 md:gap-2 p-3 rounded-3xl md:rounded-[30px] font-medium hover:bg-black/20 transition-all"
+      className="h-20 w-full xmd:h-autox flex xmd:flex-colx xmd:justify-centerx aspect-square items-center gap-6 xmd:gap-2x p-3 rounded-[5.76px] xmd:rounded-[30px]x font-medium bg-[#305030]/60 hover:bg-black/20  transition-all"
     >
       <img
-        className="aspect-square h-full md:h-auto max-w-40 rounded-full"
+        className="aspect-square h-full xmd:h-autox  max-w-40 rounded-full"
         src={provider.metadata.icon}
         alt={`${provider.metadata.name} icon`}
       />
-      <span className="text-xl">{provider.metadata.name}</span>
+      <span className="text-[17.28px]">{provider.metadata.name}</span>
     </button>
   );
 };
