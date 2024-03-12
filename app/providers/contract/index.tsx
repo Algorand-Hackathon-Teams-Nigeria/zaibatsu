@@ -1,13 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { createZaibatsuServiceClient } from "@/services/contract/utils";
 import { useWallet } from "@txnlab/use-wallet";
-
-const { activeAddress, signer } = useWallet();
-// @ts-ignore
-const client = createZaibatsuServiceClient({ addr: activeAddress, signer });
-
+import { ZaibatsuServiceClient } from "@/services/contract/service";
 interface ContractContextType {
-  serviceClient: typeof client;
+  serviceClient: typeof ZaibatsuServiceClient.prototype; // Adjust the type according to your serviceClient
 }
 const ContractContext = createContext<ContractContextType | null>(null);
 
