@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { createZaibatsuServiceClient } from "@/services/contract/utils";
+import { createZaibatsuServiceClient, getAlgodClient } from "@contract/utils";
 import { useWallet } from "@txnlab/use-wallet";
-import { ZaibatsuServiceClient } from "@/services/contract/service";
+import { ZaibatsuServiceClient } from "@contract/service";
+import { Algodv2 } from "algosdk";
 interface ContractContextType {
-  serviceClient: typeof ZaibatsuServiceClient.prototype; // Adjust the type according to your serviceClient
+  serviceClient: ZaibatsuServiceClient; // Adjust the type according to your serviceClient
+  algodClient: Algodv2
 }
 const ContractContext = createContext<ContractContextType | null>(null);
 
@@ -27,7 +29,7 @@ const ContractProvider: React.FC = ({ children }: any) => {
     }
   }, [activeAddress, signer]);
 
-  return <ContractContext.Provider value={{ serviceClient }}>{children}</ContractContext.Provider>;
+  return <ContractContext.Provider value={{ serviceClient, algodClient: getAlgodClient() }}>{children}</ContractContext.Provider>;
 };
 
 export default ContractProvider;
