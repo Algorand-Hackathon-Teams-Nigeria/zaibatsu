@@ -122,10 +122,10 @@ __export(root_exports, {
 });
 
 // css-bundle-plugin-ns:@remix-run/css-bundle
-var cssBundleHref = "/build/css-bundle-CM767J64.css";
+var cssBundleHref = "/build/css-bundle-4225ZG7K.css";
 
 // app/tailwind.css
-var tailwind_default = "/build/_assets/tailwind-36GWO4HB.css";
+var tailwind_default = "/build/_assets/tailwind-4NIID6C6.css";
 
 // app/root.tsx
 import { RecoilRoot } from "recoil";
@@ -1682,32 +1682,32 @@ var ZaibatsuServiceCallFactory = class {
     };
   }
   compose() {
-    let client2 = this, atc = new AtomicTransactionComposer(), promiseChain = Promise.resolve(), resultMappers = [];
+    let client = this, atc = new AtomicTransactionComposer(), promiseChain = Promise.resolve(), resultMappers = [];
     return {
       createZaibatsuToken(args, params) {
-        return promiseChain = promiseChain.then(() => client2.createZaibatsuToken(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Asset), this;
+        return promiseChain = promiseChain.then(() => client.createZaibatsuToken(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Asset), this;
       },
       fundAccountWithZuto(args, params) {
-        return promiseChain = promiseChain.then(() => client2.fundAccountWithZuto(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Asset), this;
+        return promiseChain = promiseChain.then(() => client.fundAccountWithZuto(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Asset), this;
       },
       savePool(args, params) {
-        return promiseChain = promiseChain.then(() => client2.savePool(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Pool), this;
+        return promiseChain = promiseChain.then(() => client.savePool(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(Pool), this;
       },
       lendToPool(args, params) {
-        return promiseChain = promiseChain.then(() => client2.lendToPool(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(PoolContribution), this;
+        return promiseChain = promiseChain.then(() => client.lendToPool(args, { ...params, sendParams: { ...params?.sendParams, skipSending: !0, atc } })), resultMappers.push(PoolContribution), this;
       },
       clearState(args) {
-        return promiseChain = promiseChain.then(() => client2.clearState({ ...args, sendParams: { ...args?.sendParams, skipSending: !0, atc } })), resultMappers.push(void 0), this;
+        return promiseChain = promiseChain.then(() => client.clearState({ ...args, sendParams: { ...args?.sendParams, skipSending: !0, atc } })), resultMappers.push(void 0), this;
       },
       addTransaction(txn, defaultSender) {
-        return promiseChain = promiseChain.then(async () => atc.addTransaction(await algokit.getTransactionWithSigner(txn, defaultSender ?? client2.sender))), this;
+        return promiseChain = promiseChain.then(async () => atc.addTransaction(await algokit.getTransactionWithSigner(txn, defaultSender ?? client.sender))), this;
       },
       async atc() {
         return await promiseChain, atc;
       },
       async simulate(options) {
         await promiseChain;
-        let result = await atc.simulate(client2.algod, new modelsv2.SimulateRequest({ txnGroups: [], ...options }));
+        let result = await atc.simulate(client.algod, new modelsv2.SimulateRequest({ txnGroups: [], ...options }));
         return {
           ...result,
           returns: result.methodResults?.map((val, i) => resultMappers[i] !== void 0 ? resultMappers[i](val.returnValue) : val.returnValue)
@@ -1715,7 +1715,7 @@ var ZaibatsuServiceCallFactory = class {
       },
       async execute(sendParams) {
         await promiseChain;
-        let result = await algokit.sendAtomicTransactionComposer({ atc, sendParams }, client2.algod);
+        let result = await algokit.sendAtomicTransactionComposer({ atc, sendParams }, client.algod);
         return {
           ...result,
           returns: result.returns?.map((val, i) => resultMappers[i] !== void 0 ? resultMappers[i](val.returnValue) : val.returnValue)
@@ -1728,34 +1728,36 @@ var ZaibatsuServiceCallFactory = class {
 // app/services/contract/utils.ts
 var getAlgodClient = () => {
   let env = getEnv();
-  return env?.ALGORAND_ALGOD_PORT, new algosdk2.Algodv2(env?.ALGORAND_ALGOD_TOKEN ?? "", env?.ALGORAND_ALGOD_SERVER ?? "", env?.ALGORAND_ALGOD_PORT ?? "");
+  return env?.ALGORAND_ALGOD_PORT, console.log({ env }), new algosdk2.Algodv2(env?.ALGORAND_ALGOD_TOKEN ?? "", env?.ALGORAND_ALGOD_SERVER ?? "", env?.ALGORAND_ALGOD_PORT ?? "");
 }, createZaibatsuServiceClient = (sender) => {
-  let env = getEnv(), client2 = getAlgodClient(), appDetails = {
+  let env = getEnv(), client = getAlgodClient(), appDetails = {
     resolveBy: "id",
     id: Number(env?.ZAIBATSU_SERVICE_APPLICATION_ID),
     sender
   };
-  return new ZaibatsuServiceClient(appDetails, client2);
+  return new ZaibatsuServiceClient(appDetails, client);
 };
 
 // app/providers/contract/index.tsx
 import { useWallet as useWallet2 } from "@txnlab/use-wallet";
 import { jsxDEV as jsxDEV13 } from "react/jsx-dev-runtime";
-var { activeAddress, signer } = useWallet2(), client = createZaibatsuServiceClient({ addr: activeAddress, signer }), ContractContext = createContext(null), useContract = () => {
+var ContractContext = createContext(null), useContract = () => {
   let context = useContext(ContractContext);
   if (!context)
     throw new Error("useContract must be used within a ContractProvider");
   return context;
 }, ContractProvider = ({ children }) => {
-  let { activeAddress: activeAddress2, signer: signer2 } = useWallet2(), [serviceClient, setServiceClient] = useState(null);
+  let { activeAddress, signer } = useWallet2(), [serviceClient, setServiceClient] = useState(), [algodClient, setAlgodClient] = useState();
   return useEffect(() => {
-    if (activeAddress2 && signer2) {
-      let client2 = createZaibatsuServiceClient({ addr: activeAddress2, signer: signer2 });
-      setServiceClient(client2);
+    if (activeAddress && signer) {
+      let client = createZaibatsuServiceClient({ addr: activeAddress, signer });
+      setServiceClient(client);
     }
-  }, [activeAddress2, signer2]), /* @__PURE__ */ jsxDEV13(ContractContext.Provider, { value: { serviceClient }, children }, void 0, !1, {
+  }, [activeAddress, signer]), useEffect(() => {
+    setAlgodClient(getAlgodClient());
+  }, []), /* @__PURE__ */ jsxDEV13(ContractContext.Provider, { value: { serviceClient, algodClient }, children }, void 0, !1, {
     fileName: "app/providers/contract/index.tsx",
-    lineNumber: 34,
+    lineNumber: 36,
     columnNumber: 10
   }, this);
 }, contract_default = ContractProvider;
@@ -1925,131 +1927,6 @@ var ProfilePage = () => /* @__PURE__ */ jsxDEV17("div", { children: "Profile" },
   columnNumber: 10
 }, this), profile_default = ProfilePage;
 
-// app/routes/borrow.tsx
-var borrow_exports = {};
-__export(borrow_exports, {
-  default: () => borrow_default
-});
-
-// app/components/molecules/m-lend/m-lend-header/index.tsx
-import { jsxDEV as jsxDEV18 } from "react/jsx-dev-runtime";
-var Lendheader = () => /* @__PURE__ */ jsxDEV18("div", { className: "flex flex-row  justify-between  mb-[16px] ", children: /* @__PURE__ */ jsxDEV18("div", { className: "text-2xl text-white p-6 py-[10px] ", children: "Lend" }, void 0, !1, {
-  fileName: "app/components/molecules/m-lend/m-lend-header/index.tsx",
-  lineNumber: 7,
-  columnNumber: 7
-}, this) }, void 0, !1, {
-  fileName: "app/components/molecules/m-lend/m-lend-header/index.tsx",
-  lineNumber: 6,
-  columnNumber: 5
-}, this), m_lend_header_default = Lendheader;
-
-// app/routes/borrow.tsx
-import { jsxDEV as jsxDEV19 } from "react/jsx-dev-runtime";
-var BorrowPage = () => /* @__PURE__ */ jsxDEV19("div", { id: "lend page", className: "flex flex-col w-full  ml-[30px]  pr-[47px]", children: [
-  /* @__PURE__ */ jsxDEV19(m_lend_header_default, {}, void 0, !1, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 5,
-    columnNumber: 7
-  }, this),
-  /* @__PURE__ */ jsxDEV19("div", { className: "mt-[62px]", children: /* @__PURE__ */ jsxDEV19(LoanForm, {}, void 0, !1, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 9,
-    columnNumber: 9
-  }, this) }, void 0, !1, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 6,
-    columnNumber: 7
-  }, this)
-] }, void 0, !0, {
-  fileName: "app/routes/borrow.tsx",
-  lineNumber: 4,
-  columnNumber: 5
-}, this), borrow_default = BorrowPage, LoanForm = () => /* @__PURE__ */ jsxDEV19("div", { className: "flex h-screen", children: [
-  /* @__PURE__ */ jsxDEV19("div", { className: "flex flex-col  items-start flex-grow p-6", children: [
-    /* @__PURE__ */ jsxDEV19("div", { className: "mb-6 w-full", children: [
-      /* @__PURE__ */ jsxDEV19("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%]  text-white", children: "Asset to lend" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 23,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDEV19("select", { className: "w-full h-12 rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 24,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 22,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV19("div", { className: "mb-6 w-full", children: [
-      /* @__PURE__ */ jsxDEV19("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%] mt-6 text-white", children: "Lend capacity" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 27,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDEV19("input", { type: "text", className: "w-full h-12 border border-white rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 28,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 26,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV19("div", { className: "mb-6 w-full", children: [
-      /* @__PURE__ */ jsxDEV19("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Select Pool" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 31,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDEV19("select", { className: "w-full h-12 rounded-lg bg-secondaryPool-foreground mt-4 mb-[86px]" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 32,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 30,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV19("button", { className: "w-full h-12 bg-primary text-white rounded-lg ", children: "Lend Loan" }, void 0, !1, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 34,
-      columnNumber: 9
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 21,
-    columnNumber: 7
-  }, this),
-  /* @__PURE__ */ jsxDEV19("div", { className: "flex flex-col w-[38.94%] h-full ", children: [
-    /* @__PURE__ */ jsxDEV19("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Pending Loan" }, void 0, !1, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 38,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV19("div", { className: "flex flex-col justify-center items-center w-full  bg-[#0b300c] rounded-lg h-full mb-[39px] mt-2", children: /* @__PURE__ */ jsxDEV19("div", { className: "font-Aeonik font-regular text-16 leading-[160%] text-grey-5  ", children: "You are yet to lend." }, void 0, !1, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 40,
-      columnNumber: 11
-    }, this) }, void 0, !1, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 39,
-      columnNumber: 9
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 37,
-    columnNumber: 7
-  }, this)
-] }, void 0, !0, {
-  fileName: "app/routes/borrow.tsx",
-  lineNumber: 19,
-  columnNumber: 5
-}, this);
-
 // app/routes/_index.tsx
 var index_exports = {};
 __export(index_exports, {
@@ -2064,25 +1941,25 @@ __export(pool_exports, {
 
 // app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-infoitem/index.tsx
 import { MdOutlineTrendingDown, MdOutlineTrendingUp } from "react-icons/md";
-import { jsxDEV as jsxDEV20 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV18 } from "react/jsx-dev-runtime";
 var Infoitem = ({
   label,
   value,
   icon,
   percentage,
   time
-}) => /* @__PURE__ */ jsxDEV20(
+}) => /* @__PURE__ */ jsxDEV18(
   "div",
   {
     className: "flex flex-col w-[262px] h-[161px] p-4  bg-secondaryPool-foreground rounded-[14px]",
     children: [
-      /* @__PURE__ */ jsxDEV20(
+      /* @__PURE__ */ jsxDEV18(
         "div",
         {
           className: "flex relative flex-row h-full justify-between",
           children: [
-            /* @__PURE__ */ jsxDEV20("div", { className: "text-white font-bold space-y-4 ", children: [
-              /* @__PURE__ */ jsxDEV20("div", { className: "text-base leading-[22px] text-[#B1BFB1]", children: [
+            /* @__PURE__ */ jsxDEV18("div", { className: "text-white font-bold space-y-4 ", children: [
+              /* @__PURE__ */ jsxDEV18("div", { className: "text-base leading-[22px] text-[#B1BFB1]", children: [
                 " ",
                 label
               ] }, void 0, !0, {
@@ -2090,7 +1967,7 @@ var Infoitem = ({
                 lineNumber: 29,
                 columnNumber: 11
               }, this),
-              /* @__PURE__ */ jsxDEV20("div", { className: "text-[28px] leading-[38px]", children: value }, void 0, !1, {
+              /* @__PURE__ */ jsxDEV18("div", { className: "text-[28px] leading-[38px]", children: value }, void 0, !1, {
                 fileName: "app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-infoitem/index.tsx",
                 lineNumber: 34,
                 columnNumber: 11
@@ -2100,7 +1977,7 @@ var Infoitem = ({
               lineNumber: 28,
               columnNumber: 9
             }, this),
-            icon && /* @__PURE__ */ jsxDEV20("div", { children: /* @__PURE__ */ jsxDEV20("button", { className: "flex p-4 mb--3 rounded-3xl bg-[#456346]  text-primary text-base leading-[26px] h-[fit-content] transition-transform transform-gpu hover:scale-105 active:scale-95 ", children: /* @__PURE__ */ jsxDEV20(
+            icon && /* @__PURE__ */ jsxDEV18("div", { children: /* @__PURE__ */ jsxDEV18("button", { className: "flex p-4 mb--3 rounded-3xl bg-[#456346]  text-primary text-base leading-[26px] h-[fit-content] transition-transform transform-gpu hover:scale-105 active:scale-95 ", children: /* @__PURE__ */ jsxDEV18(
               "img",
               {
                 className: " w-7 h-7 ",
@@ -2135,16 +2012,16 @@ var Infoitem = ({
         },
         this
       ),
-      /* @__PURE__ */ jsxDEV20("div", { className: "flex flex-row text-white items-center", children: [
-        /* @__PURE__ */ jsxDEV20(
+      /* @__PURE__ */ jsxDEV18("div", { className: "flex flex-row text-white items-center", children: [
+        /* @__PURE__ */ jsxDEV18(
           "div",
           {
             className: `w-6 h-6 text-green-600 text-2xl mr-2  ${!value && "text-[#F93C65]"}`,
-            children: value ? /* @__PURE__ */ jsxDEV20(MdOutlineTrendingUp, {}, void 0, !1, {
+            children: value ? /* @__PURE__ */ jsxDEV18(MdOutlineTrendingUp, {}, void 0, !1, {
               fileName: "app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-infoitem/index.tsx",
               lineNumber: 55,
               columnNumber: 20
-            }, this) : /* @__PURE__ */ jsxDEV20(MdOutlineTrendingDown, {}, void 0, !1, {
+            }, this) : /* @__PURE__ */ jsxDEV18(MdOutlineTrendingDown, {}, void 0, !1, {
               fileName: "app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-infoitem/index.tsx",
               lineNumber: 55,
               columnNumber: 46
@@ -2159,7 +2036,7 @@ var Infoitem = ({
           },
           this
         ),
-        /* @__PURE__ */ jsxDEV20("span", { className: `text-green-600 ${!value && "text-[#F93C65]"}`, children: [
+        /* @__PURE__ */ jsxDEV18("span", { className: `text-green-600 ${!value && "text-[#F93C65]"}`, children: [
           " ",
           percentage,
           "%",
@@ -2189,13 +2066,13 @@ var Infoitem = ({
 ), m_pool_infobar_infoitem_default = Infoitem;
 
 // app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-view/index.tsx
-import { jsxDEV as jsxDEV21 } from "react/jsx-dev-runtime";
-var Infoview = ({ content }) => /* @__PURE__ */ jsxDEV21(
+import { jsxDEV as jsxDEV19 } from "react/jsx-dev-runtime";
+var Infoview = ({ content }) => /* @__PURE__ */ jsxDEV19(
   "div",
   {
     className: "flex w-full flex-row md:flex-wrap xl:flex-nowrap md:gap-5 gap-3 md:pb-[52px] pb-[27px] overflow-x-scroll  justify-center sm:pl-[480px] pl-[560px] md:pl-[360px] lg:pl-0",
     style: { scrollbarWidth: "none" },
-    children: content.map((item, index) => /* @__PURE__ */ jsxDEV21("div", { className: "flex-shrink-0  ", children: /* @__PURE__ */ jsxDEV21(
+    children: content.map((item, index) => /* @__PURE__ */ jsxDEV19("div", { className: "flex-shrink-0  ", children: /* @__PURE__ */ jsxDEV19(
       m_pool_infobar_infoitem_default,
       {
         label: item.label,
@@ -2229,8 +2106,8 @@ var Infoview = ({ content }) => /* @__PURE__ */ jsxDEV21(
 ), m_pool_infobar_view_default = Infoview;
 
 // app/components/molecules/m-pool/m-pool-infobar/index.tsx
-import { jsxDEV as jsxDEV22 } from "react/jsx-dev-runtime";
-var Infobar = () => /* @__PURE__ */ jsxDEV22("div", { children: /* @__PURE__ */ jsxDEV22(m_pool_infobar_view_default, { content: [
+import { jsxDEV as jsxDEV20 } from "react/jsx-dev-runtime";
+var Infobar = () => /* @__PURE__ */ jsxDEV20("div", { children: /* @__PURE__ */ jsxDEV20(m_pool_infobar_view_default, { content: [
   {
     label: "Total User",
     value: "60,000",
@@ -2270,14 +2147,14 @@ var Infobar = () => /* @__PURE__ */ jsxDEV22("div", { children: /* @__PURE__ */ 
 }, this), m_pool_infobar_default = Infobar;
 
 // app/components/molecules/m-pool/m-pool-header-searchbar/index.tsx
-import { jsxDEV as jsxDEV23 } from "react/jsx-dev-runtime";
-var Poolheader = () => /* @__PURE__ */ jsxDEV23("div", { className: "flex flex-row  justify-between  mb-[16px] ", children: [
-  /* @__PURE__ */ jsxDEV23("div", { className: "text-2xl  py-[10px]", children: "Pool" }, void 0, !1, {
+import { jsxDEV as jsxDEV21 } from "react/jsx-dev-runtime";
+var Poolheader = () => /* @__PURE__ */ jsxDEV21("div", { className: "flex flex-row  justify-between  mb-[16px] ", children: [
+  /* @__PURE__ */ jsxDEV21("div", { className: "text-2xl  py-[10px]", children: "Pool" }, void 0, !1, {
     fileName: "app/components/molecules/m-pool/m-pool-header-searchbar/index.tsx",
     lineNumber: 7,
     columnNumber: 7
   }, this),
-  /* @__PURE__ */ jsxDEV23(
+  /* @__PURE__ */ jsxDEV21(
     "div",
     {
       className: "w-[427px] h-[46px] bg-secondaryPool-foreground py-[15px] pl-[15px] text-sm leading-4 text-white rounded-[10px]",
@@ -2299,7 +2176,7 @@ var Poolheader = () => /* @__PURE__ */ jsxDEV23("div", { className: "flex flex-r
 }, this), m_pool_header_searchbar_default = Poolheader;
 
 // app/components/molecules/m-pool/m-pool-table/index.tsx
-import { jsxDEV as jsxDEV24 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV22 } from "react/jsx-dev-runtime";
 var data = [
   {
     poolName: "Crystal CoveCrystal Cove",
@@ -2318,39 +2195,39 @@ var data = [
     tenor: "3 months"
   }
   // Add more data as needed
-], TableView = ({ poolData }) => /* @__PURE__ */ jsxDEV24("table", { className: "w-full", children: [
-  /* @__PURE__ */ jsxDEV24("thead", { className: "", children: /* @__PURE__ */ jsxDEV24("tr", { children: [
-    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Pool name" }, void 0, !1, {
+], TableView = ({ poolData }) => /* @__PURE__ */ jsxDEV22("table", { className: "w-full", children: [
+  /* @__PURE__ */ jsxDEV22("thead", { className: "", children: /* @__PURE__ */ jsxDEV22("tr", { children: [
+    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Pool name" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 29,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Assets" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Assets" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 30,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Total supplied" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Total supplied" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 31,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Total borrowed" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Total borrowed" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 32,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Pool APR" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Pool APR" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 33,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Tenor" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Tenor" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 34,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] min-w-[158.44px] " }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] min-w-[158.44px] " }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 35,
       columnNumber: 11
@@ -2364,44 +2241,44 @@ var data = [
     lineNumber: 27,
     columnNumber: 7
   }, this),
-  /* @__PURE__ */ jsxDEV24("tbody", { children: poolData.map((item, index) => /* @__PURE__ */ jsxDEV24("tr", { children: [
-    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.poolName }, void 0, !1, {
+  /* @__PURE__ */ jsxDEV22("tbody", { children: poolData.map((item, index) => /* @__PURE__ */ jsxDEV22("tr", { children: [
+    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.poolName }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 41,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.assets }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.assets }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 42,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.totalSupplied }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.totalSupplied }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 43,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.totalBorrowed }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.totalBorrowed }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 44,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.poolAPR }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.poolAPR }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 45,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.tenor }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.tenor }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 46,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV24("td", { className: " py-[11.15px] flex items-center", children: [
-      /* @__PURE__ */ jsxDEV24("button", { className: " mr-5 py-[11px] px-[6.61px]  bg-secondaryPool-foreground rounded-sm text-white", children: "Supply" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV22("td", { className: " py-[11.15px] flex items-center", children: [
+      /* @__PURE__ */ jsxDEV22("button", { className: " mr-5 py-[11px] px-[6.61px]  bg-secondaryPool-foreground rounded-sm text-white", children: "Supply" }, void 0, !1, {
         fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
         lineNumber: 48,
         columnNumber: 15
       }, this),
-      /* @__PURE__ */ jsxDEV24("button", { className: "py-[11px] px-[6.61px]  border-2 border-secondaryPool-foreground rounded-sm text-white ", children: "Borrow" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV22("button", { className: "py-[11px] px-[6.61px]  border-2 border-secondaryPool-foreground rounded-sm text-white ", children: "Borrow" }, void 0, !1, {
         fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
         lineNumber: 49,
         columnNumber: 15
@@ -2424,7 +2301,7 @@ var data = [
   fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
   lineNumber: 26,
   columnNumber: 5
-}, this), Pooltable = () => /* @__PURE__ */ jsxDEV24("div", { className: "bg-transparent flex ", children: /* @__PURE__ */ jsxDEV24(TableView, { poolData: data }, void 0, !1, {
+}, this), Pooltable = () => /* @__PURE__ */ jsxDEV22("div", { className: "bg-transparent flex ", children: /* @__PURE__ */ jsxDEV22(TableView, { poolData: data }, void 0, !1, {
   fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
   lineNumber: 61,
   columnNumber: 7
@@ -2435,47 +2312,180 @@ var data = [
 }, this), m_pool_table_default = Pooltable;
 
 // app/routes/pool.tsx
-import { jsxDEV as jsxDEV25 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV23 } from "react/jsx-dev-runtime";
 var PoolPage = () => {
   let { serviceClient } = useContract();
-  return /* @__PURE__ */ jsxDEV25("div", { id: "pool page", className: "flex flex-col w-full  md:ml-[30px] md:pt-7 md:pr-[47px]  ml-[10px] pt-2 pr-[10px]", children: [
-    /* @__PURE__ */ jsxDEV25(m_pool_infobar_default, {}, void 0, !1, {
+  function createPool() {
+    console.log(serviceClient.savePool({ appAddress: "test", asset: "eth" })), serviceClient.lendToPool, alert(serviceClient.create);
+  }
+  return /* @__PURE__ */ jsxDEV23("div", { id: "pool page", className: "flex flex-col w-full  md:ml-[30px] md:pt-7 md:pr-[47px]  ml-[10px] pt-2 pr-[10px]", children: [
+    /* @__PURE__ */ jsxDEV23(m_pool_infobar_default, {}, void 0, !1, {
       fileName: "app/routes/pool.tsx",
-      lineNumber: 11,
+      lineNumber: 23,
       columnNumber: 7
     }, this),
-    /* @__PURE__ */ jsxDEV25("div", { children: [
-      /* @__PURE__ */ jsxDEV25(m_pool_header_searchbar_default, {}, void 0, !1, {
+    /* @__PURE__ */ jsxDEV23("div", { children: [
+      /* @__PURE__ */ jsxDEV23("button", { onClick: createPool, children: "tester" }, void 0, !1, {
         fileName: "app/routes/pool.tsx",
-        lineNumber: 13,
+        lineNumber: 25,
         columnNumber: 9
       }, this),
-      /* @__PURE__ */ jsxDEV25(m_pool_table_default, {}, void 0, !1, {
+      /* @__PURE__ */ jsxDEV23(m_pool_header_searchbar_default, {}, void 0, !1, {
         fileName: "app/routes/pool.tsx",
-        lineNumber: 14,
+        lineNumber: 26,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV23(m_pool_table_default, {}, void 0, !1, {
+        fileName: "app/routes/pool.tsx",
+        lineNumber: 27,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/pool.tsx",
-      lineNumber: 12,
+      lineNumber: 24,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
     fileName: "app/routes/pool.tsx",
-    lineNumber: 10,
+    lineNumber: 22,
     columnNumber: 5
   }, this);
 }, pool_default = PoolPage;
 
 // app/routes/_index.tsx
-import { jsxDEV as jsxDEV26 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV24 } from "react/jsx-dev-runtime";
 function Index() {
-  return /* @__PURE__ */ jsxDEV26(pool_default, {}, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV24(pool_default, {}, void 0, !1, {
     fileName: "app/routes/_index.tsx",
     lineNumber: 4,
     columnNumber: 10
   }, this);
 }
+
+// app/routes/borrow.tsx
+var borrow_exports = {};
+__export(borrow_exports, {
+  default: () => borrow_default
+});
+
+// app/components/molecules/m-lend/m-lend-header/index.tsx
+import { jsxDEV as jsxDEV25 } from "react/jsx-dev-runtime";
+var Lendheader = () => /* @__PURE__ */ jsxDEV25("div", { className: "flex flex-row  justify-between  mb-[16px] ", children: /* @__PURE__ */ jsxDEV25("div", { className: "text-2xl text-white p-6 py-[10px] ", children: "Lend" }, void 0, !1, {
+  fileName: "app/components/molecules/m-lend/m-lend-header/index.tsx",
+  lineNumber: 7,
+  columnNumber: 7
+}, this) }, void 0, !1, {
+  fileName: "app/components/molecules/m-lend/m-lend-header/index.tsx",
+  lineNumber: 6,
+  columnNumber: 5
+}, this), m_lend_header_default = Lendheader;
+
+// app/routes/borrow.tsx
+import { jsxDEV as jsxDEV26 } from "react/jsx-dev-runtime";
+var BorrowPage = () => /* @__PURE__ */ jsxDEV26("div", { id: "lend page", className: "flex flex-col w-full  ml-[30px]  pr-[47px]", children: [
+  /* @__PURE__ */ jsxDEV26(m_lend_header_default, {}, void 0, !1, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 5,
+    columnNumber: 7
+  }, this),
+  /* @__PURE__ */ jsxDEV26("div", { className: "mt-[62px]", children: /* @__PURE__ */ jsxDEV26(LoanForm, {}, void 0, !1, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 9,
+    columnNumber: 9
+  }, this) }, void 0, !1, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 6,
+    columnNumber: 7
+  }, this)
+] }, void 0, !0, {
+  fileName: "app/routes/borrow.tsx",
+  lineNumber: 4,
+  columnNumber: 5
+}, this), borrow_default = BorrowPage, LoanForm = () => /* @__PURE__ */ jsxDEV26("div", { className: "flex h-screen", children: [
+  /* @__PURE__ */ jsxDEV26("div", { className: "flex flex-col  items-start flex-grow p-6", children: [
+    /* @__PURE__ */ jsxDEV26("div", { className: "mb-6 w-full", children: [
+      /* @__PURE__ */ jsxDEV26("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%]  text-white", children: "Asset to lend" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 23,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV26("select", { className: "w-full h-12 rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 24,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 22,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV26("div", { className: "mb-6 w-full", children: [
+      /* @__PURE__ */ jsxDEV26("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%] mt-6 text-white", children: "Lend capacity" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 27,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV26("input", { type: "text", className: "w-full h-12 border border-white rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 28,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 26,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV26("div", { className: "mb-6 w-full", children: [
+      /* @__PURE__ */ jsxDEV26("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Select Pool" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 31,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV26("select", { className: "w-full h-12 rounded-lg bg-secondaryPool-foreground mt-4 mb-[86px]" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 32,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 30,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV26("button", { className: "w-full h-12 bg-primary text-white rounded-lg ", children: "Lend Loan" }, void 0, !1, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 34,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 21,
+    columnNumber: 7
+  }, this),
+  /* @__PURE__ */ jsxDEV26("div", { className: "flex flex-col w-[38.94%] h-full ", children: [
+    /* @__PURE__ */ jsxDEV26("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Pending Loan" }, void 0, !1, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 38,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV26("div", { className: "flex flex-col justify-center items-center w-full  bg-[#0b300c] rounded-lg h-full mb-[39px] mt-2", children: /* @__PURE__ */ jsxDEV26("div", { className: "font-Aeonik font-regular text-16 leading-[160%] text-grey-5  ", children: "You are yet to lend." }, void 0, !1, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 40,
+      columnNumber: 11
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 39,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 37,
+    columnNumber: 7
+  }, this)
+] }, void 0, !0, {
+  fileName: "app/routes/borrow.tsx",
+  lineNumber: 19,
+  columnNumber: 5
+}, this);
 
 // app/routes/lend.tsx
 var lend_exports = {};
@@ -2589,10 +2599,10 @@ var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", classNam
 }, this);
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-MOSDU7QX.js", imports: ["/build/_shared/chunk-WRM53ZUV.js", "/build/_shared/chunk-BHQCQFCN.js", "/build/_shared/chunk-ATRQC2ZO.js", "/build/_shared/chunk-FGAZNT4N.js", "/build/_shared/chunk-PAEK5ACD.js", "/build/_shared/chunk-QJQJJ6FU.js", "/build/_shared/chunk-JM3EFX3L.js", "/build/_shared/chunk-MYHRZK7S.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-A6YW2STT.js", imports: ["/build/_shared/chunk-DMHNC7M5.js", "/build/_shared/chunk-DCEKC72K.js", "/build/_shared/chunk-7PSQEEMX.js", "/build/_shared/chunk-R5V3VJTO.js", "/build/_shared/chunk-73NW7KFA.js", "/build/_shared/chunk-JUPUTQ6K.js"], hasAction: !1, hasLoader: !0, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-5OHCDQMR.js", imports: ["/build/_shared/chunk-FX6VEMM6.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activities": { id: "routes/activities", parentId: "root", path: "activities", index: void 0, caseSensitive: void 0, module: "/build/routes/activities-N4RJ4A4K.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activity": { id: "routes/activity", parentId: "root", path: "activity", index: void 0, caseSensitive: void 0, module: "/build/routes/activity-4NPS74LF.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/borrow": { id: "routes/borrow", parentId: "root", path: "borrow", index: void 0, caseSensitive: void 0, module: "/build/routes/borrow-PU5JD47R.js", imports: ["/build/_shared/chunk-UE43ZWDY.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/lend": { id: "routes/lend", parentId: "root", path: "lend", index: void 0, caseSensitive: void 0, module: "/build/routes/lend-DA3XGAF5.js", imports: ["/build/_shared/chunk-UE43ZWDY.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/pool": { id: "routes/pool", parentId: "root", path: "pool", index: void 0, caseSensitive: void 0, module: "/build/routes/pool-VTZJHBAS.js", imports: ["/build/_shared/chunk-FX6VEMM6.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/profile": { id: "routes/profile", parentId: "root", path: "profile", index: void 0, caseSensitive: void 0, module: "/build/routes/profile-G7HGUNYE.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 } }, version: "9973f7ca", hmr: { runtime: "/build/_shared\\chunk-PAEK5ACD.js", timestamp: 1710010821780 }, url: "/build/manifest-9973F7CA.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-J74I7VL6.js", imports: ["/build/_shared/chunk-WRM53ZUV.js", "/build/_shared/chunk-NEZYOV4U.js", "/build/_shared/chunk-ATRQC2ZO.js", "/build/_shared/chunk-FGAZNT4N.js", "/build/_shared/chunk-KTXKSMJR.js", "/build/_shared/chunk-QJQJJ6FU.js", "/build/_shared/chunk-JM3EFX3L.js", "/build/_shared/chunk-MYHRZK7S.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-SXYDVK52.js", imports: ["/build/_shared/chunk-DMHNC7M5.js", "/build/_shared/chunk-M63FBJQD.js", "/build/_shared/chunk-7PSQEEMX.js", "/build/_shared/chunk-R5V3VJTO.js", "/build/_shared/chunk-73NW7KFA.js", "/build/_shared/chunk-JUPUTQ6K.js"], hasAction: !1, hasLoader: !0, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-OX4G55VH.js", imports: ["/build/_shared/chunk-UZTEWKSW.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activities": { id: "routes/activities", parentId: "root", path: "activities", index: void 0, caseSensitive: void 0, module: "/build/routes/activities-GQ4KYC4P.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activity": { id: "routes/activity", parentId: "root", path: "activity", index: void 0, caseSensitive: void 0, module: "/build/routes/activity-EJLGO2FD.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/borrow": { id: "routes/borrow", parentId: "root", path: "borrow", index: void 0, caseSensitive: void 0, module: "/build/routes/borrow-7UI3KEEM.js", imports: ["/build/_shared/chunk-7I2AXLKQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/lend": { id: "routes/lend", parentId: "root", path: "lend", index: void 0, caseSensitive: void 0, module: "/build/routes/lend-WDJ54EDT.js", imports: ["/build/_shared/chunk-7I2AXLKQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/pool": { id: "routes/pool", parentId: "root", path: "pool", index: void 0, caseSensitive: void 0, module: "/build/routes/pool-HYQNVO4I.js", imports: ["/build/_shared/chunk-UZTEWKSW.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/profile": { id: "routes/profile", parentId: "root", path: "profile", index: void 0, caseSensitive: void 0, module: "/build/routes/profile-O5THCDUC.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 } }, version: "d326d9eb", hmr: { runtime: "/build/_shared/chunk-KTXKSMJR.js", timestamp: 1710350761893 }, url: "/build/manifest-D326D9EB.js" };
 
 // server-entry-module:@remix-run/dev/server-build
-var mode = "development", assetsBuildDirectory = "public\\build", future = { v3_fetcherPersist: !1, v3_relativeSplatPath: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
+var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1, v3_relativeSplatPath: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
   root: {
     id: "root",
     parentId: void 0,
@@ -2625,14 +2635,6 @@ var mode = "development", assetsBuildDirectory = "public\\build", future = { v3_
     caseSensitive: void 0,
     module: profile_exports
   },
-  "routes/borrow": {
-    id: "routes/borrow",
-    parentId: "root",
-    path: "borrow",
-    index: void 0,
-    caseSensitive: void 0,
-    module: borrow_exports
-  },
   "routes/_index": {
     id: "routes/_index",
     parentId: "root",
@@ -2640,6 +2642,14 @@ var mode = "development", assetsBuildDirectory = "public\\build", future = { v3_
     index: !0,
     caseSensitive: void 0,
     module: index_exports
+  },
+  "routes/borrow": {
+    id: "routes/borrow",
+    parentId: "root",
+    path: "borrow",
+    index: void 0,
+    caseSensitive: void 0,
+    module: borrow_exports
   },
   "routes/lend": {
     id: "routes/lend",

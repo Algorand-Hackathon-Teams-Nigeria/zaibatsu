@@ -8,6 +8,7 @@ import { ZaibatsuServiceClient } from "./service"
 export const getAlgodClient = () => {
   const env = getEnv()
   env?.ALGORAND_ALGOD_PORT
+  console.log({ env })
   const client = new algosdk.Algodv2(env?.ALGORAND_ALGOD_TOKEN ?? "", env?.ALGORAND_ALGOD_SERVER ?? "", env?.ALGORAND_ALGOD_PORT ?? "")
   return client
 }

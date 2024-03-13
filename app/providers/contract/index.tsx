@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { createZaibatsuServiceClient, getAlgodClient } from "@contract/utils";
 import { useWallet } from "@txnlab/use-wallet";
 import { ZaibatsuServiceClient } from "@contract/service";
-import { Algodv2 } from "algosdk";
+import algosdk, { Algodv2 } from "algosdk";
 interface ContractContextType {
-  serviceClient: ZaibatsuServiceClient; // Adjust the type according to your serviceClient
-  algodClient: Algodv2
+  serviceClient?: ZaibatsuServiceClient; // Adjust the type according to your serviceClient
+  algodClient?: Algodv2
 }
 const ContractContext = createContext<ContractContextType | null>(null);
 
@@ -19,7 +19,8 @@ export const useContract = () => {
 
 const ContractProvider: React.FC = ({ children }: any) => {
   const { activeAddress, signer } = useWallet();
-  const [serviceClient, setServiceClient] = useState<any>(null);
+  const [serviceClient, setServiceClient] = useState<ZaibatsuServiceClient>();
+  const [algodClient, setAlgodClient] = useState<algosdk.Algodv2>()
 
   useEffect(() => {
     // @ts-ignore
@@ -28,8 +29,11 @@ const ContractProvider: React.FC = ({ children }: any) => {
       setServiceClient(client);
     }
   }, [activeAddress, signer]);
+  useEffect(() => {
+    setAlgodClient(getAlgodClient())
+  }, [])
 
-  return <ContractContext.Provider value={{ serviceClient, algodClient: getAlgodClient() }}>{children}</ContractContext.Provider>;
+  return <ContractContext.Provider value={{ serviceClient, algodClient }}>{children}</ContractContext.Provider>;
 };
 
 export default ContractProvider;
