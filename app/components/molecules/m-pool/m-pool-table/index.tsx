@@ -23,7 +23,7 @@ const data = [
 
 const TableView = ({ poolData }: any) => {
   return (
-    <table className="w-full">
+    <table className="w-full overflow-scroll">
       <thead className="">
         <tr>
           <th className="pr-4 py-[10px] max-w-[158.43px] text-left">Pool name</th>
@@ -32,7 +32,7 @@ const TableView = ({ poolData }: any) => {
           <th className="pr-4 py-[10px] max-w-[158.43px] text-left">Total borrowed</th>
           <th className="pr-4 py-[10px] max-w-[158.43px] text-left">Pool APR</th>
           <th className="pr-4 py-[10px] max-w-[158.43px] text-left">Tenor</th>
-          <th className="pr-4 py-[10px] min-w-[158.44px] "></th>
+          <th className="pr-4 py-[10px] min-w-[138.44px] max-w-[168.44px] "></th>
         </tr>
       </thead>
       <tbody>
@@ -44,7 +44,7 @@ const TableView = ({ poolData }: any) => {
             <td className="pr-4 py-[11.15px] ">{item.totalBorrowed}</td>
             <td className="pr-4 py-[11.15px] ">{item.poolAPR}</td>
             <td className="pr-4 py-[11.15px] ">{item.tenor}</td>
-            <td className=" py-[11.15px] flex items-center">
+            <td className=" py-[11.15px] flex justify-end maax-w-[168.44px]">
               <button className=" mr-5 py-[11px] px-[6.61px]  bg-secondaryPool-foreground rounded-sm text-white">Supply</button>
               <button className="py-[11px] px-[6.61px]  border-2 border-secondaryPool-foreground rounded-sm text-white ">Borrow</button>
             </td>
@@ -57,7 +57,7 @@ const TableView = ({ poolData }: any) => {
 
 const Pooltable = () => {
   return (
-    <div className="bg-transparent flex ">
+    <div className="bg-transparent flex overflow-scroll ">
       <TableView poolData={data} />
     </div>
   );

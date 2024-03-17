@@ -122,10 +122,10 @@ __export(root_exports, {
 });
 
 // css-bundle-plugin-ns:@remix-run/css-bundle
-var cssBundleHref = "/build/css-bundle-4225ZG7K.css";
+var cssBundleHref = "/build/css-bundle-CM767J64.css";
 
 // app/tailwind.css
-var tailwind_default = "/build/_assets/tailwind-4NIID6C6.css";
+var tailwind_default = "/build/_assets/tailwind-F2NKLD4O.css";
 
 // app/root.tsx
 import { RecoilRoot } from "recoil";
@@ -415,144 +415,100 @@ var TopBar = ({ className }) => {
   let [navOpen, setNavOpen] = useRecoilState(navAtom_default), activeNotification = !0, [isDarkMode, setIsDarkMode] = React2.useState(!1), toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode), document.documentElement.classList.toggle("dark", isDarkMode);
   };
-  return /* @__PURE__ */ jsxDEV7(
-    "nav",
-    {
-      className: cn(
-        "py-9 px-4 flex w-full items-center justify-between bg-secondaryPool ",
-        className
-      ),
-      children: [
-        /* @__PURE__ */ jsxDEV7("div", { children: /* @__PURE__ */ jsxDEV7(a_logo_default, { className: "md:hidden" }, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV7("nav", { className: cn("py-9 px-4 flex w-full items-center justify-between bg-secondaryPool ", className), children: [
+    /* @__PURE__ */ jsxDEV7("div", { children: /* @__PURE__ */ jsxDEV7(a_logo_default, { className: "md:hidden" }, void 0, !1, {
+      fileName: "app/components/molecules/m-top-bar/index.tsx",
+      lineNumber: 26,
+      columnNumber: 9
+    }, this) }, void 0, !1, {
+      fileName: "app/components/molecules/m-top-bar/index.tsx",
+      lineNumber: 25,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV7("div", { className: "flex justify-between w-full", children: [
+      /* @__PURE__ */ jsxDEV7(
+        "div",
+        {
+          className: "w-[427px] h-[46px] bg-secondaryPool-foreground py-[15px] pl-[15px] text-sm leading-4 text-white rounded-[10px] mr-5",
+          children: "\xA0\xA0\xA0\xA0 Search anything here"
+        },
+        void 0,
+        !1,
+        {
           fileName: "app/components/molecules/m-top-bar/index.tsx",
-          lineNumber: 31,
+          lineNumber: 29,
           columnNumber: 9
-        }, this) }, void 0, !1, {
-          fileName: "app/components/molecules/m-top-bar/index.tsx",
-          lineNumber: 30,
-          columnNumber: 7
-        }, this),
-        /* @__PURE__ */ jsxDEV7("div", { className: "flex justify-between w-full", children: [
-          /* @__PURE__ */ jsxDEV7(
-            "div",
-            {
-              className: "w-[427px] h-[46px] bg-secondaryPool-foreground py-[15px] pl-[15px] text-sm leading-4 text-white rounded-[10px]",
-              children: "\xA0\xA0\xA0\xA0 Search anything here"
-            },
-            void 0,
-            !1,
-            {
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV7("div", { className: "flex items-center flex-row ", children: [
+        /* @__PURE__ */ jsxDEV7("div", { className: "w-16 h-5 flex flex-row justify-between   text-white mr-6", children: [
+          /* @__PURE__ */ jsxDEV7("div", { className: "relative", onClick: toggleDarkMode, children: [
+            /* @__PURE__ */ jsxDEV7("div", { className: "dark:invisible visible absolute top-0", children: returnIcon("sun") }, void 0, !1, {
               fileName: "app/components/molecules/m-top-bar/index.tsx",
-              lineNumber: 34,
-              columnNumber: 9
-            },
-            this
-          ),
-          /* @__PURE__ */ jsxDEV7("div", { className: "flex items-center flex-row ", children: [
-            /* @__PURE__ */ jsxDEV7(
-              "div",
-              {
-                className: "w-16 h-5 flex flex-row justify-between   text-white mr-6",
-                children: [
-                  /* @__PURE__ */ jsxDEV7("div", { className: "relative", onClick: toggleDarkMode, children: [
-                    /* @__PURE__ */ jsxDEV7("div", { className: "dark:invisible visible absolute top-0", children: returnIcon("sun") }, void 0, !1, {
-                      fileName: "app/components/molecules/m-top-bar/index.tsx",
-                      lineNumber: 44,
-                      columnNumber: 15
-                    }, this),
-                    /* @__PURE__ */ jsxDEV7("div", { className: "dark:visible invisible absolute top-0 ", children: returnIcon("moon") }, void 0, !1, {
-                      fileName: "app/components/molecules/m-top-bar/index.tsx",
-                      lineNumber: 47,
-                      columnNumber: 15
-                    }, this)
-                  ] }, void 0, !0, {
-                    fileName: "app/components/molecules/m-top-bar/index.tsx",
-                    lineNumber: 43,
-                    columnNumber: 13
-                  }, this),
-                  /* @__PURE__ */ jsxDEV7("div", { className: "relative", children: [
-                    returnIcon("notification"),
-                    activeNotification && /* @__PURE__ */ jsxDEV7(
-                      "div",
-                      {
-                        className: "w-[9.17px]  h-[9.17px] bg-[#f57600] border-2 border-white rounded-full absolute top-0 right-0"
-                      },
-                      void 0,
-                      !1,
-                      {
-                        fileName: "app/components/molecules/m-top-bar/index.tsx",
-                        lineNumber: 55,
-                        columnNumber: 17
-                      },
-                      this
-                    )
-                  ] }, void 0, !0, {
-                    fileName: "app/components/molecules/m-top-bar/index.tsx",
-                    lineNumber: 52,
-                    columnNumber: 13
-                  }, this)
-                ]
-              },
-              void 0,
-              !0,
-              {
-                fileName: "app/components/molecules/m-top-bar/index.tsx",
-                lineNumber: 40,
-                columnNumber: 11
-              },
-              this
-            ),
-            /* @__PURE__ */ jsxDEV7(m_connect_wallet_default, {}, void 0, !1, {
-              fileName: "app/components/molecules/m-top-bar/index.tsx",
-              lineNumber: 62,
-              columnNumber: 11
+              lineNumber: 37,
+              columnNumber: 15
             }, this),
-            /* @__PURE__ */ jsxDEV7(
-              "button",
-              {
-                onClick: () => setNavOpen((curr) => !curr),
-                type: "button",
-                className: "p-2 md:hidden",
-                children: navOpen ? /* @__PURE__ */ jsxDEV7(IoClose, { className: "text-white", size: 26 }, void 0, !1, {
-                  fileName: "app/components/molecules/m-top-bar/index.tsx",
-                  lineNumber: 69,
-                  columnNumber: 15
-                }, this) : /* @__PURE__ */ jsxDEV7(IoMenu, { className: "text-white", size: 26 }, void 0, !1, {
-                  fileName: "app/components/molecules/m-top-bar/index.tsx",
-                  lineNumber: 71,
-                  columnNumber: 15
-                }, this)
-              },
-              void 0,
-              !1,
-              {
-                fileName: "app/components/molecules/m-top-bar/index.tsx",
-                lineNumber: 63,
-                columnNumber: 11
-              },
-              this
-            )
+            /* @__PURE__ */ jsxDEV7("div", { className: "dark:visible invisible absolute top-0 ", children: returnIcon("moon") }, void 0, !1, {
+              fileName: "app/components/molecules/m-top-bar/index.tsx",
+              lineNumber: 38,
+              columnNumber: 15
+            }, this)
           ] }, void 0, !0, {
             fileName: "app/components/molecules/m-top-bar/index.tsx",
-            lineNumber: 39,
-            columnNumber: 9
+            lineNumber: 36,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV7("div", { className: "relative", children: [
+            returnIcon("notification"),
+            activeNotification && /* @__PURE__ */ jsxDEV7("div", { className: "w-[9.17px]  h-[9.17px] bg-[#f57600] border-2 border-white rounded-full absolute top-0 right-0" }, void 0, !1, {
+              fileName: "app/components/molecules/m-top-bar/index.tsx",
+              lineNumber: 44,
+              columnNumber: 17
+            }, this)
+          ] }, void 0, !0, {
+            fileName: "app/components/molecules/m-top-bar/index.tsx",
+            lineNumber: 41,
+            columnNumber: 13
           }, this)
         ] }, void 0, !0, {
           fileName: "app/components/molecules/m-top-bar/index.tsx",
-          lineNumber: 33,
-          columnNumber: 7
+          lineNumber: 35,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV7(m_connect_wallet_default, {}, void 0, !1, {
+          fileName: "app/components/molecules/m-top-bar/index.tsx",
+          lineNumber: 49,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV7("button", { onClick: () => setNavOpen((curr) => !curr), type: "button", className: "p-2 md:hidden", children: navOpen ? /* @__PURE__ */ jsxDEV7(IoClose, { className: "text-white", size: 26 }, void 0, !1, {
+          fileName: "app/components/molecules/m-top-bar/index.tsx",
+          lineNumber: 51,
+          columnNumber: 24
+        }, this) : /* @__PURE__ */ jsxDEV7(IoMenu, { className: "text-white", size: 26 }, void 0, !1, {
+          fileName: "app/components/molecules/m-top-bar/index.tsx",
+          lineNumber: 51,
+          columnNumber: 71
+        }, this) }, void 0, !1, {
+          fileName: "app/components/molecules/m-top-bar/index.tsx",
+          lineNumber: 50,
+          columnNumber: 11
         }, this)
-      ]
-    },
-    void 0,
-    !0,
-    {
+      ] }, void 0, !0, {
+        fileName: "app/components/molecules/m-top-bar/index.tsx",
+        lineNumber: 34,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, !0, {
       fileName: "app/components/molecules/m-top-bar/index.tsx",
-      lineNumber: 24,
-      columnNumber: 5
-    },
-    this
-  );
+      lineNumber: 28,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/components/molecules/m-top-bar/index.tsx",
+    lineNumber: 24,
+    columnNumber: 5
+  }, this);
 }, m_top_bar_default = TopBar;
 
 // app/components/molecules/m-sidebar-navigation/index.tsx
@@ -758,7 +714,7 @@ var Dialog = DialogPrimitive.Root, DialogTrigger = DialogPrimitive.Trigger, Dial
   {
     ref,
     className: cn(
-      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     ),
     ...props
@@ -784,7 +740,7 @@ var DialogContent = React5.forwardRef(({ className, children, ...props }, ref) =
     {
       ref,
       className: cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-3xl",
+        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
         className
       ),
       ...props,
@@ -931,55 +887,45 @@ var ConnectWallet = () => {
         className: activeAccount ? "bg-transparent" : "px-[42px] py-[11.5px]   text-[14px] leading-[30.25px] ",
         size: "lg",
         children: /* @__PURE__ */ jsxDEV11("div", { className: "flex flex-row items-center text-white", children: [
-          /* @__PURE__ */ jsxDEV11(
-            "div",
-            {
-              className: `w-6 h-6 text-white mr-2 flex items-center relative ${activeAccount && "w-[31px] h-[31px]"} `,
-              children: activeAccount ? connectedProvider && /* @__PURE__ */ jsxDEV11(Fragment2, { children: [
-                /* @__PURE__ */ jsxDEV11(
-                  "img",
-                  {
-                    className: "rounded-full w-[31px] h-[31px] filter grayscale brightness-110",
-                    src: "/assets/images/avataroverlaid.png",
-                    alt: connectedProvider.metadata.name
-                  },
-                  void 0,
-                  !1,
-                  {
-                    fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-                    lineNumber: 35,
-                    columnNumber: 23
-                  },
-                  this
-                ),
-                /* @__PURE__ */ jsxDEV11("div", { className: "absolute inset-0 bg-secondaryPool-foreground  opacity-50 rounded-full " }, void 0, !1, {
-                  fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-                  lineNumber: 41,
-                  columnNumber: 25
-                }, this)
-              ] }, void 0, !0, {
+          /* @__PURE__ */ jsxDEV11("div", { className: `w-6 h-6 text-white mr-2 flex items-center relative ${activeAccount && "w-[31px] h-[31px]"} `, children: activeAccount ? connectedProvider && /* @__PURE__ */ jsxDEV11(Fragment2, { children: [
+            /* @__PURE__ */ jsxDEV11(
+              "img",
+              {
+                className: "rounded-full w-[31px] h-[31px] filter grayscale brightness-110",
+                src: "/assets/images/avataroverlaid.png",
+                alt: connectedProvider.metadata.name
+              },
+              void 0,
+              !1,
+              {
                 fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-                lineNumber: 34,
-                columnNumber: 21
-              }, this) : returnIcon("wallet")
-            },
-            void 0,
-            !1,
-            {
+                lineNumber: 27,
+                columnNumber: 23
+              },
+              this
+            ),
+            /* @__PURE__ */ jsxDEV11("div", { className: "absolute inset-0 bg-secondaryPool-foreground  opacity-50 rounded-full " }, void 0, !1, {
               fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-              lineNumber: 26,
-              columnNumber: 13
-            },
-            this
-          ),
+              lineNumber: 32,
+              columnNumber: 24
+            }, this)
+          ] }, void 0, !0, {
+            fileName: "app/components/molecules/m-connect-wallet/index.tsx",
+            lineNumber: 26,
+            columnNumber: 21
+          }, this) : returnIcon("wallet") }, void 0, !1, {
+            fileName: "app/components/molecules/m-connect-wallet/index.tsx",
+            lineNumber: 22,
+            columnNumber: 13
+          }, this),
           activeAccount ? /* @__PURE__ */ jsxDEV11(a_wallet_address_default, { address: activeAccount.address, truncate: !0 }, void 0, !1, {
             fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-            lineNumber: 47,
-            columnNumber: 15
+            lineNumber: 36,
+            columnNumber: 30
           }, this) : "Connect Wallet"
         ] }, void 0, !0, {
           fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-          lineNumber: 25,
+          lineNumber: 21,
           columnNumber: 11
         }, this)
       },
@@ -1000,56 +946,34 @@ var ConnectWallet = () => {
       /* @__PURE__ */ jsxDEV11(Component.Header, { className: "w-full flex flex-col items-center", children: [
         /* @__PURE__ */ jsxDEV11(Component.Title, { className: "py-4 flex items-center justify-center font-semibold text-lg leading-[150%]", children: activeAccount ? "Connected Wallet" : "Connect Wallet" }, void 0, !1, {
           fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-          lineNumber: 56,
+          lineNumber: 42,
           columnNumber: 11
         }, this),
         !activeAccount && /* @__PURE__ */ jsxDEV11(Component.Description, { className: "text-center md:max-w-[70%] flex items-center justify-center text-sm leading-[130%] text-white", children: "Connect to any supported wallet to securely store your cryptocurrencies" }, void 0, !1, {
           fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-          lineNumber: 60,
+          lineNumber: 46,
           columnNumber: 13
         }, this)
       ] }, void 0, !0, {
         fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-        lineNumber: 55,
+        lineNumber: 41,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV11("div", { className: "flex flex-col w-full items-center mt-5", children: activeAccount ? /* @__PURE__ */ jsxDEV11("div", { className: "flex flex-col items-center gap-3", children: [
         /* @__PURE__ */ jsxDEV11("div", { className: "flex border rounded-lg p-1 items-center gap-4", children: [
-          connectedProvider && /* @__PURE__ */ jsxDEV11(
-            "img",
-            {
-              className: "w-7 h-7 rounded-md",
-              src: connectedProvider.metadata.icon,
-              alt: connectedProvider.metadata.name
-            },
-            void 0,
-            !1,
-            {
-              fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-              lineNumber: 81,
-              columnNumber: 19
-            },
-            this
-          ),
-          /* @__PURE__ */ jsxDEV11(
-            a_wallet_address_default,
-            {
-              truncate: !0,
-              copyable: !0,
-              address: activeAccount.address
-            },
-            void 0,
-            !1,
-            {
-              fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-              lineNumber: 87,
-              columnNumber: 17
-            },
-            this
-          )
+          connectedProvider && /* @__PURE__ */ jsxDEV11("img", { className: "w-7 h-7 rounded-md", src: connectedProvider.metadata.icon, alt: connectedProvider.metadata.name }, void 0, !1, {
+            fileName: "app/components/molecules/m-connect-wallet/index.tsx",
+            lineNumber: 62,
+            columnNumber: 19
+          }, this),
+          /* @__PURE__ */ jsxDEV11(a_wallet_address_default, { truncate: !0, copyable: !0, address: activeAccount.address }, void 0, !1, {
+            fileName: "app/components/molecules/m-connect-wallet/index.tsx",
+            lineNumber: 64,
+            columnNumber: 17
+          }, this)
         ] }, void 0, !0, {
           fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-          lineNumber: 79,
+          lineNumber: 60,
           columnNumber: 15
         }, this),
         /* @__PURE__ */ jsxDEV11(
@@ -1066,41 +990,31 @@ var ConnectWallet = () => {
           !1,
           {
             fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-            lineNumber: 93,
+            lineNumber: 66,
             columnNumber: 15
           },
           this
         )
       ] }, void 0, !0, {
         fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-        lineNumber: 78,
+        lineNumber: 59,
         columnNumber: 13
-      }, this) : /* @__PURE__ */ jsxDEV11("ul", { className: "grid grid-cols-1 w-full  gap-14 gap-y-4 xmd:grid-cols-2x xmd:gap-y-7x", children: providers?.map((provider) => /* @__PURE__ */ jsxDEV11(
-        a_wallet_provider_default,
-        {
-          onClick: () => setOpen(!1),
-          provider
-        },
-        provider.metadata.id,
-        !1,
-        {
-          fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-          lineNumber: 70,
-          columnNumber: 17
-        },
-        this
-      )) }, void 0, !1, {
+      }, this) : /* @__PURE__ */ jsxDEV11("ul", { className: "grid grid-cols-1 w-full  gap-14 gap-y-4 xmd:grid-cols-2x xmd:gap-y-7x", children: providers?.map((provider) => /* @__PURE__ */ jsxDEV11(a_wallet_provider_default, { onClick: () => setOpen(!1), provider }, provider.metadata.id, !1, {
         fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-        lineNumber: 68,
+        lineNumber: 55,
+        columnNumber: 17
+      }, this)) }, void 0, !1, {
+        fileName: "app/components/molecules/m-connect-wallet/index.tsx",
+        lineNumber: 53,
         columnNumber: 13
       }, this) }, void 0, !1, {
         fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-        lineNumber: 66,
+        lineNumber: 51,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/components/molecules/m-connect-wallet/index.tsx",
-      lineNumber: 54,
+      lineNumber: 40,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
@@ -1114,52 +1028,28 @@ var ConnectWallet = () => {
 import { jsxDEV as jsxDEV12 } from "react/jsx-dev-runtime";
 var AppShellWithNavigation = ({ children }) => {
   let isMobile = mediaQuery_default(`(max-width: ${breakpoints_default.md})`);
-  return /* @__PURE__ */ jsxDEV12("div", { className: "flex  bg-secondaryPool h-screen w-screen overflow-hidden", children: [
+  return /* @__PURE__ */ jsxDEV12("div", { className: "flex  bg-secondaryPool h-screen w-screen overflow-hidden text-white", children: [
     /* @__PURE__ */ jsxDEV12(m_sidebar_navigation_default, {}, void 0, !1, {
       fileName: "app/components/organisms/o-app-shell-with-navigation/index.tsx",
       lineNumber: 14,
       columnNumber: 7
     }, this),
-    /* @__PURE__ */ jsxDEV12(
-      "div",
-      {
-        style: { width: "calc(100vw - 262px)" },
-        className: "flex flex-col w-full p-2 md:p-0 flex-1",
-        children: [
-          /* @__PURE__ */ jsxDEV12(m_top_bar_default, {}, void 0, !1, {
-            fileName: "app/components/organisms/o-app-shell-with-navigation/index.tsx",
-            lineNumber: 19,
-            columnNumber: 9
-          }, this),
-          /* @__PURE__ */ jsxDEV12(
-            "main",
-            {
-              style: {
-                height: isMobile ? "calc(100vh - 60px)" : "calc(100vh - 82px)"
-              },
-              className: " p-2  h-screen w-full overflow-y-auto",
-              children
-            },
-            void 0,
-            !1,
-            {
-              fileName: "app/components/organisms/o-app-shell-with-navigation/index.tsx",
-              lineNumber: 20,
-              columnNumber: 9
-            },
-            this
-          )
-        ]
-      },
-      void 0,
-      !0,
-      {
+    /* @__PURE__ */ jsxDEV12("div", { style: { width: "calc(100vw - 262px)" }, className: "flex flex-col w-full p-2 md:p-0 flex-1", children: [
+      /* @__PURE__ */ jsxDEV12(m_top_bar_default, {}, void 0, !1, {
         fileName: "app/components/organisms/o-app-shell-with-navigation/index.tsx",
-        lineNumber: 15,
-        columnNumber: 7
-      },
-      this
-    )
+        lineNumber: 16,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV12("main", { className: " p-2  h-screen w-full overflow-y-auto", children }, void 0, !1, {
+        fileName: "app/components/organisms/o-app-shell-with-navigation/index.tsx",
+        lineNumber: 17,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/components/organisms/o-app-shell-with-navigation/index.tsx",
+      lineNumber: 15,
+      columnNumber: 7
+    }, this)
   ] }, void 0, !0, {
     fileName: "app/components/organisms/o-app-shell-with-navigation/index.tsx",
     lineNumber: 13,
@@ -1728,7 +1618,7 @@ var ZaibatsuServiceCallFactory = class {
 // app/services/contract/utils.ts
 var getAlgodClient = () => {
   let env = getEnv();
-  return env?.ALGORAND_ALGOD_PORT, console.log({ env }), new algosdk2.Algodv2(env?.ALGORAND_ALGOD_TOKEN ?? "", env?.ALGORAND_ALGOD_SERVER ?? "", env?.ALGORAND_ALGOD_PORT ?? "");
+  return env?.ALGORAND_ALGOD_PORT, new algosdk2.Algodv2(env?.ALGORAND_ALGOD_TOKEN ?? "", env?.ALGORAND_ALGOD_SERVER ?? "", env?.ALGORAND_ALGOD_PORT ?? "");
 }, createZaibatsuServiceClient = (sender) => {
   let env = getEnv(), client = getAlgodClient(), appDetails = {
     resolveBy: "id",
@@ -1747,17 +1637,17 @@ var ContractContext = createContext(null), useContract = () => {
     throw new Error("useContract must be used within a ContractProvider");
   return context;
 }, ContractProvider = ({ children }) => {
-  let { activeAddress, signer } = useWallet2(), [serviceClient, setServiceClient] = useState(), [algodClient, setAlgodClient] = useState();
+  let { activeAddress, signer } = useWallet2(), [serviceClient, setServiceClient] = useState(), [algodClient, setAlgodClient] = useState(null);
   return useEffect(() => {
     if (activeAddress && signer) {
       let client = createZaibatsuServiceClient({ addr: activeAddress, signer });
       setServiceClient(client);
     }
-  }, [activeAddress, signer]), useEffect(() => {
-    setAlgodClient(getAlgodClient());
+  }, [activeAddress]), useEffect(() => {
+    algodClient || setAlgodClient(getAlgodClient());
   }, []), /* @__PURE__ */ jsxDEV13(ContractContext.Provider, { value: { serviceClient, algodClient }, children }, void 0, !1, {
     fileName: "app/providers/contract/index.tsx",
-    lineNumber: 36,
+    lineNumber: 39,
     columnNumber: 10
   }, this);
 }, contract_default = ContractProvider;
@@ -1927,6 +1817,131 @@ var ProfilePage = () => /* @__PURE__ */ jsxDEV17("div", { children: "Profile" },
   columnNumber: 10
 }, this), profile_default = ProfilePage;
 
+// app/routes/borrow.tsx
+var borrow_exports = {};
+__export(borrow_exports, {
+  default: () => borrow_default
+});
+
+// app/components/molecules/m-lend/m-lend-header/index.tsx
+import { jsxDEV as jsxDEV18 } from "react/jsx-dev-runtime";
+var Lendheader = () => /* @__PURE__ */ jsxDEV18("div", { className: "flex flex-row  justify-between  mb-[16px] ", children: /* @__PURE__ */ jsxDEV18("div", { className: "text-2xl text-white p-6 py-[10px] ", children: "Lend" }, void 0, !1, {
+  fileName: "app/components/molecules/m-lend/m-lend-header/index.tsx",
+  lineNumber: 7,
+  columnNumber: 7
+}, this) }, void 0, !1, {
+  fileName: "app/components/molecules/m-lend/m-lend-header/index.tsx",
+  lineNumber: 6,
+  columnNumber: 5
+}, this), m_lend_header_default = Lendheader;
+
+// app/routes/borrow.tsx
+import { jsxDEV as jsxDEV19 } from "react/jsx-dev-runtime";
+var BorrowPage = () => /* @__PURE__ */ jsxDEV19("div", { id: "lend page", className: "flex flex-col w-full  ml-[30px]  pr-[47px]", children: [
+  /* @__PURE__ */ jsxDEV19(m_lend_header_default, {}, void 0, !1, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 5,
+    columnNumber: 7
+  }, this),
+  /* @__PURE__ */ jsxDEV19("div", { className: "mt-[62px]", children: /* @__PURE__ */ jsxDEV19(LoanForm, {}, void 0, !1, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 9,
+    columnNumber: 9
+  }, this) }, void 0, !1, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 6,
+    columnNumber: 7
+  }, this)
+] }, void 0, !0, {
+  fileName: "app/routes/borrow.tsx",
+  lineNumber: 4,
+  columnNumber: 5
+}, this), borrow_default = BorrowPage, LoanForm = () => /* @__PURE__ */ jsxDEV19("div", { className: "flex h-screen", children: [
+  /* @__PURE__ */ jsxDEV19("div", { className: "flex flex-col  items-start flex-grow p-6", children: [
+    /* @__PURE__ */ jsxDEV19("div", { className: "mb-6 w-full", children: [
+      /* @__PURE__ */ jsxDEV19("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%]  text-white", children: "Asset to lend" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 23,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV19("select", { className: "w-full h-12 rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 24,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 22,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV19("div", { className: "mb-6 w-full", children: [
+      /* @__PURE__ */ jsxDEV19("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%] mt-6 text-white", children: "Lend capacity" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 27,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV19("input", { type: "text", className: "w-full h-12 border border-white rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 28,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 26,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV19("div", { className: "mb-6 w-full", children: [
+      /* @__PURE__ */ jsxDEV19("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Select Pool" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 31,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV19("select", { className: "w-full h-12 rounded-lg bg-secondaryPool-foreground mt-4 mb-[86px]" }, void 0, !1, {
+        fileName: "app/routes/borrow.tsx",
+        lineNumber: 32,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 30,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV19("button", { className: "w-full h-12 bg-primary text-white rounded-lg ", children: "Lend Loan" }, void 0, !1, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 34,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 21,
+    columnNumber: 7
+  }, this),
+  /* @__PURE__ */ jsxDEV19("div", { className: "flex flex-col w-[38.94%] h-full ", children: [
+    /* @__PURE__ */ jsxDEV19("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Pending Loan" }, void 0, !1, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 38,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV19("div", { className: "flex flex-col justify-center items-center w-full  bg-[#0b300c] rounded-lg h-full mb-[39px] mt-2", children: /* @__PURE__ */ jsxDEV19("div", { className: "font-Aeonik font-regular text-16 leading-[160%] text-grey-5  ", children: "You are yet to lend." }, void 0, !1, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 40,
+      columnNumber: 11
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/borrow.tsx",
+      lineNumber: 39,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/routes/borrow.tsx",
+    lineNumber: 37,
+    columnNumber: 7
+  }, this)
+] }, void 0, !0, {
+  fileName: "app/routes/borrow.tsx",
+  lineNumber: 19,
+  columnNumber: 5
+}, this);
+
 // app/routes/_index.tsx
 var index_exports = {};
 __export(index_exports, {
@@ -1941,25 +1956,25 @@ __export(pool_exports, {
 
 // app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-infoitem/index.tsx
 import { MdOutlineTrendingDown, MdOutlineTrendingUp } from "react-icons/md";
-import { jsxDEV as jsxDEV18 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV20 } from "react/jsx-dev-runtime";
 var Infoitem = ({
   label,
   value,
   icon,
   percentage,
   time
-}) => /* @__PURE__ */ jsxDEV18(
+}) => /* @__PURE__ */ jsxDEV20(
   "div",
   {
     className: "flex flex-col w-[262px] h-[161px] p-4  bg-secondaryPool-foreground rounded-[14px]",
     children: [
-      /* @__PURE__ */ jsxDEV18(
+      /* @__PURE__ */ jsxDEV20(
         "div",
         {
           className: "flex relative flex-row h-full justify-between",
           children: [
-            /* @__PURE__ */ jsxDEV18("div", { className: "text-white font-bold space-y-4 ", children: [
-              /* @__PURE__ */ jsxDEV18("div", { className: "text-base leading-[22px] text-[#B1BFB1]", children: [
+            /* @__PURE__ */ jsxDEV20("div", { className: "text-white font-bold space-y-4 ", children: [
+              /* @__PURE__ */ jsxDEV20("div", { className: "text-base leading-[22px] text-[#B1BFB1]", children: [
                 " ",
                 label
               ] }, void 0, !0, {
@@ -1967,7 +1982,7 @@ var Infoitem = ({
                 lineNumber: 29,
                 columnNumber: 11
               }, this),
-              /* @__PURE__ */ jsxDEV18("div", { className: "text-[28px] leading-[38px]", children: value }, void 0, !1, {
+              /* @__PURE__ */ jsxDEV20("div", { className: "text-[28px] leading-[38px]", children: value }, void 0, !1, {
                 fileName: "app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-infoitem/index.tsx",
                 lineNumber: 34,
                 columnNumber: 11
@@ -1977,7 +1992,7 @@ var Infoitem = ({
               lineNumber: 28,
               columnNumber: 9
             }, this),
-            icon && /* @__PURE__ */ jsxDEV18("div", { children: /* @__PURE__ */ jsxDEV18("button", { className: "flex p-4 mb--3 rounded-3xl bg-[#456346]  text-primary text-base leading-[26px] h-[fit-content] transition-transform transform-gpu hover:scale-105 active:scale-95 ", children: /* @__PURE__ */ jsxDEV18(
+            icon && /* @__PURE__ */ jsxDEV20("div", { children: /* @__PURE__ */ jsxDEV20("button", { className: "flex p-4 mb--3 rounded-3xl bg-[#456346]  text-primary text-base leading-[26px] h-[fit-content] transition-transform transform-gpu hover:scale-105 active:scale-95 ", children: /* @__PURE__ */ jsxDEV20(
               "img",
               {
                 className: " w-7 h-7 ",
@@ -2012,16 +2027,16 @@ var Infoitem = ({
         },
         this
       ),
-      /* @__PURE__ */ jsxDEV18("div", { className: "flex flex-row text-white items-center", children: [
-        /* @__PURE__ */ jsxDEV18(
+      /* @__PURE__ */ jsxDEV20("div", { className: "flex flex-row text-white items-center", children: [
+        /* @__PURE__ */ jsxDEV20(
           "div",
           {
             className: `w-6 h-6 text-green-600 text-2xl mr-2  ${!value && "text-[#F93C65]"}`,
-            children: value ? /* @__PURE__ */ jsxDEV18(MdOutlineTrendingUp, {}, void 0, !1, {
+            children: value ? /* @__PURE__ */ jsxDEV20(MdOutlineTrendingUp, {}, void 0, !1, {
               fileName: "app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-infoitem/index.tsx",
               lineNumber: 55,
               columnNumber: 20
-            }, this) : /* @__PURE__ */ jsxDEV18(MdOutlineTrendingDown, {}, void 0, !1, {
+            }, this) : /* @__PURE__ */ jsxDEV20(MdOutlineTrendingDown, {}, void 0, !1, {
               fileName: "app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-infoitem/index.tsx",
               lineNumber: 55,
               columnNumber: 46
@@ -2036,7 +2051,7 @@ var Infoitem = ({
           },
           this
         ),
-        /* @__PURE__ */ jsxDEV18("span", { className: `text-green-600 ${!value && "text-[#F93C65]"}`, children: [
+        /* @__PURE__ */ jsxDEV20("span", { className: `text-green-600 ${!value && "text-[#F93C65]"}`, children: [
           " ",
           percentage,
           "%",
@@ -2066,13 +2081,13 @@ var Infoitem = ({
 ), m_pool_infobar_infoitem_default = Infoitem;
 
 // app/components/molecules/m-pool/m-pool-infobar/m-pool-infobar-view/index.tsx
-import { jsxDEV as jsxDEV19 } from "react/jsx-dev-runtime";
-var Infoview = ({ content }) => /* @__PURE__ */ jsxDEV19(
+import { jsxDEV as jsxDEV21 } from "react/jsx-dev-runtime";
+var Infoview = ({ content }) => /* @__PURE__ */ jsxDEV21(
   "div",
   {
     className: "flex w-full flex-row md:flex-wrap xl:flex-nowrap md:gap-5 gap-3 md:pb-[52px] pb-[27px] overflow-x-scroll  justify-center sm:pl-[480px] pl-[560px] md:pl-[360px] lg:pl-0",
     style: { scrollbarWidth: "none" },
-    children: content.map((item, index) => /* @__PURE__ */ jsxDEV19("div", { className: "flex-shrink-0  ", children: /* @__PURE__ */ jsxDEV19(
+    children: content.map((item, index) => /* @__PURE__ */ jsxDEV21("div", { className: "flex-shrink-0  ", children: /* @__PURE__ */ jsxDEV21(
       m_pool_infobar_infoitem_default,
       {
         label: item.label,
@@ -2106,8 +2121,8 @@ var Infoview = ({ content }) => /* @__PURE__ */ jsxDEV19(
 ), m_pool_infobar_view_default = Infoview;
 
 // app/components/molecules/m-pool/m-pool-infobar/index.tsx
-import { jsxDEV as jsxDEV20 } from "react/jsx-dev-runtime";
-var Infobar = () => /* @__PURE__ */ jsxDEV20("div", { children: /* @__PURE__ */ jsxDEV20(m_pool_infobar_view_default, { content: [
+import { jsxDEV as jsxDEV22 } from "react/jsx-dev-runtime";
+var Infobar = () => /* @__PURE__ */ jsxDEV22("div", { className: "flex overflow-scroll w-auto", children: /* @__PURE__ */ jsxDEV22(m_pool_infobar_view_default, { content: [
   {
     label: "Total User",
     value: "60,000",
@@ -2147,28 +2162,18 @@ var Infobar = () => /* @__PURE__ */ jsxDEV20("div", { children: /* @__PURE__ */ 
 }, this), m_pool_infobar_default = Infobar;
 
 // app/components/molecules/m-pool/m-pool-header-searchbar/index.tsx
-import { jsxDEV as jsxDEV21 } from "react/jsx-dev-runtime";
-var Poolheader = () => /* @__PURE__ */ jsxDEV21("div", { className: "flex flex-row  justify-between  mb-[16px] ", children: [
-  /* @__PURE__ */ jsxDEV21("div", { className: "text-2xl  py-[10px]", children: "Pool" }, void 0, !1, {
+import { jsxDEV as jsxDEV23 } from "react/jsx-dev-runtime";
+var Poolheader = () => /* @__PURE__ */ jsxDEV23("div", { className: "flex flex-row  justify-between  mb-[16px]  space-x-6", children: [
+  /* @__PURE__ */ jsxDEV23("div", { className: "text-2xl  py-[10px]", children: "Pool" }, void 0, !1, {
     fileName: "app/components/molecules/m-pool/m-pool-header-searchbar/index.tsx",
     lineNumber: 7,
     columnNumber: 7
   }, this),
-  /* @__PURE__ */ jsxDEV21(
-    "div",
-    {
-      className: "w-[427px] h-[46px] bg-secondaryPool-foreground py-[15px] pl-[15px] text-sm leading-4 text-white rounded-[10px]",
-      children: "\xA0\xA0\xA0\xA0 Search anything here"
-    },
-    void 0,
-    !1,
-    {
-      fileName: "app/components/molecules/m-pool/m-pool-header-searchbar/index.tsx",
-      lineNumber: 8,
-      columnNumber: 7
-    },
-    this
-  )
+  /* @__PURE__ */ jsxDEV23("div", { className: "w-[427px] h-[46px] bg-secondaryPool-foreground py-[15px] pl-[15px] text-sm leading-4 text-white rounded-[10px]", children: "\xA0\xA0\xA0\xA0 Search anything here" }, void 0, !1, {
+    fileName: "app/components/molecules/m-pool/m-pool-header-searchbar/index.tsx",
+    lineNumber: 8,
+    columnNumber: 7
+  }, this)
 ] }, void 0, !0, {
   fileName: "app/components/molecules/m-pool/m-pool-header-searchbar/index.tsx",
   lineNumber: 6,
@@ -2176,7 +2181,7 @@ var Poolheader = () => /* @__PURE__ */ jsxDEV21("div", { className: "flex flex-r
 }, this), m_pool_header_searchbar_default = Poolheader;
 
 // app/components/molecules/m-pool/m-pool-table/index.tsx
-import { jsxDEV as jsxDEV22 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV24 } from "react/jsx-dev-runtime";
 var data = [
   {
     poolName: "Crystal CoveCrystal Cove",
@@ -2195,39 +2200,39 @@ var data = [
     tenor: "3 months"
   }
   // Add more data as needed
-], TableView = ({ poolData }) => /* @__PURE__ */ jsxDEV22("table", { className: "w-full", children: [
-  /* @__PURE__ */ jsxDEV22("thead", { className: "", children: /* @__PURE__ */ jsxDEV22("tr", { children: [
-    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Pool name" }, void 0, !1, {
+], TableView = ({ poolData }) => /* @__PURE__ */ jsxDEV24("table", { className: "w-full overflow-scroll", children: [
+  /* @__PURE__ */ jsxDEV24("thead", { className: "", children: /* @__PURE__ */ jsxDEV24("tr", { children: [
+    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Pool name" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 29,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Assets" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Assets" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 30,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Total supplied" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Total supplied" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 31,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Total borrowed" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Total borrowed" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 32,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Pool APR" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Pool APR" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 33,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Tenor" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] max-w-[158.43px] text-left", children: "Tenor" }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 34,
       columnNumber: 11
     }, this),
-    /* @__PURE__ */ jsxDEV22("th", { className: "pr-4 py-[10px] min-w-[158.44px] " }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("th", { className: "pr-4 py-[10px] min-w-[138.44px] max-w-[168.44px] " }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 35,
       columnNumber: 11
@@ -2241,44 +2246,44 @@ var data = [
     lineNumber: 27,
     columnNumber: 7
   }, this),
-  /* @__PURE__ */ jsxDEV22("tbody", { children: poolData.map((item, index) => /* @__PURE__ */ jsxDEV22("tr", { children: [
-    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.poolName }, void 0, !1, {
+  /* @__PURE__ */ jsxDEV24("tbody", { children: poolData.map((item, index) => /* @__PURE__ */ jsxDEV24("tr", { children: [
+    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.poolName }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 41,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.assets }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.assets }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 42,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.totalSupplied }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.totalSupplied }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 43,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.totalBorrowed }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.totalBorrowed }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 44,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.poolAPR }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.poolAPR }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 45,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV22("td", { className: "pr-4 py-[11.15px] ", children: item.tenor }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("td", { className: "pr-4 py-[11.15px] ", children: item.tenor }, void 0, !1, {
       fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
       lineNumber: 46,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV22("td", { className: " py-[11.15px] flex items-center", children: [
-      /* @__PURE__ */ jsxDEV22("button", { className: " mr-5 py-[11px] px-[6.61px]  bg-secondaryPool-foreground rounded-sm text-white", children: "Supply" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV24("td", { className: " py-[11.15px] flex justify-end maax-w-[168.44px]", children: [
+      /* @__PURE__ */ jsxDEV24("button", { className: " mr-5 py-[11px] px-[6.61px]  bg-secondaryPool-foreground rounded-sm text-white", children: "Supply" }, void 0, !1, {
         fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
         lineNumber: 48,
         columnNumber: 15
       }, this),
-      /* @__PURE__ */ jsxDEV22("button", { className: "py-[11px] px-[6.61px]  border-2 border-secondaryPool-foreground rounded-sm text-white ", children: "Borrow" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV24("button", { className: "py-[11px] px-[6.61px]  border-2 border-secondaryPool-foreground rounded-sm text-white ", children: "Borrow" }, void 0, !1, {
         fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
         lineNumber: 49,
         columnNumber: 15
@@ -2301,7 +2306,7 @@ var data = [
   fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
   lineNumber: 26,
   columnNumber: 5
-}, this), Pooltable = () => /* @__PURE__ */ jsxDEV22("div", { className: "bg-transparent flex ", children: /* @__PURE__ */ jsxDEV22(TableView, { poolData: data }, void 0, !1, {
+}, this), Pooltable = () => /* @__PURE__ */ jsxDEV24("div", { className: "bg-transparent flex overflow-scroll ", children: /* @__PURE__ */ jsxDEV24(TableView, { poolData: data }, void 0, !1, {
   fileName: "app/components/molecules/m-pool/m-pool-table/index.tsx",
   lineNumber: 61,
   columnNumber: 7
@@ -2312,194 +2317,1151 @@ var data = [
 }, this), m_pool_table_default = Pooltable;
 
 // app/routes/pool.tsx
-import { jsxDEV as jsxDEV23 } from "react/jsx-dev-runtime";
-var PoolPage = () => {
-  let { serviceClient } = useContract();
-  function createPool() {
-    console.log(serviceClient.savePool({ appAddress: "test", asset: "eth" })), serviceClient.lendToPool, alert(serviceClient.create);
+import { useWallet as useWallet4 } from "@txnlab/use-wallet";
+import algosdk3 from "algosdk";
+import React12 from "react";
+
+// app/components/molecules/m-pool/m-pool-create-pool/index.tsx
+import { useWallet as useWallet3 } from "@txnlab/use-wallet";
+import React11 from "react";
+
+// app/components/ui/select.tsx
+import * as React8 from "react";
+import {
+  CaretSortIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
+} from "@radix-ui/react-icons";
+import * as SelectPrimitive from "@radix-ui/react-select";
+import { jsxDEV as jsxDEV25 } from "react/jsx-dev-runtime";
+var Select = SelectPrimitive.Root, SelectGroup = SelectPrimitive.Group, SelectValue = SelectPrimitive.Value, SelectTrigger = React8.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxDEV25(
+  SelectPrimitive.Trigger,
+  {
+    ref,
+    className: cn(
+      "flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      className
+    ),
+    ...props,
+    children: [
+      children,
+      /* @__PURE__ */ jsxDEV25(SelectPrimitive.Icon, { asChild: !0, children: /* @__PURE__ */ jsxDEV25(CaretSortIcon, { className: "h-4 w-4 opacity-50" }, void 0, !1, {
+        fileName: "app/components/ui/select.tsx",
+        lineNumber: 32,
+        columnNumber: 7
+      }, this) }, void 0, !1, {
+        fileName: "app/components/ui/select.tsx",
+        lineNumber: 31,
+        columnNumber: 5
+      }, this)
+    ]
+  },
+  void 0,
+  !0,
+  {
+    fileName: "app/components/ui/select.tsx",
+    lineNumber: 22,
+    columnNumber: 3
+  },
+  this
+));
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
+var SelectScrollUpButton = React8.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV25(
+  SelectPrimitive.ScrollUpButton,
+  {
+    ref,
+    className: cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    ),
+    ...props,
+    children: /* @__PURE__ */ jsxDEV25(ChevronUpIcon, {}, void 0, !1, {
+      fileName: "app/components/ui/select.tsx",
+      lineNumber: 50,
+      columnNumber: 5
+    }, this)
+  },
+  void 0,
+  !1,
+  {
+    fileName: "app/components/ui/select.tsx",
+    lineNumber: 42,
+    columnNumber: 3
+  },
+  this
+));
+SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
+var SelectScrollDownButton = React8.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV25(
+  SelectPrimitive.ScrollDownButton,
+  {
+    ref,
+    className: cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    ),
+    ...props,
+    children: /* @__PURE__ */ jsxDEV25(ChevronDownIcon, {}, void 0, !1, {
+      fileName: "app/components/ui/select.tsx",
+      lineNumber: 67,
+      columnNumber: 5
+    }, this)
+  },
+  void 0,
+  !1,
+  {
+    fileName: "app/components/ui/select.tsx",
+    lineNumber: 59,
+    columnNumber: 3
+  },
+  this
+));
+SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
+var SelectContent = React8.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsxDEV25(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxDEV25(
+  SelectPrimitive.Content,
+  {
+    ref,
+    className: cn(
+      "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+      className
+    ),
+    position,
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxDEV25(SelectScrollUpButton, {}, void 0, !1, {
+        fileName: "app/components/ui/select.tsx",
+        lineNumber: 89,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ jsxDEV25(
+        SelectPrimitive.Viewport,
+        {
+          className: cn(
+            "p-1",
+            position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+          ),
+          children
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/components/ui/select.tsx",
+          lineNumber: 90,
+          columnNumber: 7
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV25(SelectScrollDownButton, {}, void 0, !1, {
+        fileName: "app/components/ui/select.tsx",
+        lineNumber: 99,
+        columnNumber: 7
+      }, this)
+    ]
+  },
+  void 0,
+  !0,
+  {
+    fileName: "app/components/ui/select.tsx",
+    lineNumber: 78,
+    columnNumber: 5
+  },
+  this
+) }, void 0, !1, {
+  fileName: "app/components/ui/select.tsx",
+  lineNumber: 77,
+  columnNumber: 3
+}, this));
+SelectContent.displayName = SelectPrimitive.Content.displayName;
+var SelectLabel = React8.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV25(
+  SelectPrimitive.Label,
+  {
+    ref,
+    className: cn("px-2 py-1.5 text-sm font-semibold", className),
+    ...props
+  },
+  void 0,
+  !1,
+  {
+    fileName: "app/components/ui/select.tsx",
+    lineNumber: 109,
+    columnNumber: 3
+  },
+  this
+));
+SelectLabel.displayName = SelectPrimitive.Label.displayName;
+var SelectItem = React8.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxDEV25(
+  SelectPrimitive.Item,
+  {
+    ref,
+    className: cn(
+      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className
+    ),
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxDEV25("span", { className: "absolute right-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsxDEV25(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsxDEV25(CheckIcon, { className: "h-4 w-4" }, void 0, !1, {
+        fileName: "app/components/ui/select.tsx",
+        lineNumber: 131,
+        columnNumber: 9
+      }, this) }, void 0, !1, {
+        fileName: "app/components/ui/select.tsx",
+        lineNumber: 130,
+        columnNumber: 7
+      }, this) }, void 0, !1, {
+        fileName: "app/components/ui/select.tsx",
+        lineNumber: 129,
+        columnNumber: 5
+      }, this),
+      /* @__PURE__ */ jsxDEV25(SelectPrimitive.ItemText, { children }, void 0, !1, {
+        fileName: "app/components/ui/select.tsx",
+        lineNumber: 134,
+        columnNumber: 5
+      }, this)
+    ]
+  },
+  void 0,
+  !0,
+  {
+    fileName: "app/components/ui/select.tsx",
+    lineNumber: 121,
+    columnNumber: 3
+  },
+  this
+));
+SelectItem.displayName = SelectPrimitive.Item.displayName;
+var SelectSeparator = React8.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV25(
+  SelectPrimitive.Separator,
+  {
+    ref,
+    className: cn("-mx-1 my-1 h-px bg-muted", className),
+    ...props
+  },
+  void 0,
+  !1,
+  {
+    fileName: "app/components/ui/select.tsx",
+    lineNumber: 143,
+    columnNumber: 3
+  },
+  this
+));
+SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
+
+// app/components/ui/multiple-selector.tsx
+import * as React10 from "react";
+import { X } from "lucide-react";
+
+// app/components/ui/command.tsx
+import * as React9 from "react";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { Command as CommandPrimitive } from "cmdk";
+import { jsxDEV as jsxDEV26 } from "react/jsx-dev-runtime";
+var Command = React9.forwardRef(
+  ({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV26(
+    CommandPrimitive,
+    {
+      ref,
+      className: cn("flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground", className),
+      ...props
+    },
+    void 0,
+    !1,
+    {
+      fileName: "app/components/ui/command.tsx",
+      lineNumber: 11,
+      columnNumber: 5
+    },
+    this
+  )
+);
+Command.displayName = CommandPrimitive.displayName;
+var CommandInput = React9.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV26("div", { className: "flex items-center border-b px-3", "cmdk-input-wrapper": "", children: [
+  /* @__PURE__ */ jsxDEV26(MagnifyingGlassIcon, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }, void 0, !1, {
+    fileName: "app/components/ui/command.tsx",
+    lineNumber: 39,
+    columnNumber: 5
+  }, this),
+  /* @__PURE__ */ jsxDEV26(
+    CommandPrimitive.Input,
+    {
+      ref,
+      className: cn(
+        "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+        className
+      ),
+      ...props
+    },
+    void 0,
+    !1,
+    {
+      fileName: "app/components/ui/command.tsx",
+      lineNumber: 40,
+      columnNumber: 5
+    },
+    this
+  )
+] }, void 0, !0, {
+  fileName: "app/components/ui/command.tsx",
+  lineNumber: 38,
+  columnNumber: 3
+}, this));
+CommandInput.displayName = CommandPrimitive.Input.displayName;
+var CommandList = React9.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV26(CommandPrimitive.List, { ref, className: cn("max-h-[300px] overflow-y-auto overflow-x-hidden", className), ...props }, void 0, !1, {
+  fileName: "app/components/ui/command.tsx",
+  lineNumber: 57,
+  columnNumber: 3
+}, this));
+CommandList.displayName = CommandPrimitive.List.displayName;
+var CommandEmpty = React9.forwardRef((props, ref) => /* @__PURE__ */ jsxDEV26(CommandPrimitive.Empty, { ref, className: "py-6 text-center text-sm", ...props }, void 0, !1, {
+  fileName: "app/components/ui/command.tsx",
+  lineNumber: 65,
+  columnNumber: 19
+}, this));
+CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
+var CommandGroup = React9.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV26(
+  CommandPrimitive.Group,
+  {
+    ref,
+    className: cn(
+      "overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground",
+      className
+    ),
+    ...props
+  },
+  void 0,
+  !1,
+  {
+    fileName: "app/components/ui/command.tsx",
+    lineNumber: 73,
+    columnNumber: 3
+  },
+  this
+));
+CommandGroup.displayName = CommandPrimitive.Group.displayName;
+var CommandSeparator = React9.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV26(CommandPrimitive.Separator, { ref, className: cn("-mx-1 h-px bg-border", className), ...props }, void 0, !1, {
+  fileName: "app/components/ui/command.tsx",
+  lineNumber: 88,
+  columnNumber: 37
+}, this));
+CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
+var CommandItem = React9.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxDEV26(
+  CommandPrimitive.Item,
+  {
+    ref,
+    className: cn(
+      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className
+    ),
+    ...props
+  },
+  void 0,
+  !1,
+  {
+    fileName: "app/components/ui/command.tsx",
+    lineNumber: 95,
+    columnNumber: 3
+  },
+  this
+));
+CommandItem.displayName = CommandPrimitive.Item.displayName;
+var CommandShortcut = ({ className, ...props }) => /* @__PURE__ */ jsxDEV26("span", { className: cn("ml-auto text-xs tracking-widest text-muted-foreground", className), ...props }, void 0, !1, {
+  fileName: "app/components/ui/command.tsx",
+  lineNumber: 108,
+  columnNumber: 10
+}, this);
+CommandShortcut.displayName = "CommandShortcut";
+
+// app/components/ui/multiple-selector.tsx
+import { Command as CommandPrimitive2, useCommandState } from "cmdk";
+import { useEffect as useEffect2, forwardRef as forwardRef6 } from "react";
+
+// app/components/ui/badge.tsx
+import { cva as cva2 } from "class-variance-authority";
+import { jsxDEV as jsxDEV27 } from "react/jsx-dev-runtime";
+var badgeVariants = cva2(
+  "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default: "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+        secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive: "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+        outline: "text-foreground"
+      }
+    },
+    defaultVariants: {
+      variant: "default"
+    }
   }
-  return /* @__PURE__ */ jsxDEV23("div", { id: "pool page", className: "flex flex-col w-full  md:ml-[30px] md:pt-7 md:pr-[47px]  ml-[10px] pt-2 pr-[10px]", children: [
-    /* @__PURE__ */ jsxDEV23(m_pool_infobar_default, {}, void 0, !1, {
-      fileName: "app/routes/pool.tsx",
-      lineNumber: 23,
+);
+function Badge({ className, variant, ...props }) {
+  return /* @__PURE__ */ jsxDEV27("div", { className: cn(badgeVariants({ variant }), className), ...props }, void 0, !1, {
+    fileName: "app/components/ui/badge.tsx",
+    lineNumber: 32,
+    columnNumber: 5
+  }, this);
+}
+
+// app/components/ui/multiple-selector.tsx
+import { Fragment as Fragment3, jsxDEV as jsxDEV28 } from "react/jsx-dev-runtime";
+function useDebounce(value, delay) {
+  let [debouncedValue, setDebouncedValue] = React10.useState(value);
+  return useEffect2(() => {
+    let timer = setTimeout(() => setDebouncedValue(value), delay || 500);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]), debouncedValue;
+}
+function transToGroupOption(options, groupBy) {
+  if (options.length === 0)
+    return {};
+  if (!groupBy)
+    return {
+      "": options
+    };
+  let groupOption = {};
+  return options.forEach((option) => {
+    let key = option[groupBy] || "";
+    groupOption[key] || (groupOption[key] = []), groupOption[key].push(option);
+  }), groupOption;
+}
+function removePickedOption(groupOption, picked) {
+  let cloneOption = JSON.parse(JSON.stringify(groupOption));
+  for (let [key, value] of Object.entries(cloneOption))
+    cloneOption[key] = value.filter((val) => !picked.find((p) => p.value === val.value));
+  return cloneOption;
+}
+var CommandEmpty2 = forwardRef6(
+  ({ className, ...props }, forwardedRef) => useCommandState((state) => state.filtered.count === 0) ? /* @__PURE__ */ jsxDEV28("div", { ref: forwardedRef, className: cn("py-6 text-center text-sm", className), "cmdk-empty": "", role: "presentation", ...props }, void 0, !1, {
+    fileName: "app/components/ui/multiple-selector.tsx",
+    lineNumber: 130,
+    columnNumber: 12
+  }, this) : null
+);
+CommandEmpty2.displayName = "CommandEmpty";
+var MultipleSelector = React10.forwardRef(
+  ({
+    value,
+    onChange,
+    placeholder,
+    defaultOptions: arrayDefaultOptions = [],
+    options: arrayOptions,
+    delay,
+    onSearch,
+    loadingIndicator,
+    emptyIndicator,
+    maxSelected = Number.MAX_SAFE_INTEGER,
+    onMaxSelected,
+    hidePlaceholderWhenSelected,
+    disabled,
+    groupBy,
+    className,
+    badgeClassName,
+    selectFirstItem = !0,
+    creatable = !1,
+    triggerSearchOnFocus = !1,
+    commandProps,
+    inputProps
+  }, ref) => {
+    let inputRef = React10.useRef(null), [open, setOpen] = React10.useState(!1), [isLoading, setIsLoading] = React10.useState(!1), [selected, setSelected] = React10.useState(value || []), [options, setOptions] = React10.useState(transToGroupOption(arrayDefaultOptions, groupBy)), [inputValue, setInputValue] = React10.useState(""), debouncedSearchTerm = useDebounce(inputValue, delay || 500);
+    React10.useImperativeHandle(
+      ref,
+      () => ({
+        selectedValue: [...selected],
+        input: inputRef.current
+      }),
+      [selected]
+    );
+    let handleUnselect = React10.useCallback(
+      (option) => {
+        let newOptions = selected.filter((s) => s.value !== option.value);
+        setSelected(newOptions), onChange?.(newOptions);
+      },
+      [selected]
+    ), handleKeyDown = React10.useCallback(
+      (e) => {
+        let input = inputRef.current;
+        input && ((e.key === "Delete" || e.key === "Backspace") && input.value === "" && selected.length > 0 && handleUnselect(selected[selected.length - 1]), e.key === "Escape" && input.blur());
+      },
+      [selected]
+    );
+    useEffect2(() => {
+      value && setSelected(value);
+    }, [value]), useEffect2(() => {
+      if (!arrayOptions || onSearch)
+        return;
+      let newOption = transToGroupOption(arrayOptions || [], groupBy);
+      JSON.stringify(newOption) !== JSON.stringify(options) && setOptions(newOption);
+    }, [arrayDefaultOptions, arrayOptions, groupBy, onSearch, options]), useEffect2(() => {
+      let doSearch = async () => {
+        setIsLoading(!0);
+        let res = await onSearch?.(debouncedSearchTerm);
+        setOptions(transToGroupOption(res || [], groupBy)), setIsLoading(!1);
+      };
+      (async () => {
+        !onSearch || !open || (triggerSearchOnFocus && await doSearch(), debouncedSearchTerm && await doSearch());
+      })();
+    }, [debouncedSearchTerm, open]);
+    let CreatableItem = () => {
+      if (!creatable)
+        return;
+      let Item2 = /* @__PURE__ */ jsxDEV28(
+        CommandItem,
+        {
+          value: inputValue,
+          className: "cursor-pointer",
+          onMouseDown: (e) => {
+            e.preventDefault(), e.stopPropagation();
+          },
+          onSelect: (value2) => {
+            if (selected.length >= maxSelected) {
+              onMaxSelected?.(selected.length);
+              return;
+            }
+            setInputValue("");
+            let newOptions = [...selected, { value: value2, label: value2 }];
+            setSelected(newOptions), onChange?.(newOptions);
+          },
+          children: `Create "${inputValue}"`
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/components/ui/multiple-selector.tsx",
+          lineNumber: 252,
+          columnNumber: 9
+        },
+        this
+      );
+      if (!onSearch && inputValue.length > 0 || onSearch && debouncedSearchTerm.length > 0 && !isLoading)
+        return Item2;
+    }, EmptyItem = React10.useCallback(() => {
+      if (emptyIndicator)
+        return onSearch && !creatable && Object.keys(options).length === 0 ? /* @__PURE__ */ jsxDEV28(CommandItem, { value: "-", disabled: !0, children: emptyIndicator }, void 0, !1, {
+          fileName: "app/components/ui/multiple-selector.tsx",
+          lineNumber: 291,
+          columnNumber: 11
+        }, this) : /* @__PURE__ */ jsxDEV28(CommandEmpty2, { children: emptyIndicator }, void 0, !1, {
+          fileName: "app/components/ui/multiple-selector.tsx",
+          lineNumber: 297,
+          columnNumber: 14
+        }, this);
+    }, [creatable, emptyIndicator, onSearch, options]), selectables = React10.useMemo(() => removePickedOption(options, selected), [options, selected]), commandFilter = React10.useCallback(() => {
+      if (commandProps?.filter)
+        return commandProps.filter;
+      if (creatable)
+        return (value2, search) => value2.toLowerCase().includes(search.toLowerCase()) ? 1 : -1;
+    }, [creatable, commandProps?.filter]);
+    return /* @__PURE__ */ jsxDEV28(
+      Command,
+      {
+        ...commandProps,
+        onKeyDown: (e) => {
+          handleKeyDown(e), commandProps?.onKeyDown?.(e);
+        },
+        className: cn("overflow-visible bg-transparent", commandProps?.className),
+        shouldFilter: commandProps?.shouldFilter !== void 0 ? commandProps.shouldFilter : !onSearch,
+        filter: commandFilter(),
+        children: [
+          /* @__PURE__ */ jsxDEV28(
+            "div",
+            {
+              className: cn(
+                "group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+                className
+              ),
+              children: /* @__PURE__ */ jsxDEV28("div", { className: "flex flex-wrap gap-1", children: [
+                selected.map((option) => /* @__PURE__ */ jsxDEV28(
+                  Badge,
+                  {
+                    className: cn(
+                      "data-[disabled]:bg-muted-foreground data-[disabled]:text-muted data-[disabled]:hover:bg-muted-foreground",
+                      "data-[fixed]:bg-muted-foreground data-[fixed]:text-muted data-[fixed]:hover:bg-muted-foreground",
+                      badgeClassName
+                    ),
+                    "data-fixed": option.fixed,
+                    "data-disabled": disabled,
+                    children: [
+                      option.label,
+                      /* @__PURE__ */ jsxDEV28(
+                        "button",
+                        {
+                          className: cn(
+                            "ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2",
+                            (disabled || option.fixed) && "hidden"
+                          ),
+                          onKeyDown: (e) => {
+                            e.key === "Enter" && handleUnselect(option);
+                          },
+                          onMouseDown: (e) => {
+                            e.preventDefault(), e.stopPropagation();
+                          },
+                          onClick: () => handleUnselect(option),
+                          children: /* @__PURE__ */ jsxDEV28(X, { className: "h-3 w-3 text-muted-foreground hover:text-foreground" }, void 0, !1, {
+                            fileName: "app/components/ui/multiple-selector.tsx",
+                            lineNumber: 364,
+                            columnNumber: 21
+                          }, this)
+                        },
+                        void 0,
+                        !1,
+                        {
+                          fileName: "app/components/ui/multiple-selector.tsx",
+                          lineNumber: 348,
+                          columnNumber: 19
+                        },
+                        this
+                      )
+                    ]
+                  },
+                  option.value,
+                  !0,
+                  {
+                    fileName: "app/components/ui/multiple-selector.tsx",
+                    lineNumber: 337,
+                    columnNumber: 17
+                  },
+                  this
+                )),
+                /* @__PURE__ */ jsxDEV28(
+                  CommandPrimitive2.Input,
+                  {
+                    ...inputProps,
+                    ref: inputRef,
+                    value: inputValue,
+                    disabled,
+                    onValueChange: (value2) => {
+                      setInputValue(value2), inputProps?.onValueChange?.(value2);
+                    },
+                    onBlur: (event) => {
+                      setOpen(!1), inputProps?.onBlur?.(event);
+                    },
+                    onFocus: (event) => {
+                      setOpen(!0), triggerSearchOnFocus && onSearch?.(debouncedSearchTerm), inputProps?.onFocus?.(event);
+                    },
+                    placeholder: hidePlaceholderWhenSelected && selected.length !== 0 ? "" : placeholder,
+                    className: cn("ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground", inputProps?.className)
+                  },
+                  void 0,
+                  !1,
+                  {
+                    fileName: "app/components/ui/multiple-selector.tsx",
+                    lineNumber: 370,
+                    columnNumber: 13
+                  },
+                  this
+                )
+              ] }, void 0, !0, {
+                fileName: "app/components/ui/multiple-selector.tsx",
+                lineNumber: 334,
+                columnNumber: 11
+              }, this)
+            },
+            void 0,
+            !1,
+            {
+              fileName: "app/components/ui/multiple-selector.tsx",
+              lineNumber: 328,
+              columnNumber: 9
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV28("div", { className: "relative mt-2", children: open && /* @__PURE__ */ jsxDEV28(CommandList, { className: "absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in", children: isLoading ? /* @__PURE__ */ jsxDEV28(Fragment3, { children: loadingIndicator }, void 0, !1, {
+            fileName: "app/components/ui/multiple-selector.tsx",
+            lineNumber: 397,
+            columnNumber: 17
+          }, this) : /* @__PURE__ */ jsxDEV28(Fragment3, { children: [
+            EmptyItem(),
+            CreatableItem(),
+            !selectFirstItem && /* @__PURE__ */ jsxDEV28(CommandItem, { value: "-", className: "hidden" }, void 0, !1, {
+              fileName: "app/components/ui/multiple-selector.tsx",
+              lineNumber: 402,
+              columnNumber: 40
+            }, this),
+            Object.entries(selectables).map(([key, dropdowns]) => /* @__PURE__ */ jsxDEV28(CommandGroup, { heading: key, className: "h-full overflow-auto", children: /* @__PURE__ */ jsxDEV28(Fragment3, { children: dropdowns.map((option) => /* @__PURE__ */ jsxDEV28(
+              CommandItem,
+              {
+                value: option.value,
+                disabled: option.disable,
+                onMouseDown: (e) => {
+                  e.preventDefault(), e.stopPropagation();
+                },
+                onSelect: () => {
+                  if (selected.length >= maxSelected) {
+                    onMaxSelected?.(selected.length);
+                    return;
+                  }
+                  setInputValue("");
+                  let newOptions = [...selected, option];
+                  setSelected(newOptions), onChange?.(newOptions);
+                },
+                className: cn("cursor-pointer", option.disable && "cursor-default text-muted-foreground"),
+                children: option.label
+              },
+              option.value,
+              !1,
+              {
+                fileName: "app/components/ui/multiple-selector.tsx",
+                lineNumber: 408,
+                columnNumber: 29
+              },
+              this
+            )) }, void 0, !1, {
+              fileName: "app/components/ui/multiple-selector.tsx",
+              lineNumber: 405,
+              columnNumber: 23
+            }, this) }, key, !1, {
+              fileName: "app/components/ui/multiple-selector.tsx",
+              lineNumber: 404,
+              columnNumber: 21
+            }, this))
+          ] }, void 0, !0, {
+            fileName: "app/components/ui/multiple-selector.tsx",
+            lineNumber: 399,
+            columnNumber: 17
+          }, this) }, void 0, !1, {
+            fileName: "app/components/ui/multiple-selector.tsx",
+            lineNumber: 395,
+            columnNumber: 13
+          }, this) }, void 0, !1, {
+            fileName: "app/components/ui/multiple-selector.tsx",
+            lineNumber: 393,
+            columnNumber: 9
+          }, this)
+        ]
+      },
+      void 0,
+      !0,
+      {
+        fileName: "app/components/ui/multiple-selector.tsx",
+        lineNumber: 318,
+        columnNumber: 7
+      },
+      this
+    );
+  }
+);
+MultipleSelector.displayName = "MultipleSelector";
+var multiple_selector_default = MultipleSelector;
+
+// app/components/molecules/m-pool/m-pool-create-pool/index.tsx
+import { Fragment as Fragment4, jsxDEV as jsxDEV29 } from "react/jsx-dev-runtime";
+var ASSETS_OPTIONS = [
+  { label: "nextjs", value: "nextjs", fixed: !0 },
+  { label: "React", value: "react" },
+  { label: "Remix", value: "remix" },
+  { label: "Vite", value: "vite" },
+  { label: "Nuxt", value: "nuxt" },
+  { label: "Vue", value: "vue" },
+  { label: "Svelte", value: "svelte" },
+  { label: "Angular", value: "angular" },
+  { label: "Ember", value: "ember", disable: !0 },
+  { label: "Gatsby", value: "gatsby", disable: !0, fixed: !0 },
+  { label: "Astro", value: "astro" }
+];
+var CreatePool = () => {
+  let [open, setOpen] = React11.useState(!1), { providers, activeAccount } = useWallet3(), connectedProvider = providers?.find((provider) => provider.isActive), [assetsValue, setAssetsValue] = React11.useState([
+    { label: "Remix", value: "remix" },
+    { label: "Vite", value: "vite" }
+  ]);
+  return /* @__PURE__ */ jsxDEV29(Component.Root, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsxDEV29(Component.Trigger, { children: /* @__PURE__ */ jsxDEV29(
+      Button,
+      {
+        variant: activeAccount ? "default" : "wallet",
+        type: "button",
+        className: activeAccount ? "bg-transparent" : "px-[42px] py-[11.5px]   text-[14px] leading-[30.25px] ",
+        size: "lg",
+        children: /* @__PURE__ */ jsxDEV29("div", { className: "flex flex-row items-center text-white", children: [
+          /* @__PURE__ */ jsxDEV29("div", { className: `w-6 h-6 text-white mr-2 flex items-center relative ${activeAccount && "w-[31px] h-[31px]"} `, children: activeAccount ? connectedProvider && /* @__PURE__ */ jsxDEV29(Fragment4, { children: [
+            /* @__PURE__ */ jsxDEV29(
+              "img",
+              {
+                className: "rounded-full w-[31px] h-[31px] filter grayscale brightness-110",
+                src: "/assets/images/avataroverlaid.png",
+                alt: connectedProvider.metadata.name
+              },
+              void 0,
+              !1,
+              {
+                fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+                lineNumber: 61,
+                columnNumber: 23
+              },
+              this
+            ),
+            /* @__PURE__ */ jsxDEV29("div", { className: "absolute inset-0 bg-secondaryPool-foreground  opacity-50 rounded-full " }, void 0, !1, {
+              fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+              lineNumber: 66,
+              columnNumber: 24
+            }, this)
+          ] }, void 0, !0, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 60,
+            columnNumber: 21
+          }, this) : returnIcon("wallet") }, void 0, !1, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 56,
+            columnNumber: 13
+          }, this),
+          activeAccount ? /* @__PURE__ */ jsxDEV29(a_wallet_address_default, { address: activeAccount.address, truncate: !0 }, void 0, !1, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 70,
+            columnNumber: 30
+          }, this) : "Connect Wallet"
+        ] }, void 0, !0, {
+          fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+          lineNumber: 55,
+          columnNumber: 11
+        }, this)
+      },
+      void 0,
+      !1,
+      {
+        fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+        lineNumber: 49,
+        columnNumber: 9
+      },
+      this
+    ) }, void 0, !1, {
+      fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+      lineNumber: 48,
       columnNumber: 7
     }, this),
-    /* @__PURE__ */ jsxDEV23("div", { children: [
-      /* @__PURE__ */ jsxDEV23("button", { onClick: createPool, children: "tester" }, void 0, !1, {
-        fileName: "app/routes/pool.tsx",
-        lineNumber: 25,
+    /* @__PURE__ */ jsxDEV29("div", { className: "flex -space-x-4 rtl:space-x-reverse", children: [
+      /* @__PURE__ */ jsxDEV29(
+        "img",
+        {
+          className: "w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 transition-transform duration-300 hover:-translate-y-3",
+          src: "/assets/images/avataroverlaid.png",
+          alt: ""
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+          lineNumber: 75,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV29(
+        "img",
+        {
+          className: "w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 transition-transform duration-300 hover:-translate-x-3",
+          src: "/assets/images/avataroverlaid.png",
+          alt: ""
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+          lineNumber: 80,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV29(
+        "img",
+        {
+          className: "w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 transition-transform duration-300 hover:-translate-x-3",
+          src: "/assets/images/avataroverlaid.png",
+          alt: ""
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+          lineNumber: 85,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV29(
+        "a",
+        {
+          className: "flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800",
+          href: "#",
+          children: "+99"
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+          lineNumber: 90,
+          columnNumber: 9
+        },
+        this
+      )
+    ] }, void 0, !0, {
+      fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+      lineNumber: 74,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV29(Component.Content, { className: "p-8 md:max-w-[597px]   overflow-y-auto max-w-[90vw] bg-[#00380f] border-none text-white rounded-[10px]", children: [
+      /* @__PURE__ */ jsxDEV29(Component.Header, { className: "w-full flex flex-col ", children: /* @__PURE__ */ jsxDEV29(Component.Title, { className: " flex  justify-start font-medium text-2xl leading-8 flex-grow-0 tracking-[0.004em]", children: "Create Pool" }, void 0, !1, {
+        fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+        lineNumber: 100,
+        columnNumber: 11
+      }, this) }, void 0, !1, {
+        fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+        lineNumber: 99,
         columnNumber: 9
       }, this),
-      /* @__PURE__ */ jsxDEV23(m_pool_header_searchbar_default, {}, void 0, !1, {
-        fileName: "app/routes/pool.tsx",
-        lineNumber: 26,
+      /* @__PURE__ */ jsxDEV29("div", { className: "flex flex-col w-full items-center relative mt-12", children: [
+        /* @__PURE__ */ jsxDEV29("div", { className: "mb-6 w-full gap-6", children: [
+          /* @__PURE__ */ jsxDEV29("label", { className: "font-Satoshi text-[16px] leading-[18px]  text-white", children: "Pool Name" }, void 0, !1, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 106,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV29("input", { type: "text", className: "w-full h-[60px] border border-white rounded-lg mt-4 bg-secondaryPool-foreground" }, void 0, !1, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 107,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, !0, {
+          fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+          lineNumber: 105,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV29("div", { className: "mb-6 w-full gap-6", children: [
+          /* @__PURE__ */ jsxDEV29("label", { className: "font-Satoshi text-[16px] leading-[18px]  text-white", children: "Assets" }, void 0, !1, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 111,
+            columnNumber: 13
+          }, this),
+          'className=" bg-secondaryPool-foreground text-white"',
+          /* @__PURE__ */ jsxDEV29(
+            multiple_selector_default,
+            {
+              value: assetsValue,
+              onChange: setAssetsValue,
+              className: "w-full h-[60px] border border-white rounded-lg mt-4 bg-secondaryPool-foreground",
+              defaultOptions: ASSETS_OPTIONS,
+              placeholder: "Select crypto assets you like...",
+              emptyIndicator: /* @__PURE__ */ jsxDEV29("p", { className: "text-center text-lg leading-10 text-gray-600 dark:text-gray-400", children: "no results found." }, void 0, !1, {
+                fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+                lineNumber: 119,
+                columnNumber: 31
+              }, this)
+            },
+            void 0,
+            !1,
+            {
+              fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+              lineNumber: 113,
+              columnNumber: 13
+            },
+            this
+          )
+        ] }, void 0, !0, {
+          fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+          lineNumber: 110,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV29("div", { className: "mb-6 w-full gap-6", children: [
+          /* @__PURE__ */ jsxDEV29("label", { className: "font-Satoshi text-[16px] leading-[18px]  text-white", children: "Interest" }, void 0, !1, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 124,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV29("input", { type: "text", className: "w-full h-[60px] border border-white rounded-lg mt-4 bg-secondaryPool-foreground" }, void 0, !1, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 125,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, !0, {
+          fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+          lineNumber: 123,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV29("div", { className: "mb-6 w-full gap-6", children: [
+          /* @__PURE__ */ jsxDEV29("label", { className: "font-Satoshi text-[16px] leading-[18px]  text-white", children: "Tenor" }, void 0, !1, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 129,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV29(Select, { children: [
+            /* @__PURE__ */ jsxDEV29(SelectTrigger, { className: "w-full h-[60px] border border-white rounded-lg mt-4 bg-secondaryPool-foreground", children: /* @__PURE__ */ jsxDEV29(SelectValue, { placeholder: "Select a duration" }, void 0, !1, {
+              fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+              lineNumber: 133,
+              columnNumber: 17
+            }, this) }, void 0, !1, {
+              fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+              lineNumber: 132,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV29(SelectContent, { className: " bg-secondaryPool-foreground text-white", children: /* @__PURE__ */ jsxDEV29(SelectGroup, { children: [
+              /* @__PURE__ */ jsxDEV29(SelectLabel, { children: "Fruits" }, void 0, !1, {
+                fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+                lineNumber: 137,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV29(SelectItem, { value: "apple", children: "Apple" }, void 0, !1, {
+                fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+                lineNumber: 138,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV29(SelectItem, { value: "banana", children: "Banana" }, void 0, !1, {
+                fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+                lineNumber: 139,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV29(SelectItem, { value: "blueberry", children: "Blueberry" }, void 0, !1, {
+                fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+                lineNumber: 140,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV29(SelectItem, { value: "grapes", children: "Grapes" }, void 0, !1, {
+                fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+                lineNumber: 141,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV29(SelectItem, { value: "pineapple", children: "Pineapple" }, void 0, !1, {
+                fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+                lineNumber: 142,
+                columnNumber: 19
+              }, this)
+            ] }, void 0, !0, {
+              fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+              lineNumber: 136,
+              columnNumber: 17
+            }, this) }, void 0, !1, {
+              fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+              lineNumber: 135,
+              columnNumber: 15
+            }, this)
+          ] }, void 0, !0, {
+            fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+            lineNumber: 131,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, !0, {
+          fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+          lineNumber: 128,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, !0, {
+        fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+        lineNumber: 104,
         columnNumber: 9
       }, this),
-      /* @__PURE__ */ jsxDEV23(m_pool_table_default, {}, void 0, !1, {
+      /* @__PURE__ */ jsxDEV29("button", { className: "w-full h-[60px] text-[16px] leading-[18px] mt-10 bg-[#002600] text-white rounded-lg flex items-center justify-center ", children: "Continue" }, void 0, !1, {
+        fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+        lineNumber: 149,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+      lineNumber: 98,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/components/molecules/m-pool/m-pool-create-pool/index.tsx",
+    lineNumber: 47,
+    columnNumber: 5
+  }, this);
+}, m_pool_create_pool_default = CreatePool;
+
+// app/routes/pool.tsx
+import { jsxDEV as jsxDEV30 } from "react/jsx-dev-runtime";
+var PoolPage = () => {
+  let { serviceClient, algodClient } = useContract(), [open, setOpen] = React12.useState(""), { providers, activeAccount } = useWallet4(), encoder = new TextEncoder(), args = {};
+  function encodeIntoAtPosition(string) {
+    return encoder.encode(string);
+  }
+  async function createPool() {
+    let sp = await algodClient?.getTransactionParams().do(), appAddress = await serviceClient?.appClient.getAppReference(), activeAccountAddress = activeAccount?.address, poolNote = "testing pool", args2 = {
+      from: activeAccount?.address,
+      to: activeAccountAddress,
+      amount: 0,
+      suggestedParams: sp,
+      note: poolNote
+    }, txn = algosdk3.makePaymentTxnWithSuggestedParamsFromObject({
+      from: String(args2.from),
+      to: String(args2.to),
+      amount: args2.amount,
+      // @ts-ignore
+      suggestedParams: args2.suggestedParams,
+      note: args2.note ? encoder.encode(args2.note) : void 0
+    });
+    appAddress?.appId;
+    var isoDateTime = (/* @__PURE__ */ new Date()).toISOString();
+    isoDateTime.replace(/\.\d{3}/, "").replace(/[-:T]/g, "");
+    let u8array = new Uint8Array(8), boxName = encodeIntoAtPosition(String(isoDateTime));
+    console.log(
+      serviceClient?.savePool(
+        { key: String(isoDateTime), name: "testing pool122", txn },
+        // @ts-ignore
+        { boxes: [{ appId: appAddress?.appId, name: boxName }] }
+      )
+    );
+  }
+  return /* @__PURE__ */ jsxDEV30("div", { id: "pool page", className: "flex flex-col w-full  md:ml-[30px] md:pt-7 md:pr-[47px]  ml-[10px] pt-2 pr-[10px]", children: [
+    /* @__PURE__ */ jsxDEV30(m_pool_infobar_default, {}, void 0, !1, {
+      fileName: "app/routes/pool.tsx",
+      lineNumber: 68,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV30("div", { children: [
+      /* @__PURE__ */ jsxDEV30("button", { onClick: createPool, children: "tester " }, void 0, !1, {
         fileName: "app/routes/pool.tsx",
-        lineNumber: 27,
+        lineNumber: 70,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV30(m_pool_create_pool_default, {}, void 0, !1, {
+        fileName: "app/routes/pool.tsx",
+        lineNumber: 71,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV30(m_pool_header_searchbar_default, {}, void 0, !1, {
+        fileName: "app/routes/pool.tsx",
+        lineNumber: 72,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV30(m_pool_table_default, {}, void 0, !1, {
+        fileName: "app/routes/pool.tsx",
+        lineNumber: 73,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/pool.tsx",
-      lineNumber: 24,
+      lineNumber: 69,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
     fileName: "app/routes/pool.tsx",
-    lineNumber: 22,
+    lineNumber: 67,
     columnNumber: 5
   }, this);
 }, pool_default = PoolPage;
 
 // app/routes/_index.tsx
-import { jsxDEV as jsxDEV24 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV31 } from "react/jsx-dev-runtime";
 function Index() {
-  return /* @__PURE__ */ jsxDEV24(pool_default, {}, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV31(pool_default, {}, void 0, !1, {
     fileName: "app/routes/_index.tsx",
     lineNumber: 4,
     columnNumber: 10
   }, this);
 }
 
-// app/routes/borrow.tsx
-var borrow_exports = {};
-__export(borrow_exports, {
-  default: () => borrow_default
-});
-
-// app/components/molecules/m-lend/m-lend-header/index.tsx
-import { jsxDEV as jsxDEV25 } from "react/jsx-dev-runtime";
-var Lendheader = () => /* @__PURE__ */ jsxDEV25("div", { className: "flex flex-row  justify-between  mb-[16px] ", children: /* @__PURE__ */ jsxDEV25("div", { className: "text-2xl text-white p-6 py-[10px] ", children: "Lend" }, void 0, !1, {
-  fileName: "app/components/molecules/m-lend/m-lend-header/index.tsx",
-  lineNumber: 7,
-  columnNumber: 7
-}, this) }, void 0, !1, {
-  fileName: "app/components/molecules/m-lend/m-lend-header/index.tsx",
-  lineNumber: 6,
-  columnNumber: 5
-}, this), m_lend_header_default = Lendheader;
-
-// app/routes/borrow.tsx
-import { jsxDEV as jsxDEV26 } from "react/jsx-dev-runtime";
-var BorrowPage = () => /* @__PURE__ */ jsxDEV26("div", { id: "lend page", className: "flex flex-col w-full  ml-[30px]  pr-[47px]", children: [
-  /* @__PURE__ */ jsxDEV26(m_lend_header_default, {}, void 0, !1, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 5,
-    columnNumber: 7
-  }, this),
-  /* @__PURE__ */ jsxDEV26("div", { className: "mt-[62px]", children: /* @__PURE__ */ jsxDEV26(LoanForm, {}, void 0, !1, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 9,
-    columnNumber: 9
-  }, this) }, void 0, !1, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 6,
-    columnNumber: 7
-  }, this)
-] }, void 0, !0, {
-  fileName: "app/routes/borrow.tsx",
-  lineNumber: 4,
-  columnNumber: 5
-}, this), borrow_default = BorrowPage, LoanForm = () => /* @__PURE__ */ jsxDEV26("div", { className: "flex h-screen", children: [
-  /* @__PURE__ */ jsxDEV26("div", { className: "flex flex-col  items-start flex-grow p-6", children: [
-    /* @__PURE__ */ jsxDEV26("div", { className: "mb-6 w-full", children: [
-      /* @__PURE__ */ jsxDEV26("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%]  text-white", children: "Asset to lend" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 23,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDEV26("select", { className: "w-full h-12 rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 24,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 22,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV26("div", { className: "mb-6 w-full", children: [
-      /* @__PURE__ */ jsxDEV26("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%] mt-6 text-white", children: "Lend capacity" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 27,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDEV26("input", { type: "text", className: "w-full h-12 border border-white rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 28,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 26,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV26("div", { className: "mb-6 w-full", children: [
-      /* @__PURE__ */ jsxDEV26("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Select Pool" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 31,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDEV26("select", { className: "w-full h-12 rounded-lg bg-secondaryPool-foreground mt-4 mb-[86px]" }, void 0, !1, {
-        fileName: "app/routes/borrow.tsx",
-        lineNumber: 32,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 30,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV26("button", { className: "w-full h-12 bg-primary text-white rounded-lg ", children: "Lend Loan" }, void 0, !1, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 34,
-      columnNumber: 9
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 21,
-    columnNumber: 7
-  }, this),
-  /* @__PURE__ */ jsxDEV26("div", { className: "flex flex-col w-[38.94%] h-full ", children: [
-    /* @__PURE__ */ jsxDEV26("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Pending Loan" }, void 0, !1, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 38,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV26("div", { className: "flex flex-col justify-center items-center w-full  bg-[#0b300c] rounded-lg h-full mb-[39px] mt-2", children: /* @__PURE__ */ jsxDEV26("div", { className: "font-Aeonik font-regular text-16 leading-[160%] text-grey-5  ", children: "You are yet to lend." }, void 0, !1, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 40,
-      columnNumber: 11
-    }, this) }, void 0, !1, {
-      fileName: "app/routes/borrow.tsx",
-      lineNumber: 39,
-      columnNumber: 9
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/borrow.tsx",
-    lineNumber: 37,
-    columnNumber: 7
-  }, this)
-] }, void 0, !0, {
-  fileName: "app/routes/borrow.tsx",
-  lineNumber: 19,
-  columnNumber: 5
-}, this);
-
 // app/routes/lend.tsx
 var lend_exports = {};
 __export(lend_exports, {
   default: () => lend_default
 });
-import { jsxDEV as jsxDEV27 } from "react/jsx-dev-runtime";
-var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", className: "flex flex-col w-full  ml-[30px]  pr-[47px]", children: [
-  /* @__PURE__ */ jsxDEV27(m_lend_header_default, {}, void 0, !1, {
+import { jsxDEV as jsxDEV32 } from "react/jsx-dev-runtime";
+var LendPage = () => /* @__PURE__ */ jsxDEV32("div", { id: "lend page", className: "flex flex-col w-full  ml-[30px]  pr-[47px]", children: [
+  /* @__PURE__ */ jsxDEV32(m_lend_header_default, {}, void 0, !1, {
     fileName: "app/routes/lend.tsx",
     lineNumber: 5,
     columnNumber: 7
   }, this),
-  /* @__PURE__ */ jsxDEV27("div", { className: "mt-[62px]", children: /* @__PURE__ */ jsxDEV27(LoanForm2, {}, void 0, !1, {
+  /* @__PURE__ */ jsxDEV32("div", { className: "mt-[62px]", children: /* @__PURE__ */ jsxDEV32(LoanForm2, {}, void 0, !1, {
     fileName: "app/routes/lend.tsx",
     lineNumber: 9,
     columnNumber: 9
@@ -2512,15 +3474,15 @@ var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", classNam
   fileName: "app/routes/lend.tsx",
   lineNumber: 4,
   columnNumber: 5
-}, this), lend_default = LendPage, LoanForm2 = () => /* @__PURE__ */ jsxDEV27("div", { className: "flex h-screen", children: [
-  /* @__PURE__ */ jsxDEV27("div", { className: "flex flex-col  items-start flex-grow p-6", children: [
-    /* @__PURE__ */ jsxDEV27("div", { className: "mb-6 w-full", children: [
-      /* @__PURE__ */ jsxDEV27("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%]  text-white", children: "Asset to lend" }, void 0, !1, {
+}, this), lend_default = LendPage, LoanForm2 = () => /* @__PURE__ */ jsxDEV32("div", { className: "flex h-screen", children: [
+  /* @__PURE__ */ jsxDEV32("div", { className: "flex flex-col  items-start flex-grow p-6", children: [
+    /* @__PURE__ */ jsxDEV32("div", { className: "mb-6 w-full", children: [
+      /* @__PURE__ */ jsxDEV32("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%]  text-white", children: "Asset to lend" }, void 0, !1, {
         fileName: "app/routes/lend.tsx",
         lineNumber: 23,
         columnNumber: 11
       }, this),
-      /* @__PURE__ */ jsxDEV27("select", { className: "w-full h-12 rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV32("select", { className: "w-full h-12 rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
         fileName: "app/routes/lend.tsx",
         lineNumber: 24,
         columnNumber: 11
@@ -2530,13 +3492,13 @@ var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", classNam
       lineNumber: 22,
       columnNumber: 9
     }, this),
-    /* @__PURE__ */ jsxDEV27("div", { className: "mb-6 w-full", children: [
-      /* @__PURE__ */ jsxDEV27("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%] mt-6 text-white", children: "Lend capacity" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV32("div", { className: "mb-6 w-full", children: [
+      /* @__PURE__ */ jsxDEV32("label", { className: "font-Aeonik font-regular text-[16px] leading-[160%] mt-6 text-white", children: "Lend capacity" }, void 0, !1, {
         fileName: "app/routes/lend.tsx",
         lineNumber: 27,
         columnNumber: 11
       }, this),
-      /* @__PURE__ */ jsxDEV27("input", { type: "text", className: "w-full h-12 border border-white rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV32("input", { type: "text", className: "w-full h-12 border border-white rounded-lg mt-2 bg-secondaryPool-foreground" }, void 0, !1, {
         fileName: "app/routes/lend.tsx",
         lineNumber: 28,
         columnNumber: 11
@@ -2546,13 +3508,13 @@ var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", classNam
       lineNumber: 26,
       columnNumber: 9
     }, this),
-    /* @__PURE__ */ jsxDEV27("div", { className: "mb-6 w-full", children: [
-      /* @__PURE__ */ jsxDEV27("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Select Pool" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV32("div", { className: "mb-6 w-full", children: [
+      /* @__PURE__ */ jsxDEV32("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Select Pool" }, void 0, !1, {
         fileName: "app/routes/lend.tsx",
         lineNumber: 31,
         columnNumber: 11
       }, this),
-      /* @__PURE__ */ jsxDEV27("select", { className: "w-full h-12 rounded-lg bg-secondaryPool-foreground mt-4 mb-[86px]" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV32("select", { className: "w-full h-12 rounded-lg bg-secondaryPool-foreground mt-4 mb-[86px]" }, void 0, !1, {
         fileName: "app/routes/lend.tsx",
         lineNumber: 32,
         columnNumber: 11
@@ -2562,7 +3524,7 @@ var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", classNam
       lineNumber: 30,
       columnNumber: 9
     }, this),
-    /* @__PURE__ */ jsxDEV27("button", { className: "w-full h-12 bg-primary text-white rounded-lg ", children: "Lend Loan" }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV32("button", { className: "w-full h-12 bg-primary text-white rounded-lg ", children: "Lend Loan" }, void 0, !1, {
       fileName: "app/routes/lend.tsx",
       lineNumber: 34,
       columnNumber: 9
@@ -2572,13 +3534,13 @@ var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", classNam
     lineNumber: 21,
     columnNumber: 7
   }, this),
-  /* @__PURE__ */ jsxDEV27("div", { className: "flex flex-col w-[38.94%] h-full ", children: [
-    /* @__PURE__ */ jsxDEV27("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Pending Loan" }, void 0, !1, {
+  /* @__PURE__ */ jsxDEV32("div", { className: "flex flex-col w-[38.94%] h-full ", children: [
+    /* @__PURE__ */ jsxDEV32("label", { className: "font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white", children: "Pending Loan" }, void 0, !1, {
       fileName: "app/routes/lend.tsx",
       lineNumber: 38,
       columnNumber: 9
     }, this),
-    /* @__PURE__ */ jsxDEV27("div", { className: "flex flex-col justify-center items-center w-full  bg-[#0b300c] rounded-lg h-full mb-[39px] mt-2", children: /* @__PURE__ */ jsxDEV27("div", { className: "font-Aeonik font-regular text-16 leading-[160%] text-grey-5  ", children: "You are yet to lend." }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV32("div", { className: "flex flex-col justify-center items-center w-full  bg-[#0b300c] rounded-lg h-full mb-[39px] mt-2", children: /* @__PURE__ */ jsxDEV32("div", { className: "font-Aeonik font-regular text-16 leading-[160%] text-grey-5  ", children: "You are yet to lend." }, void 0, !1, {
       fileName: "app/routes/lend.tsx",
       lineNumber: 40,
       columnNumber: 11
@@ -2599,10 +3561,10 @@ var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", classNam
 }, this);
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-J74I7VL6.js", imports: ["/build/_shared/chunk-WRM53ZUV.js", "/build/_shared/chunk-NEZYOV4U.js", "/build/_shared/chunk-ATRQC2ZO.js", "/build/_shared/chunk-FGAZNT4N.js", "/build/_shared/chunk-KTXKSMJR.js", "/build/_shared/chunk-QJQJJ6FU.js", "/build/_shared/chunk-JM3EFX3L.js", "/build/_shared/chunk-MYHRZK7S.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-SXYDVK52.js", imports: ["/build/_shared/chunk-DMHNC7M5.js", "/build/_shared/chunk-M63FBJQD.js", "/build/_shared/chunk-7PSQEEMX.js", "/build/_shared/chunk-R5V3VJTO.js", "/build/_shared/chunk-73NW7KFA.js", "/build/_shared/chunk-JUPUTQ6K.js"], hasAction: !1, hasLoader: !0, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-OX4G55VH.js", imports: ["/build/_shared/chunk-UZTEWKSW.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activities": { id: "routes/activities", parentId: "root", path: "activities", index: void 0, caseSensitive: void 0, module: "/build/routes/activities-GQ4KYC4P.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activity": { id: "routes/activity", parentId: "root", path: "activity", index: void 0, caseSensitive: void 0, module: "/build/routes/activity-EJLGO2FD.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/borrow": { id: "routes/borrow", parentId: "root", path: "borrow", index: void 0, caseSensitive: void 0, module: "/build/routes/borrow-7UI3KEEM.js", imports: ["/build/_shared/chunk-7I2AXLKQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/lend": { id: "routes/lend", parentId: "root", path: "lend", index: void 0, caseSensitive: void 0, module: "/build/routes/lend-WDJ54EDT.js", imports: ["/build/_shared/chunk-7I2AXLKQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/pool": { id: "routes/pool", parentId: "root", path: "pool", index: void 0, caseSensitive: void 0, module: "/build/routes/pool-HYQNVO4I.js", imports: ["/build/_shared/chunk-UZTEWKSW.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/profile": { id: "routes/profile", parentId: "root", path: "profile", index: void 0, caseSensitive: void 0, module: "/build/routes/profile-O5THCDUC.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 } }, version: "d326d9eb", hmr: { runtime: "/build/_shared/chunk-KTXKSMJR.js", timestamp: 1710350761893 }, url: "/build/manifest-D326D9EB.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-MOSDU7QX.js", imports: ["/build/_shared/chunk-WRM53ZUV.js", "/build/_shared/chunk-BHQCQFCN.js", "/build/_shared/chunk-ATRQC2ZO.js", "/build/_shared/chunk-FGAZNT4N.js", "/build/_shared/chunk-PAEK5ACD.js", "/build/_shared/chunk-QJQJJ6FU.js", "/build/_shared/chunk-JM3EFX3L.js", "/build/_shared/chunk-MYHRZK7S.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-EDGEMWZL.js", imports: ["/build/_shared/chunk-DMHNC7M5.js", "/build/_shared/chunk-BAAFOMNJ.js", "/build/_shared/chunk-7PSQEEMX.js", "/build/_shared/chunk-R5V3VJTO.js", "/build/_shared/chunk-73NW7KFA.js", "/build/_shared/chunk-JUPUTQ6K.js"], hasAction: !1, hasLoader: !0, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-EIUWSYVJ.js", imports: ["/build/_shared/chunk-CTBPYNDQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activities": { id: "routes/activities", parentId: "root", path: "activities", index: void 0, caseSensitive: void 0, module: "/build/routes/activities-N4RJ4A4K.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activity": { id: "routes/activity", parentId: "root", path: "activity", index: void 0, caseSensitive: void 0, module: "/build/routes/activity-4NPS74LF.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/borrow": { id: "routes/borrow", parentId: "root", path: "borrow", index: void 0, caseSensitive: void 0, module: "/build/routes/borrow-PU5JD47R.js", imports: ["/build/_shared/chunk-UE43ZWDY.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/lend": { id: "routes/lend", parentId: "root", path: "lend", index: void 0, caseSensitive: void 0, module: "/build/routes/lend-DA3XGAF5.js", imports: ["/build/_shared/chunk-UE43ZWDY.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/pool": { id: "routes/pool", parentId: "root", path: "pool", index: void 0, caseSensitive: void 0, module: "/build/routes/pool-HNUV52RL.js", imports: ["/build/_shared/chunk-CTBPYNDQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/profile": { id: "routes/profile", parentId: "root", path: "profile", index: void 0, caseSensitive: void 0, module: "/build/routes/profile-G7HGUNYE.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 } }, version: "59cc801b", hmr: { runtime: "/build/_shared\\chunk-PAEK5ACD.js", timestamp: 1710686338462 }, url: "/build/manifest-59CC801B.js" };
 
 // server-entry-module:@remix-run/dev/server-build
-var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1, v3_relativeSplatPath: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
+var mode = "development", assetsBuildDirectory = "public\\build", future = { v3_fetcherPersist: !1, v3_relativeSplatPath: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
   root: {
     id: "root",
     parentId: void 0,
@@ -2635,14 +3597,6 @@ var mode = "development", assetsBuildDirectory = "public/build", future = { v3_f
     caseSensitive: void 0,
     module: profile_exports
   },
-  "routes/_index": {
-    id: "routes/_index",
-    parentId: "root",
-    path: void 0,
-    index: !0,
-    caseSensitive: void 0,
-    module: index_exports
-  },
   "routes/borrow": {
     id: "routes/borrow",
     parentId: "root",
@@ -2650,6 +3604,14 @@ var mode = "development", assetsBuildDirectory = "public/build", future = { v3_f
     index: void 0,
     caseSensitive: void 0,
     module: borrow_exports
+  },
+  "routes/_index": {
+    id: "routes/_index",
+    parentId: "root",
+    path: void 0,
+    index: !0,
+    caseSensitive: void 0,
+    module: index_exports
   },
   "routes/lend": {
     id: "routes/lend",
