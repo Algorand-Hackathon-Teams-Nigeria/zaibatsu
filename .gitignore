@@ -6,6 +6,8 @@
 /out-tsc
 public/build/
 build/
+/build
+/.cache
 .cache/
 
 # Runtime data
