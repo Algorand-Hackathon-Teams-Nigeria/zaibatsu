@@ -17,7 +17,12 @@ export const useContract = () => {
   return context;
 };
 
-const ContractProvider: React.FC = ({ children }: any) => {
+
+interface Props {
+  children: React.ReactNode
+}
+
+const ContractProvider: React.FC<Props> = ({ children }) => {
   const { activeAddress, signer } = useWallet();
   const [serviceClient, setServiceClient] = useState<ZaibatsuServiceClient>();
   const [algodClient, setAlgodClient] = useState<algosdk.Algodv2>()

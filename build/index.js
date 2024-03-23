@@ -1757,7 +1757,7 @@ var ContractContext = createContext(null), useContract = () => {
     setAlgodClient(getAlgodClient());
   }, []), /* @__PURE__ */ jsxDEV13(ContractContext.Provider, { value: { serviceClient, algodClient }, children }, void 0, !1, {
     fileName: "app/providers/contract/index.tsx",
-    lineNumber: 36,
+    lineNumber: 41,
     columnNumber: 10
   }, this);
 }, contract_default = ContractProvider;
@@ -1844,15 +1844,15 @@ function App() {
         ),
         /* @__PURE__ */ jsxDEV14(contract_default, { children: /* @__PURE__ */ jsxDEV14(o_app_shell_with_navigation_default, { children: /* @__PURE__ */ jsxDEV14(Outlet, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 71,
+          lineNumber: 70,
           columnNumber: 17
         }, this) }, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 70,
+          lineNumber: 69,
           columnNumber: 15
         }, this) }, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 69,
+          lineNumber: 68,
           columnNumber: 13
         }, this)
       ] }, void 0, !0, {
@@ -1866,17 +1866,17 @@ function App() {
       }, this),
       /* @__PURE__ */ jsxDEV14(ScrollRestoration, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 76,
+        lineNumber: 75,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV14(Scripts, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 77,
+        lineNumber: 76,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV14(LiveReload, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 78,
+        lineNumber: 77,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
@@ -2599,7 +2599,7 @@ var LendPage = () => /* @__PURE__ */ jsxDEV27("div", { id: "lend page", classNam
 }, this);
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-J74I7VL6.js", imports: ["/build/_shared/chunk-WRM53ZUV.js", "/build/_shared/chunk-NEZYOV4U.js", "/build/_shared/chunk-ATRQC2ZO.js", "/build/_shared/chunk-FGAZNT4N.js", "/build/_shared/chunk-KTXKSMJR.js", "/build/_shared/chunk-QJQJJ6FU.js", "/build/_shared/chunk-JM3EFX3L.js", "/build/_shared/chunk-MYHRZK7S.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-SXYDVK52.js", imports: ["/build/_shared/chunk-DMHNC7M5.js", "/build/_shared/chunk-M63FBJQD.js", "/build/_shared/chunk-7PSQEEMX.js", "/build/_shared/chunk-R5V3VJTO.js", "/build/_shared/chunk-73NW7KFA.js", "/build/_shared/chunk-JUPUTQ6K.js"], hasAction: !1, hasLoader: !0, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-OX4G55VH.js", imports: ["/build/_shared/chunk-UZTEWKSW.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activities": { id: "routes/activities", parentId: "root", path: "activities", index: void 0, caseSensitive: void 0, module: "/build/routes/activities-GQ4KYC4P.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activity": { id: "routes/activity", parentId: "root", path: "activity", index: void 0, caseSensitive: void 0, module: "/build/routes/activity-EJLGO2FD.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/borrow": { id: "routes/borrow", parentId: "root", path: "borrow", index: void 0, caseSensitive: void 0, module: "/build/routes/borrow-7UI3KEEM.js", imports: ["/build/_shared/chunk-7I2AXLKQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/lend": { id: "routes/lend", parentId: "root", path: "lend", index: void 0, caseSensitive: void 0, module: "/build/routes/lend-WDJ54EDT.js", imports: ["/build/_shared/chunk-7I2AXLKQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/pool": { id: "routes/pool", parentId: "root", path: "pool", index: void 0, caseSensitive: void 0, module: "/build/routes/pool-HYQNVO4I.js", imports: ["/build/_shared/chunk-UZTEWKSW.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/profile": { id: "routes/profile", parentId: "root", path: "profile", index: void 0, caseSensitive: void 0, module: "/build/routes/profile-O5THCDUC.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 } }, version: "d326d9eb", hmr: { runtime: "/build/_shared/chunk-KTXKSMJR.js", timestamp: 1710350761893 }, url: "/build/manifest-D326D9EB.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-J74I7VL6.js", imports: ["/build/_shared/chunk-WRM53ZUV.js", "/build/_shared/chunk-NEZYOV4U.js", "/build/_shared/chunk-ATRQC2ZO.js", "/build/_shared/chunk-FGAZNT4N.js", "/build/_shared/chunk-KTXKSMJR.js", "/build/_shared/chunk-QJQJJ6FU.js", "/build/_shared/chunk-JM3EFX3L.js", "/build/_shared/chunk-MYHRZK7S.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-JOPLZTTM.js", imports: ["/build/_shared/chunk-DMHNC7M5.js", "/build/_shared/chunk-AJLFBU45.js", "/build/_shared/chunk-7PSQEEMX.js", "/build/_shared/chunk-R5V3VJTO.js", "/build/_shared/chunk-73NW7KFA.js", "/build/_shared/chunk-JUPUTQ6K.js"], hasAction: !1, hasLoader: !0, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-Y7URLFG5.js", imports: ["/build/_shared/chunk-56B7WSK6.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activities": { id: "routes/activities", parentId: "root", path: "activities", index: void 0, caseSensitive: void 0, module: "/build/routes/activities-GQ4KYC4P.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/activity": { id: "routes/activity", parentId: "root", path: "activity", index: void 0, caseSensitive: void 0, module: "/build/routes/activity-EJLGO2FD.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/borrow": { id: "routes/borrow", parentId: "root", path: "borrow", index: void 0, caseSensitive: void 0, module: "/build/routes/borrow-7UI3KEEM.js", imports: ["/build/_shared/chunk-7I2AXLKQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/lend": { id: "routes/lend", parentId: "root", path: "lend", index: void 0, caseSensitive: void 0, module: "/build/routes/lend-WDJ54EDT.js", imports: ["/build/_shared/chunk-7I2AXLKQ.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/pool": { id: "routes/pool", parentId: "root", path: "pool", index: void 0, caseSensitive: void 0, module: "/build/routes/pool-NXHJPDEL.js", imports: ["/build/_shared/chunk-56B7WSK6.js"], hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 }, "routes/profile": { id: "routes/profile", parentId: "root", path: "profile", index: void 0, caseSensitive: void 0, module: "/build/routes/profile-O5THCDUC.js", imports: void 0, hasAction: !1, hasLoader: !1, hasClientAction: !1, hasClientLoader: !1, hasErrorBoundary: !1 } }, version: "865955d5", hmr: { runtime: "/build/_shared/chunk-KTXKSMJR.js", timestamp: 1710503874573 }, url: "/build/manifest-865955D5.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1, v3_relativeSplatPath: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

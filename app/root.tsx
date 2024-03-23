@@ -65,7 +65,6 @@ export default function App() {
                 __html: `window.ENV= ${JSON.stringify(data.ENV)}`,
               }}
             />
-            {/** @ts-ignore  */}
             <ContractProvider>
               <AppShellWithNavigation>
                 <Outlet />
