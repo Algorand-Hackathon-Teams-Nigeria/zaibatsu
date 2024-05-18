@@ -13,3 +13,11 @@ export const GET_POOLS = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const AVERAGE_POOL_METRICS = gql(`
+  averagePoolMetrics {
+    collateralPercentage
+    interestRate
+  }
+
+`);

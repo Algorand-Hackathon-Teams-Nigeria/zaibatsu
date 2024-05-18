@@ -1,114 +1,102 @@
+import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
 import { useWallet } from "@txnlab/use-wallet";
-import { DialogOld } from "@ui/dialog";
-import React from "react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
-import { useState } from "react";
-import { useContract } from "@/providers/contract";
 import algosdk from "algosdk";
+import { DialogOld } from "@ui/dialog";
+import { CREATE_POOL } from "@/services/graphql/mutations";
+import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import Success from "@/components/atoms/a-success";
 import FundPool from "../m-pool-fundPool";
 import CreatePoolPage from "../m-pool-createDialog";
-import { useMutation } from "@apollo/client/index.js";
-import { CREATE_POOL } from "@/services/graphql/mutations";
+import { useContract } from "@/providers/contract";
 
-const CreatePool = () => {
-  const [tabInView, setTabInView] = useState("create");
-  const [sendCreatePool, { data, loading, error }] = useMutation(CREATE_POOL);
+interface FormData {
+  dateCreated: number;
+  key: string;
+  manager: string;
+  interestRate: string | number;
+  collateralPercentage: string | number;
+  name?: string;
+}
 
-  const [open, setOpen] = React.useState(false);
+const CreatePool: React.FC = () => {
+  const [tabInView, setTabInView] = useState<"create" | "fund" | "success">("create");
+  const [open, setOpen] = useState(false);
   const { providers, activeAccount } = useWallet();
   const connectedProvider = providers?.find((provider) => provider.isActive);
 
-  const [assetsValue, setAssetsValue] = React.useState<Option[]>([
+  const [assetsValue, setAssetsValue] = useState<Option[]>([
     { label: "Remix", value: "remix" },
     { label: "Vite", value: "vite" },
   ]);
 
-  const [formData, setFormData] = React.useState({
-    dateCreated: 123456,
+  const [formData, setFormData] = useState<FormData>({
+    dateCreated: Date.now(),
     key: "",
     manager: "",
-    interestRate: "",
-    collateralPercentage: "",
+    interestRate: 0,
+    collateralPercentage: 0,
   });
 
-  const handleChange = (event: any) => {
+  const { serviceClient, algodClient } = useContract();
+  const [sendCreatePool, { data, loading, error }] = useMutation(CREATE_POOL);
+
+  const encoder = new TextEncoder();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-  const { serviceClient, algodClient } = useContract();
-
-  const encoder = new TextEncoder();
-  const args = {};
-
-  const date = new Date();
-  var isoDateTime = date.toISOString();
-  isoDateTime.replace(/\.\d{3}/, "").replace(/[-:T]/g, "");
 
   function encodeIntoAtPosition(string: string): Uint8Array {
     return encoder.encode(string);
   }
 
   async function createNewPool() {
-    const sp = await algodClient?.getTransactionParams().do();
-    const appAddress = await serviceClient?.appClient.getAppReference(); //aka appid
-    const activeAccountAddress = activeAccount?.address;
-    const poolNote = formData?.name;
+    if (!algodClient || !serviceClient || !activeAccount) return;
 
-    const args = {
-      from: activeAccount?.address,
+    const sp = await algodClient.getTransactionParams().do();
+    const appAddress = await serviceClient.appClient.getAppReference();
+    const activeAccountAddress = activeAccount.address;
+    const poolNote = formData.name || "";
+
+    const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+      from: activeAccountAddress,
       to: activeAccountAddress,
       amount: 0,
       suggestedParams: sp,
-      note: poolNote,
-    };
-    const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-      from: String(args.from),
-      to: String(args.to),
-      amount: args.amount,
-      // @ts-ignore
-      suggestedParams: args.suggestedParams,
-
-      note: args.note ? encoder.encode(args.note) : undefined,
+      note: encoder.encode(poolNote),
     });
 
-    appAddress?.appId;
+    const date = new Date();
+    const isoDateTime = date
+      .toISOString()
+      .replace(/\.\d{3}/, "")
+      .replace(/[-:T]/g, "");
+    const boxName = encodeIntoAtPosition(isoDateTime);
 
-    const u8array = new Uint8Array(8);
-    const boxName = encodeIntoAtPosition(String(isoDateTime));
-    console.log(
-      serviceClient?.savePool(
-        { key: activeAccountAddress, name: poolNote, txn: txn },
-        // @ts-ignore
-
-        { boxes: [{ appId: appAddress?.appId, name: boxName }] }
-      )
-    );
-
-    //{accounts: accounts,apps,assets,sender,boxes,lease,note,rekeyTo,sendParams}
-    // @ts-ignore
+    serviceClient.savePool({ key: activeAccountAddress, name: poolNote, txn }, { boxes: [{ appId: appAddress?.appId, name: boxName }] });
   }
 
   function createPoolNow() {
-    setFormData((prevdata) => {
-      const newData = prevdata;
-      newData.key = String(isoDateTime);
-      newData.manager = activeAccount && activeAccount.address;
-      newData.interestRate = Number(prevdata.interestRate);
-      newData.collateralPercentage = Number(prevdata.collateralPercentage);
+    setFormData((prevData) => ({
+      ...prevData,
+      key: new Date()
+        .toISOString()
+        .replace(/\.\d{3}/, "")
+        .replace(/[-:T]/g, ""),
+      manager: activeAccount?.address || "",
+      interestRate: Number(prevData.interestRate),
+      collateralPercentage: Number(prevData.collateralPercentage),
+    }));
 
-      return newData;
-    });
-    console.log("data to be passed to create endpoint: ", formData);
-    sendCreatePool({ variables: { input: formData } });
-    console.log("create pool errors: ", error);
-    console.log("returned data: ", data);
-    createNewPool();
+    sendCreatePool({ variables: { input: formData } })
+      .then(() => {
+        createNewPool();
+        setTabInView("success");
+      })
+      .catch((err) => console.error(err));
   }
-  console.log("create pool errors: ", error);
-  console.log("returned data: ", data);
-
   return (
     <DialogOld.Root open={open} onOpenChange={setOpen}>
       <DialogOld.Trigger>
