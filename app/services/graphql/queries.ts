@@ -1,5 +1,3 @@
-//import { gql } from "src/__generated__";
-//import { gql } from "@apollo/client/index.js";
 import { gql } from "@/__generated__";
 export const GET_POOLS = gql(/* GraphQL */ `
   query getPools {

@@ -14,9 +14,9 @@ interface FormData {
   dateCreated: number;
   key: string;
   manager: string;
-  interestRate: string | number;
-  collateralPercentage: string | number;
-  name?: string;
+  interestRate: number;
+  collateralPercentage: number;
+  name: string;
 }
 
 const CreatePool: React.FC = () => {
@@ -36,6 +36,7 @@ const CreatePool: React.FC = () => {
     manager: "",
     interestRate: 0,
     collateralPercentage: 0,
+    name: "",
   });
 
   const { serviceClient, algodClient } = useContract();

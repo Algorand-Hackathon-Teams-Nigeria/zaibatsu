@@ -1,5 +1,4 @@
-//import { gql } from "src/__generated__";
-import { gql } from "@apollo/client/index.js";
+import { gql } from "@/__generated__";
 export const CREATE_POOL = gql(/* GraphQL */ `
   mutation createNewPool($input: PoolInputType!) {
     newPool(input: $input) {
