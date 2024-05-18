@@ -7,8 +7,9 @@ interface Props {
   copyable?: boolean;
 }
 
-function truncateAddress(address: string) {
-  return `${address.slice(0, 10)}...${address.slice(-10)}`;
+function truncateAddress(address: string, isMobile: boolean = false) {
+  const sliceValue: number = isMobile ? 3 : 10;
+  return `${address.slice(0, sliceValue)}...${address.slice(-sliceValue)}`;
 }
 
 const WalletAddress: React.FC<Props> = ({ address, truncate, copyable }) => {
@@ -19,7 +20,9 @@ const WalletAddress: React.FC<Props> = ({ address, truncate, copyable }) => {
   };
   return (
     <div className="flex items-center gap-3">
-      <span>{truncate ? truncateAddress(address) : address}</span>
+      <span className="hidden md:block">{truncate ? truncateAddress(address) : address}</span>
+      <span className="block md:hidden">{truncate ? truncateAddress(address, true) : address}</span>
+
       {copyable && (
         <button
           title="Copy Address"

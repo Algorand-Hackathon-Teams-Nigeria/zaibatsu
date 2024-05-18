@@ -34,7 +34,7 @@ const Infobar = () => {
     },
   ];
   return (
-    <div className={`flex overflow-scroll w-auto`}>
+    <div className={`flex overflow-scroll w-auto -m-2`}>
       <Infoview content={InfoViewvars} />
     </div>
   );

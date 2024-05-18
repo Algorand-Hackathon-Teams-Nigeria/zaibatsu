@@ -9,29 +9,32 @@ const ConnectWallet = () => {
   const [open, setOpen] = React.useState(false);
   const { providers, activeAccount } = useWallet();
   const connectedProvider = providers?.find((provider) => provider.isActive);
+
   return (
     <DialogOld.Root open={open} onOpenChange={setOpen}>
       <DialogOld.Trigger>
         <Button
           variant={!activeAccount ? "wallet" : "default"}
           type="button"
-          className={!activeAccount ? `px-[42px] py-[11.5px]   text-[14px] leading-[30.25px] ` : `bg-transparent`}
+          className={!activeAccount ? ` p-3 md:px-[42px] md:py-[11.5px]   text-[14px] leading-[30.25px] ` : `bg-transparent`}
           size="lg"
         >
-          <div className="flex flex-row items-center text-white">
-            <div className={`w-6 h-6 text-white mr-2 flex items-center relative ${activeAccount && "w-[31px] h-[31px]"} `}>
-              {!activeAccount
-                ? returnIcon("wallet")
-                : connectedProvider && (
-                    <>
-                      <img
-                        className="rounded-full w-[31px] h-[31px] filter grayscale brightness-110"
-                        src="/assets/images/avataroverlaid.png"
-                        alt={connectedProvider.metadata.name}
-                      />
-                      {<div className="absolute inset-0 bg-secondaryPool-foreground  opacity-50 rounded-full "></div>}
-                    </>
-                  )}
+          <div className="flex flex-row items-center h-fit text-white">
+            <div className={`w-fit h-fit text-white mr-2 flex items-center relative ${activeAccount && "w-[31px] h-[31px]"} `}>
+              {!activeAccount ? (
+                <div className="  md:w-auto">{returnIcon("wallet")}</div>
+              ) : (
+                connectedProvider && (
+                  <>
+                    <img
+                      className="rounded-full w-[31px] h-[31px] xfilter xgrayscale xbrightness-110"
+                      src={connectedProvider.metadata.icon} //"/assets/images/avataroverlaid.png"
+                      alt={connectedProvider.metadata.name}
+                    />
+                    {<div className="absolute inset-0 bg-secondaryPool-foreground  opacity-50 rounded-full "></div>}
+                  </>
+                )
+              )}
             </div>
             {activeAccount ? <WalletAddress address={activeAccount.address} truncate /> : "Connect Wallet"}
           </div>

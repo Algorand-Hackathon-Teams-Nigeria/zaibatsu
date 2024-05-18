@@ -16,7 +16,7 @@ export default LendPage;
 
 const LoanForm = () => {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen flex-col lg:flex-row">
       {/* Left column - Loan Form */}
       <div className="flex flex-col  items-start flex-grow p-6">
         <div className="mb-6 w-full">
@@ -34,7 +34,7 @@ const LoanForm = () => {
         <button className="w-full h-12 bg-primary text-white rounded-lg ">Lend Loan</button>
       </div>
       {/* Right column - Message */}
-      <div className="flex flex-col w-[38.94%] h-full ">
+      <div className="flex flex-col w-full lg:w-[38.94%] h-full  ">
         <label className="font-Aeonik font-regular text-16 leading-[160%] mt-6 text-white">Pending Loan</label>
         <div className="flex flex-col justify-center items-center w-full  bg-[#0b300c] rounded-lg h-full mb-[39px] mt-2">
           <div className="font-Aeonik font-regular text-16 leading-[160%] text-grey-5  ">You are yet to lend.</div>

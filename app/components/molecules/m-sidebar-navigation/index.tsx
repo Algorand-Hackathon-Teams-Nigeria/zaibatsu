@@ -10,7 +10,7 @@ import { returnIcon } from "@/components/ui/icon";
 const SidebarNavigation = () => {
   const [active, setActive] = React.useState(0);
   const isOpen = useRecoilValue(navAtom);
-  const isMobile = useMediaQuery(`(max-width: ${breakpoints.md})`);
+  const isMobile = useMediaQuery(`(max-width: ${breakpoints.lg})`);
 
   const location = useLocation();
 
@@ -23,7 +23,7 @@ const SidebarNavigation = () => {
 
   return (
     <aside
-      className={`md:relative transition-all  z-10 fixed h-screen bg-secondaryPool shadow-lg ${
+      className={`lg:relative transition-all  z-10 fixed h-screen bg-secondaryPool shadow-lg ${
         isMobile && isOpen ? "translate-x-0" : isMobile && !isOpen ? "-translate-x-full" : ""
       }`}
     >
@@ -34,7 +34,7 @@ const SidebarNavigation = () => {
             <div key={item.name} className="group  transition-all">
               <Link className={`z-0 relative flex ${active === id ? " bg-secondaryPool-foreground" : " "}`} to={`${item.path}#`}>
                 <span
-                  className={`p-3 px-[147px] pl-10  md:group-hover:text-primary/50 group-hover:text-white  text-lg leading-6 transition-all flex flex-row gap-[10px] ${
+                  className={`p-3 px-[147px] pl-10  lg:group-hover:text-primary/50 group-hover:text-white  text-lg leading-6 transition-all flex flex-row gap-[10px] ${
                     active === id ? " text-white" : "text-[#868b95]"
                   } w-full h-full`}
                 >
