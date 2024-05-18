@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/index.js";
 import { useWallet } from "@txnlab/use-wallet";
 import algosdk from "algosdk";
 import { DialogOld } from "@ui/dialog";

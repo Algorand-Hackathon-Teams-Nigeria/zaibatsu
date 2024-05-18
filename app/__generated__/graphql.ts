@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -204,3 +205,25 @@ export type UserType = {
   id: Scalars['ID']['output'];
   profile?: Maybe<ProfileType>;
 };
+
+export type CreateNewPoolMutationVariables = Exact<{
+  input: PoolInputType;
+}>;
+
+
+export type CreateNewPoolMutation = { __typename?: 'Mutation', newPool: { __typename?: 'PoolType', id: string, name: string } };
+
+export type GetPoolsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPoolsQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'PoolType', key: string, name: string, interestRate: number, collateralPercentage: number, lastUpdated: any, id: string }> };
+
+export type GetPoolMetricsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPoolMetricsQuery = { __typename?: 'Query', averagePoolMetrics: { __typename?: 'AveragePoolMetrics', collateralPercentage: number, interestRate: number } };
+
+
+export const CreateNewPoolDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createNewPool"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PoolInputType"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"newPool"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateNewPoolMutation, CreateNewPoolMutationVariables>;
+export const GetPoolsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPools"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pools"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"interestRate"}},{"kind":"Field","name":{"kind":"Name","value":"collateralPercentage"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdated"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetPoolsQuery, GetPoolsQueryVariables>;
+export const GetPoolMetricsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPoolMetrics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averagePoolMetrics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"collateralPercentage"}},{"kind":"Field","name":{"kind":"Name","value":"interestRate"}}]}}]}}]} as unknown as DocumentNode<GetPoolMetricsQuery, GetPoolMetricsQueryVariables>;

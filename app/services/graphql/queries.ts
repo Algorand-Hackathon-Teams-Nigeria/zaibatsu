@@ -1,6 +1,6 @@
 //import { gql } from "src/__generated__";
-import { gql } from "@apollo/client/index.js";
-
+//import { gql } from "@apollo/client/index.js";
+import { gql } from "@/__generated__";
 export const GET_POOLS = gql(/* GraphQL */ `
   query getPools {
     pools {
@@ -15,9 +15,9 @@ export const GET_POOLS = gql(/* GraphQL */ `
 `);
 
 export const AVERAGE_POOL_METRICS = gql(`
-  averagePoolMetrics {
+  query getPoolMetrics{averagePoolMetrics {
     collateralPercentage
     interestRate
-  }
+  }}
 
 `);
