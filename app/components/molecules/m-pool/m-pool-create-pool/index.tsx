@@ -104,7 +104,23 @@ const CreatePool: React.FC = () => {
   return (
     <DialogOld.Root open={open} onOpenChange={setOpen}>
       <DialogOld.Trigger>
-        <div className=" p-3 flex items-center justify-center bg-secondaryPool-foreground rounded-lg"> Add +</div>
+        <button
+          type="button"
+          onClick={() => {
+            setTabInView("create");
+            setFormData({
+              dateCreated: Date.now(),
+              key: "",
+              manager: "",
+              interestRate: 0,
+              collateralPercentage: 0,
+              name: "",
+            });
+          }}
+          className=" p-3 flex items-center justify-center bg-secondaryPool-foreground hover:bg-secondaryPool-foreground/50 hover:scale-110  rounded-lg"
+        >
+          Add +
+        </button>
       </DialogOld.Trigger>
 
       <DialogOld.Content className="p-8 md:max-w-[597px]   overflow-y-auto max-w-[90vw] bg-[#00380f] border-none text-white rounded-[10px]">
