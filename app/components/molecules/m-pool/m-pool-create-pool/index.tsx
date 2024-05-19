@@ -9,6 +9,7 @@ import Success from "@/components/atoms/a-success";
 import FundPool from "../m-pool-fundPool";
 import CreatePoolPage from "../m-pool-createDialog";
 import { useContract } from "@/providers/contract";
+import { SignalZero } from "lucide-react";
 
 interface FormData {
   dateCreated: number;
@@ -22,7 +23,7 @@ interface FormData {
 const CreatePool: React.FC = () => {
   const [tabInView, setTabInView] = useState<"create" | "fund" | "success">("create");
   const [open, setOpen] = useState(false);
-  const { providers, activeAccount } = useWallet();
+  const { providers, activeAccount, signer } = useWallet();
   const connectedProvider = providers?.find((provider) => provider.isActive);
 
   const [assetsValue, setAssetsValue] = useState<Option[]>([
@@ -61,10 +62,10 @@ const CreatePool: React.FC = () => {
     const activeAccountAddress = activeAccount.address;
     const poolNote = formData.name || "";
 
-    const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+    var txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
       from: activeAccountAddress,
-      to: activeAccountAddress,
-      amount: 0,
+      to: appAddress?.appAddress,
+      amount: 1,
       suggestedParams: sp,
       note: encoder.encode(poolNote),
     });
@@ -75,11 +76,23 @@ const CreatePool: React.FC = () => {
       .replace(/\.\d{3}/, "")
       .replace(/[-:T]/g, "");
     const boxName = encodeIntoAtPosition(isoDateTime);
-
-    serviceClient.savePool({ key: activeAccountAddress, name: poolNote, txn }, { boxes: [{ appId: appAddress?.appId, name: boxName }] });
+    serviceClient.savePool(
+      { key: activeAccountAddress, name: poolNote, txn: txn },
+      { boxes: [{ appId: appAddress?.appId, name: boxName }] }
+    );
   }
 
   function createPoolNow() {
+    const datatosend = {
+      ...formData,
+      key: new Date()
+        .toISOString()
+        .replace(/\.\d{3}/, "")
+        .replace(/[-:T]/g, ""),
+      manager: activeAccount?.address || "",
+      interestRate: Number(formData.interestRate),
+      collateralPercentage: Number(formData.collateralPercentage),
+    };
     setFormData((prevData) => ({
       ...prevData,
       key: new Date()
@@ -90,8 +103,8 @@ const CreatePool: React.FC = () => {
       interestRate: Number(prevData.interestRate),
       collateralPercentage: Number(prevData.collateralPercentage),
     }));
-
-    sendCreatePool({ variables: { input: formData } })
+    console.log("data to send to graphql is: ", datatosend);
+    sendCreatePool({ variables: { input: datatosend } })
       .then(() => {
         createNewPool();
         setTabInView("success");
