@@ -21,15 +21,11 @@ interface FormData {
 }
 
 const CreatePool: React.FC = () => {
+  const { providers, activeAccount, signer } = useWallet();
+  const { serviceClient, algodClient } = useContract();
+  const connectedProvider = providers?.find((provider) => provider.isActive);
   const [tabInView, setTabInView] = useState<"create" | "fund" | "success">("create");
   const [open, setOpen] = useState(false);
-  const { providers, activeAccount, signer } = useWallet();
-  const connectedProvider = providers?.find((provider) => provider.isActive);
-
-  const [assetsValue, setAssetsValue] = useState<Option[]>([
-    { label: "Remix", value: "remix" },
-    { label: "Vite", value: "vite" },
-  ]);
 
   const [formData, setFormData] = useState<FormData>({
     dateCreated: Date.now(),
@@ -39,16 +35,20 @@ const CreatePool: React.FC = () => {
     collateralPercentage: 0,
     name: "",
   });
+  const [assetsValue, setAssetsValue] = useState<Option[]>([
+    { label: "Remix", value: "remix" },
+    { label: "Vite", value: "vite" },
+  ]);
 
-  const { serviceClient, algodClient } = useContract();
   const [sendCreatePool, { data, loading, error }] = useMutation(CREATE_POOL);
-
-  const encoder = new TextEncoder();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+
+  /** contract pool create starts here */
+  const encoder = new TextEncoder();
 
   function encodeIntoAtPosition(string: string): Uint8Array {
     return encoder.encode(string);
@@ -83,6 +83,7 @@ const CreatePool: React.FC = () => {
 
     serviceClient.savePool({ key: key, name: poolNote, txn: txn }, { boxes: boxes });
   }
+  /** contract pool create ends here */
 
   function createPoolNow() {
     const datatosend = {
