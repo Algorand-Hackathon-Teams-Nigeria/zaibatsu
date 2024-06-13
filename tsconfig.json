@@ -1,62 +1,54 @@
 {
-  "include": [
-    "remix.env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "./.eslintrc.cjs"
-  ],
   "compilerOptions": {
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
+    "types": [
+      "unplugin-icons/types/react"
     ],
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "target": "ES2022",
-    "strict": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
       "@/*": [
-        "./app/*"
+        "./src/*"
       ],
-      "@lib/*": [
-        "./app/lib/*"
+      "@atoms/*": [
+        "./src/components/atoms/*"
       ],
-      "@components/*": [
-        "./app/components/*"
+      "@layouts/*": [
+        "./src/components/layouts/*"
       ],
       "@molecules/*": [
-        "./app/components/molecules/*"
+        "./src/components/molecules/*"
       ],
       "@constants/*": [
-        "./app/constants/*"
-      ],
-      "@ui/*": [
-        "./app/components/ui/*"
-      ],
-      "@stores/*": [
-        "./app/stores/*"
-      ],
-      "@types/*": [
-        "./app/types/*"
-      ],
-      "@providers/*": [
-        "./app/providers/*"
-      ],
-      "@services/*": [
-        "./app/services/*"
-      ],
-      "@contract/*": [
-        "./app/services/contract/*"
+        "./src/constants/*"
       ]
-    },
-    // Remix takes care of building everything in `remix build`.
-    "noEmit": true
-  }
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
