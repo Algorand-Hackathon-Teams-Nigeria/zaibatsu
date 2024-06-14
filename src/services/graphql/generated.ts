@@ -34,6 +34,15 @@ export type AlgorandStandardAssetFilterNoneTypeListOptions = {
   ordering?: InputMaybe<Scalars['Void']['input']>;
 };
 
+export type AlgorandStandardAssetInput = {
+  assetId: Scalars['Union']['input'];
+  decimals: Scalars['Int']['input'];
+  imageUrl: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  network: NetworkType;
+  unitName: Scalars['String']['input'];
+};
+
 export type AlgorandStandardAssetType = {
   __typename?: 'AlgorandStandardAssetType';
   assetId: Scalars['Union']['output'];
@@ -104,6 +113,7 @@ export type LoanTemplateInput = {
   earlyRepaymentPenaltyPercentage?: InputMaybe<Scalars['Int']['input']>;
   interestRate: Scalars['Int']['input'];
   loanType: LoanEnumType;
+  maxLoanAmount: Scalars['Int']['input'];
   maxLoanTenure: Scalars['Int']['input'];
   minLoanTenure: Scalars['Int']['input'];
   poolId?: InputMaybe<Scalars['Int']['input']>;
@@ -176,6 +186,7 @@ export type Mutation = {
   newLoanTemplate: LoanTemplateType;
   newPool: PoolType;
   newPoolContribution: PoolContributionType;
+  saveAlgorandAstandardAsset: AlgorandStandardAssetType;
 };
 
 
@@ -196,6 +207,11 @@ export type MutationNewPoolArgs = {
 
 export type MutationNewPoolContributionArgs = {
   input: PoolContributionInput;
+};
+
+
+export type MutationSaveAlgorandAstandardAssetArgs = {
+  args: AlgorandStandardAssetInput;
 };
 
 export enum NetworkType {

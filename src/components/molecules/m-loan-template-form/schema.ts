@@ -9,6 +9,7 @@ import loanTemplateFormAtom from "@/state/atoms/loanTemplateFormAtom";
 const formSchema = z.object({
 	minLoanTenure: validZodNumber(),
 	maxLoanTenure: validZodNumber(),
+	maxLoanAmount: validZodNumber(),
 	interestRate: validZodNumber(),
 	collateralPercentage: validZodNumber(),
 	repaymentPeriods: validZodNumber().optional(),

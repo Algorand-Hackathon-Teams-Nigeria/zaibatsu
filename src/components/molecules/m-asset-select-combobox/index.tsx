@@ -61,13 +61,13 @@ const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect }) => {
           className="w-full justify-between"
         >
           {selected ? (
-            <div>
+            <div className="flex items-center gap-2">
               <Image
                 src={selected.imageUrl}
                 alt={selected.unitName}
                 className="rounded-full"
-                width={30}
-                height={30}
+                width={23}
+                height={23}
               />
               <span>{selected.unitName.toUpperCase()}</span>
             </div>
@@ -93,16 +93,18 @@ const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect }) => {
                   value={asset.assetId}
                   onSelect={(currentValue) => {
                     const val = assets.find(
-                      (i) => String(i.assetId) === currentValue,
+                      (i) =>
+                        String(i.assetId) ===
+                        (currentValue.split("-") ?? [""])[0],
                     );
                     onSelect &&
                       onSelect(
-                        currentValue === String(selected?.assetId)
+                        String(val?.assetId) === String(selected?.assetId)
                           ? undefined
                           : val,
                       );
                     setSelected(
-                      currentValue === String(selected?.assetId)
+                      String(val?.assetId) === String(selected?.assetId)
                         ? undefined
                         : val,
                     );
@@ -112,9 +114,13 @@ const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect }) => {
                   <Image
                     src={asset.imageUrl}
                     alt={asset.unitName}
-                    width={30}
-                    height={30}
+                    className="rounded-full mr-2"
+                    width={25}
+                    height={25}
                   />
+                  <span className="hidden">
+                    {String(asset.assetId).toUpperCase()}-
+                  </span>
                   <span>{asset.unitName.toUpperCase()}</span>
                   <CheckIcon
                     className={cn(

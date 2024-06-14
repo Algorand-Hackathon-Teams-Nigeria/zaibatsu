@@ -87,16 +87,16 @@ const ConnectWallet = () => {
 						<AccordionContent>
 							<div>
 								<div className="flex p-2 gap-2 items-center">
-									{!provider.isConnected && (
-										<Button
-											type="button"
-											variant="secondary"
-											size="sm"
-											onClick={provider.connect}
-										>
-											Connect
-										</Button>
-									)}
+									{/* {!provider.isConnected && ( */}
+									<Button
+										type="button"
+										variant="secondary"
+										size="sm"
+										onClick={provider.connect}
+									>
+										Connect
+									</Button>
+									{/* )} */}
 									{provider.isConnected && (
 										<Button
 											size="sm"

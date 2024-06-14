@@ -13,19 +13,68 @@ import { LoanTemplateFormSchema, useTemplateForm } from "./schema";
 import { Input } from "@ui/input";
 import AssetSelectCombobox from "../m-asset-select-combobox";
 import { Button } from "@/components/ui/button";
-import { useNewLoanTemplateMutation } from "@/services/graphql/generated";
+import {
+	LoanEnumType,
+	useNewLoanTemplateMutation,
+} from "@/services/graphql/generated";
 import React from "react";
+import { useWallet } from "@txnlab/use-wallet";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
-	onSuccess?: CallableFunction;
+	onClose?: CallableFunction;
+	loanType: LoanEnumType;
 }
 
-const LoanTemplateForm: React.FC<Props> = ({ onSuccess }) => {
+const LoanTemplateForm: React.FC<Props> = ({ onClose, loanType }) => {
 	const form = useTemplateForm();
 	const [{ fetching }, mutate] = useNewLoanTemplateMutation();
+	const { activeAddress } = useWallet();
+
+	const { toast } = useToast();
 
 	const onSubmit = async (value: LoanTemplateFormSchema) => {
-		onSuccess && onSuccess();
+		if (!activeAddress) {
+			toast({
+				title: "Unidentified User",
+				description: "Please connect your wallet to proceed",
+				variant: "destructive",
+			});
+			onClose && onClose();
+			return;
+		}
+		const { error } = await mutate({
+			input: {
+				...value,
+				collateralPercentage: Number(value.collateralPercentage),
+				earlyRepaymentPenaltyPercentage: Number(
+					value.earlyRepaymentPenaltyPercentage,
+				),
+				poolId: undefined,
+				creatorAddress: activeAddress,
+				repaymentPeriods: Number(value.repaymentPeriods),
+				maxLoanAmount: Number(value.maxLoanAmount),
+				minLoanTenure: Number(value.minLoanTenure),
+				maxLoanTenure: Number(value.maxLoanTenure),
+				interestRate: Number(value.interestRate),
+				loanType,
+			},
+		});
+		if (error?.graphQLErrors) {
+			error.graphQLErrors.map((err) =>
+				toast({
+					title: "Error",
+					description: err.message,
+					variant: "destructive",
+				}),
+			);
+		} else {
+			toast({
+				title: "Success",
+				description: "Your loan template has been saved",
+			});
+			onClose && onClose();
+		}
 	};
 	return (
 		<Form {...form}>
@@ -123,13 +172,27 @@ const LoanTemplateForm: React.FC<Props> = ({ onSuccess }) => {
 				<fieldset className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
 					<FormField
 						control={form.control}
+						name="maxLoanAmount"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Max Loan Amount</FormLabel>
+								<FormControl>
+									<Input placeholder="0.0" {...field} />
+								</FormControl>
+								<FormDescription />
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
 						name="assetId"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Asset</FormLabel>
 								<FormControl>
 									<AssetSelectCombobox
-										onSelect={(v) => field.onChange(v?.assetId)}
+										onSelect={(v) => field.onChange(String(v?.assetId))}
 									/>
 								</FormControl>
 								<FormDescription />
@@ -137,16 +200,16 @@ const LoanTemplateForm: React.FC<Props> = ({ onSuccess }) => {
 							</FormItem>
 						)}
 					/>
-					<div className="h-full flex items-end justify-end">
-						<Button
-							loading={fetching}
-							disabled={fetching}
-							className="w-full max-w-[100px]"
-						>
-							Save
-						</Button>
-					</div>
 				</fieldset>
+				<div className="w-full flex items-end justify-end">
+					<Button
+						loading={fetching}
+						disabled={fetching}
+						className="w-full max-w-[100px]"
+					>
+						Save
+					</Button>
+				</div>
 			</form>
 		</Form>
 	);

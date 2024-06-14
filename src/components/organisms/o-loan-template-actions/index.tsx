@@ -13,8 +13,13 @@ import {
 } from "@/components/ui/dialog";
 import LoanTemplateForm from "@/components/molecules/m-loan-template-form";
 import React from "react";
+import { LoanEnumType } from "@/services/graphql/generated";
 
-const LoanTemplateActions = () => {
+interface Props {
+	loanType: LoanEnumType;
+}
+
+const LoanTemplateActions: React.FC<Props> = ({ loanType }) => {
 	const [formOpen, setFormOpen] = React.useState(false);
 	return (
 		<div className="flex items-center gap-4">
@@ -36,7 +41,10 @@ const LoanTemplateActions = () => {
 							approval
 						</DialogDescription>
 					</DialogHeader>
-					<LoanTemplateForm onSuccess={() => setFormOpen(false)} />
+					<LoanTemplateForm
+						onClose={() => setFormOpen(false)}
+						loanType={loanType}
+					/>
 				</DialogContent>
 			</Dialog>
 		</div>
