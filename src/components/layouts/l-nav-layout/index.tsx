@@ -14,7 +14,7 @@ const NavLayout: React.FC<Props> = ({ children }) => {
       </div>
       <div className="flex flex-col">
         <TopNav />
-        {children}
+        <div className="max-h-[95vh] overflow-y-auto">{children}</div>
       </div>
     </div>
   );

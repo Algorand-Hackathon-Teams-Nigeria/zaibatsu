@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NavLayout from "@layouts/l-nav-layout";
+import URQLProvider from "@/components/providers/urql";
+import JotaiProvider from "@/components/providers/jotai";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html className="dark" lang="en">
-      <body className={inter.className}>
-        <NavLayout>{children}</NavLayout>
-      </body>
+      <JotaiProvider>
+        <URQLProvider>
+          <body className={`${inter.className} h-screen overflow-y-hidden`}>
+            <NavLayout>{children}</NavLayout>
+          </body>
+        </URQLProvider>
+      </JotaiProvider>
     </html>
   );
 }

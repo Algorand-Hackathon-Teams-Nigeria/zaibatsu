@@ -28,6 +28,12 @@
       "@/*": [
         "./src/*"
       ],
+      "@ui/*": [
+        "./src/components/ui/*"
+      ],
+      "@utils/*": [
+        "./src/lib/utils/*"
+      ],
       "@atoms/*": [
         "./src/components/atoms/*"
       ],
@@ -37,8 +43,14 @@
       "@molecules/*": [
         "./src/components/molecules/*"
       ],
+      "@state/*": [
+        "./src/state/*"
+      ],
       "@constants/*": [
         "./src/constants/*"
+      ],
+      "@graphql/*": [
+        "./src/services/graphql/*"
       ]
     }
   },
