@@ -12,14 +12,16 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import LoanTemplateForm from "@/components/molecules/m-loan-template-form";
+import React from "react";
 
 const LoanTemplateActions = () => {
+	const [formOpen, setFormOpen] = React.useState(false);
 	return (
 		<div className="flex items-center gap-4">
 			<Link className="border p-2 text-sm px-4 rounded-lg" href="#">
 				<span className="opacity-80">Your Offers</span>
 			</Link>
-			<Dialog open>
+			<Dialog open={formOpen} onOpenChange={(v) => setFormOpen(v)}>
 				<DialogTrigger>
 					<Button className="flex items-center gap-2">
 						<LetsIconsAddSquareLight />
@@ -34,7 +36,7 @@ const LoanTemplateActions = () => {
 							approval
 						</DialogDescription>
 					</DialogHeader>
-					<LoanTemplateForm />
+					<LoanTemplateForm onSuccess={() => setFormOpen(false)} />
 				</DialogContent>
 			</Dialog>
 		</div>

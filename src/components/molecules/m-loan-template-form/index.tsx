@@ -7,18 +7,26 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
+	FormMessage,
 } from "@ui/form";
 import { LoanTemplateFormSchema, useTemplateForm } from "./schema";
 import { Input } from "@ui/input";
 import AssetSelectCombobox from "../m-asset-select-combobox";
 import { Button } from "@/components/ui/button";
 import { useNewLoanTemplateMutation } from "@/services/graphql/generated";
+import React from "react";
 
-const LoanTemplateForm = () => {
+interface Props {
+	onSuccess?: CallableFunction;
+}
+
+const LoanTemplateForm: React.FC<Props> = ({ onSuccess }) => {
 	const form = useTemplateForm();
 	const [{ fetching }, mutate] = useNewLoanTemplateMutation();
 
-	const onSubmit = async (value: LoanTemplateFormSchema) => {};
+	const onSubmit = async (value: LoanTemplateFormSchema) => {
+		onSuccess && onSuccess();
+	};
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mt-6">
@@ -33,6 +41,7 @@ const LoanTemplateForm = () => {
 									<Input placeholder="0" {...field} />
 								</FormControl>
 								<FormDescription />
+								<FormMessage />
 							</FormItem>
 						)}
 					/>
@@ -46,6 +55,7 @@ const LoanTemplateForm = () => {
 									<Input placeholder="0" {...field} />
 								</FormControl>
 								<FormDescription />
+								<FormMessage />
 							</FormItem>
 						)}
 					/>
@@ -61,6 +71,7 @@ const LoanTemplateForm = () => {
 									<Input placeholder="0.0" {...field} />
 								</FormControl>
 								<FormDescription />
+								<FormMessage />
 							</FormItem>
 						)}
 					/>
@@ -74,6 +85,7 @@ const LoanTemplateForm = () => {
 									<Input placeholder="0.0" {...field} />
 								</FormControl>
 								<FormDescription />
+								<FormMessage />
 							</FormItem>
 						)}
 					/>
@@ -89,6 +101,7 @@ const LoanTemplateForm = () => {
 									<Input placeholder="0" {...field} />
 								</FormControl>
 								<FormDescription />
+								<FormMessage />
 							</FormItem>
 						)}
 					/>
@@ -102,6 +115,7 @@ const LoanTemplateForm = () => {
 									<Input placeholder="0.0" {...field} />
 								</FormControl>
 								<FormDescription />
+								<FormMessage />
 							</FormItem>
 						)}
 					/>
@@ -119,6 +133,7 @@ const LoanTemplateForm = () => {
 									/>
 								</FormControl>
 								<FormDescription />
+								<FormMessage />
 							</FormItem>
 						)}
 					/>

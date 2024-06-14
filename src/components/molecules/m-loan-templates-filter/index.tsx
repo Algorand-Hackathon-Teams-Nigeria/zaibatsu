@@ -55,7 +55,7 @@ const LoanTemplateFilter: React.FC<Props> = ({ variant }) => {
             <CardDescription>Filter loan offers</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-6">
               <LTFCollateralAndInterstRate
                 value={listOptions?.filter}
                 setListOpts={handleSetListOpts}
