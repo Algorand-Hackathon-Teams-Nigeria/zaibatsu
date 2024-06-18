@@ -47,4 +47,26 @@ const AvatarFallback = React.forwardRef<
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
-export { Avatar, AvatarImage, AvatarFallback };
+const AvatarGroup = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & {
+    revered?: boolean;
+  }
+>(({ className, revered, children, ...props }, ref) => {
+  return (
+    <div
+      {...props}
+      ref={ref}
+      className={
+        revered
+          ? "flex flex-row-reverse justify-end -space-x-3 space-x-reverse *:ring *:ring-secondary"
+          : "flex -space-x-3 *:ring *:ring-secondary"
+      }
+    >
+      {children}
+    </div>
+  );
+});
+AvatarGroup.displayName = "AvatarGroup";
+
+export { Avatar, AvatarImage, AvatarFallback, AvatarGroup };

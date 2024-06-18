@@ -1,4 +1,7 @@
-import { LoanTemplateFilterLoanTemplateOrderingListOptions } from "@/services/graphql/generated";
+import {
+  LoanTemplateFilterLoanTemplateOrderingListOptions,
+  PoolFilterPoolOrderingListOptions,
+} from "@/services/graphql/generated";
 import { atom } from "jotai";
 
 const listOptionsAtoms = {
@@ -8,6 +11,7 @@ const listOptionsAtoms = {
   poolLoanTemplate: atom<
     LoanTemplateFilterLoanTemplateOrderingListOptions | undefined
   >({}),
+  pools: atom<PoolFilterPoolOrderingListOptions | undefined>({}),
 };
 
 export default listOptionsAtoms;

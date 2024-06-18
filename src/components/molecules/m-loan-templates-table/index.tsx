@@ -14,6 +14,7 @@ import { ellipseAddress } from "@/lib/utils/address";
 import Link from "next/link";
 import { useAtomValue } from "jotai";
 import listOptionsAtoms from "@state/atoms/listOptions";
+import { Card } from "@/components/ui/card";
 
 const LoanTemplatesTable = () => {
   const listOpts = useAtomValue(listOptionsAtoms.p2pLoanTemplate);
@@ -23,7 +24,7 @@ const LoanTemplatesTable = () => {
 
   const templates = data?.loanTemplates ?? [];
   return (
-    <div>
+    <Card className="p-2 py-4">
       <Table borderless>
         <TableHeader>
           <TableRow>
@@ -92,11 +93,11 @@ const LoanTemplatesTable = () => {
       {templates.length === 0 && !fetching && (
         <div className="flex items-center justify-center text-muted-foreground p-10 py-16">
           <p className="border p-2 rounded-md px-4 opacity-60">
-            There a currently no Loan offerings available
+            There are currently no Loan offerings available
           </p>
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 

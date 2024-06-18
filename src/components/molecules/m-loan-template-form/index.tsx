@@ -87,7 +87,7 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, loanType }) => {
 							<FormItem>
 								<FormLabel>Min Loan Tenure</FormLabel>
 								<FormControl>
-									<Input placeholder="0" {...field} />
+									<Input type="number" placeholder="0" {...field} />
 								</FormControl>
 								<FormDescription />
 								<FormMessage />
@@ -101,7 +101,7 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, loanType }) => {
 							<FormItem>
 								<FormLabel>Max Loan Tenure</FormLabel>
 								<FormControl>
-									<Input placeholder="0" {...field} />
+									<Input type="number" placeholder="0" {...field} />
 								</FormControl>
 								<FormDescription />
 								<FormMessage />
@@ -117,7 +117,7 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, loanType }) => {
 							<FormItem>
 								<FormLabel>Interest Rate</FormLabel>
 								<FormControl>
-									<Input placeholder="0.0" {...field} />
+									<Input type="number" placeholder="0.0" {...field} />
 								</FormControl>
 								<FormDescription />
 								<FormMessage />
@@ -131,7 +131,7 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, loanType }) => {
 							<FormItem>
 								<FormLabel>Collateral Percentage</FormLabel>
 								<FormControl>
-									<Input placeholder="0.0" {...field} />
+									<Input type="number" placeholder="0.0" {...field} />
 								</FormControl>
 								<FormDescription />
 								<FormMessage />
@@ -147,7 +147,7 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, loanType }) => {
 							<FormItem>
 								<FormLabel>Repayment Periods</FormLabel>
 								<FormControl>
-									<Input placeholder="0" {...field} />
+									<Input type="number" placeholder="0" {...field} />
 								</FormControl>
 								<FormDescription />
 								<FormMessage />
@@ -161,7 +161,7 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, loanType }) => {
 							<FormItem>
 								<FormLabel>Early Pepayment Penalty Percentage</FormLabel>
 								<FormControl>
-									<Input placeholder="0.0" {...field} />
+									<Input type="number" placeholder="0.0" {...field} />
 								</FormControl>
 								<FormDescription />
 								<FormMessage />
@@ -177,7 +177,7 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, loanType }) => {
 							<FormItem>
 								<FormLabel>Max Loan Amount</FormLabel>
 								<FormControl>
-									<Input placeholder="0.0" {...field} />
+									<Input type="number" placeholder="0.0" {...field} />
 								</FormControl>
 								<FormDescription />
 								<FormMessage />

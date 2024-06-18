@@ -13,6 +13,10 @@ const nextConfig = {
     ],
   },
   webpack(config) {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false, // the solution
+    };
     config.plugins.push(
       Icons({
         compiler: "jsx",

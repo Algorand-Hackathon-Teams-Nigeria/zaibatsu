@@ -7,6 +7,7 @@ export const ALGORAND_STANDARD_ASSETS = gql`
     algorandStandardAssets(opts: $opts) {
       imageUrl
       id
+      decimals
       assetId
       unitName
     }

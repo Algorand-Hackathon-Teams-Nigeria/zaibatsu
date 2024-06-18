@@ -10,6 +10,7 @@ import { DeflyWalletConnect } from "@blockshake/defly-connect";
 import { PeraWalletConnect } from "@perawallet/connect";
 import { DaffiWalletConnect } from "@daffiwallet/connect";
 import LuteConnect from "lute-connect";
+import algosdk from "algosdk";
 
 interface Props {
 	children?: React.ReactNode;
@@ -29,6 +30,13 @@ const UseWalletProvider: React.FC<Props> = ({ children }) => {
 			},
 			{ id: PROVIDER_ID.KIBISIS },
 		],
+		nodeConfig: {
+			network: process.env.NEXT_PUBLIC_ALGOD_NETWORK ?? "",
+			nodePort: process.env.NEXT_PUBLIC_ALGOD_PORT ?? "",
+			nodeServer: process.env.NEXT_PUBLIC_ALGOD_SERVER ?? "",
+			nodeToken: process.env.NEXT_PUBLIC_ALGOD_TOKEN ?? "",
+		},
+		algosdkStatic: algosdk,
 	});
 
 	return <WalletProvider value={providers}>{children}</WalletProvider>;

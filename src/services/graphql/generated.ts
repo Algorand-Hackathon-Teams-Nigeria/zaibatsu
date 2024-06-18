@@ -56,16 +56,6 @@ export type AlgorandStandardAssetType = {
   unitName: Scalars['String']['output'];
 };
 
-export type CloudinaryImageType = {
-  __typename?: 'CloudinaryImageType';
-  dateAdded: Scalars['DateTime']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['Int']['output'];
-  lastUpdated: Scalars['DateTime']['output'];
-  publicId: Scalars['String']['output'];
-  secureUrl: Scalars['String']['output'];
-};
-
 export enum LoanEnumType {
   Dao = 'DAO',
   P2P = 'P2P',
@@ -113,7 +103,7 @@ export type LoanTemplateInput = {
   earlyRepaymentPenaltyPercentage?: InputMaybe<Scalars['Int']['input']>;
   interestRate: Scalars['Int']['input'];
   loanType: LoanEnumType;
-  maxLoanAmount: Scalars['Int']['input'];
+  maxLoanAmount: Scalars['Union']['input'];
   maxLoanTenure: Scalars['Int']['input'];
   minLoanTenure: Scalars['Int']['input'];
   poolId?: InputMaybe<Scalars['Int']['input']>;
@@ -162,7 +152,6 @@ export type LoanType = {
   dateAdded: Scalars['DateTime']['output'];
   earlyPaymentPenaltyAmount: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
-  image?: Maybe<CloudinaryImageType>;
   interestAssetAmount: Scalars['Int']['output'];
   lastUpdated: Scalars['DateTime']['output'];
   lendAssetAmount: Scalars['Int']['output'];
@@ -223,6 +212,13 @@ export enum NetworkType {
 export type NewPoolInput = {
   initialContribution: PoolContributionInput;
   name: Scalars['String']['input'];
+};
+
+export type NoneTypeNoneTypeListOptions = {
+  filter?: InputMaybe<Scalars['Void']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  ordering?: InputMaybe<Scalars['Void']['input']>;
 };
 
 export type PaymentRecipientFilter = {
@@ -313,7 +309,7 @@ export type PoolContributionFilterPoolContributionOrderingListOptions = {
 };
 
 export type PoolContributionInput = {
-  amount: Scalars['Int']['input'];
+  amount: Scalars['Union']['input'];
   assetId: Scalars['Union']['input'];
   contributor: Scalars['String']['input'];
   poolId: Scalars['Int']['input'];
@@ -354,11 +350,19 @@ export type PoolOrdering = {
 
 export type PoolType = {
   __typename?: 'PoolType';
+  assets: Array<AlgorandStandardAssetType>;
   dateAdded: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   lastUpdated: Scalars['DateTime']['output'];
   manager: UserType;
   name: Scalars['String']['output'];
+  netValue: Scalars['Float']['output'];
+  totalLoanTemplates: Scalars['Int']['output'];
+};
+
+
+export type PoolTypeAssetsArgs = {
+  opts?: InputMaybe<NoneTypeNoneTypeListOptions>;
 };
 
 export type ProfileType = {
@@ -439,12 +443,19 @@ export type NewLoanTemplateMutationVariables = Exact<{
 
 export type NewLoanTemplateMutation = { __typename?: 'Mutation', newLoanTemplate: { __typename?: 'LoanTemplateType', id: number } };
 
+export type NewPoolMutationVariables = Exact<{
+  input: NewPoolInput;
+}>;
+
+
+export type NewPoolMutation = { __typename?: 'Mutation', newPool: { __typename?: 'PoolType', id: string, name: string, manager: { __typename?: 'UserType', address: string, id: string } } };
+
 export type AlgorandStandardAssetsQueryVariables = Exact<{
   opts?: InputMaybe<AlgorandStandardAssetFilterNoneTypeListOptions>;
 }>;
 
 
-export type AlgorandStandardAssetsQuery = { __typename?: 'Query', algorandStandardAssets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, id: number, assetId: any, unitName: string }> };
+export type AlgorandStandardAssetsQuery = { __typename?: 'Query', algorandStandardAssets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, id: number, decimals: number, assetId: any, unitName: string }> };
 
 export type LoanTemplatesQueryVariables = Exact<{
   opts?: InputMaybe<LoanTemplateFilterLoanTemplateOrderingListOptions>;
@@ -462,6 +473,14 @@ export type LoanCreatorsQueryVariables = Exact<{
 
 export type LoanCreatorsQuery = { __typename?: 'Query', loanTemplateCreators: Array<string | null> };
 
+export type PoolsQueryVariables = Exact<{
+  assetOpts?: InputMaybe<NoneTypeNoneTypeListOptions>;
+  opts?: InputMaybe<PoolFilterPoolOrderingListOptions>;
+}>;
+
+
+export type PoolsQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'PoolType', name: string, totalLoanTemplates: number, netValue: number, id: string, assets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, unitName: string, id: number }> }> };
+
 
 export const NewLoanTemplateDocument = gql`
     mutation NewLoanTemplate($input: LoanTemplateInput!) {
@@ -474,11 +493,28 @@ export const NewLoanTemplateDocument = gql`
 export function useNewLoanTemplateMutation() {
   return Urql.useMutation<NewLoanTemplateMutation, NewLoanTemplateMutationVariables>(NewLoanTemplateDocument);
 };
+export const NewPoolDocument = gql`
+    mutation NewPool($input: NewPoolInput!) {
+  newPool(input: $input) {
+    manager {
+      address
+      id
+    }
+    id
+    name
+  }
+}
+    `;
+
+export function useNewPoolMutation() {
+  return Urql.useMutation<NewPoolMutation, NewPoolMutationVariables>(NewPoolDocument);
+};
 export const AlgorandStandardAssetsDocument = gql`
     query AlgorandStandardAssets($opts: AlgorandStandardAssetFilterNoneTypeListOptions) {
   algorandStandardAssets(opts: $opts) {
     imageUrl
     id
+    decimals
     assetId
     unitName
   }
@@ -536,4 +572,23 @@ export const LoanCreatorsDocument = gql`
 
 export function useLoanCreatorsQuery(options?: Omit<Urql.UseQueryArgs<LoanCreatorsQueryVariables>, 'query'>) {
   return Urql.useQuery<LoanCreatorsQuery, LoanCreatorsQueryVariables>({ query: LoanCreatorsDocument, ...options });
+};
+export const PoolsDocument = gql`
+    query Pools($assetOpts: NoneTypeNoneTypeListOptions, $opts: PoolFilterPoolOrderingListOptions) {
+  pools(opts: $opts) {
+    assets(opts: $assetOpts) {
+      imageUrl
+      unitName
+      id
+    }
+    name
+    totalLoanTemplates
+    netValue
+    id
+  }
+}
+    `;
+
+export function usePoolsQuery(options?: Omit<Urql.UseQueryArgs<PoolsQueryVariables>, 'query'>) {
+  return Urql.useQuery<PoolsQuery, PoolsQueryVariables>({ query: PoolsDocument, ...options });
 };
