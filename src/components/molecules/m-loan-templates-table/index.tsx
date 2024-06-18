@@ -15,8 +15,24 @@ import Link from "next/link";
 import { useAtomValue } from "jotai";
 import listOptionsAtoms from "@state/atoms/listOptions";
 import { Card } from "@/components/ui/card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import MiOptionsVertical from "~icons/mi/options-vertical.jsx";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import TdesignUndertake from "~icons/tdesign/undertake.jsx";
+import { useRouter } from "next/navigation";
 
 const LoanTemplatesTable = () => {
+  const router = useRouter();
   const listOpts = useAtomValue(listOptionsAtoms.p2pLoanTemplate);
   const [{ fetching, data }] = useLoanTemplatesQuery({
     variables: { opts: listOpts },
@@ -28,19 +44,21 @@ const LoanTemplatesTable = () => {
       <Table borderless>
         <TableHeader>
           <TableRow>
-            <TableHead>Asset</TableHead>
-            <TableHead>Max Amount</TableHead>
-            <TableHead className="hidden lg:table-cell">
+            <TableHead className="text-center">Asset</TableHead>
+            <TableHead className="text-center">Max Amount</TableHead>
+            <TableHead className="hidden lg:table-cell text-center">
               Interest Rate
             </TableHead>
-            <TableHead className="hidden xl:table-cell">
+            <TableHead className="hidden xl:table-cell text-center">
               Collateral Percentage
             </TableHead>
-            <TableHead className="hidden xl:table-cell">
+            <TableHead className="hidden xl:table-cell text-center">
               Repayments Periods
             </TableHead>
-            <TableHead className="hidden xl:table-cell">Max Tenure</TableHead>
-            <TableHead className="text-right">Creator</TableHead>
+            <TableHead className="hidden xl:table-cell text-center">
+              Max Tenure
+            </TableHead>
+            <TableHead className="text-center">Creator</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -48,32 +66,35 @@ const LoanTemplatesTable = () => {
             !fetching &&
             templates.map((template) => (
               <TableRow key={template.id}>
-                <TableCell>
-                  <Image
-                    src={template.asset.imageUrl}
-                    alt={template.asset.name}
-                    width={30}
-                    height={30}
-                  />
+                <TableCell className="flex items-center justify-center">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={template.asset.imageUrl}
+                      alt={template.asset.name}
+                      width={30}
+                      height={30}
+                    />
+                    <span>{template.asset.unitName}</span>
+                  </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   {(template.maxLoanAmount / template.asset.decimals).toFixed(
                     2,
                   )}
                 </TableCell>
-                <TableCell className="hidden xl:table-cell">
+                <TableCell className="hidden xl:table-cell text-center">
                   {template.interestRate}
                 </TableCell>
-                <TableCell className="hidden xl:table-cell">
+                <TableCell className="hidden xl:table-cell text-center">
                   {template.collateralPercentage}
                 </TableCell>
-                <TableCell className="hidden md:table-cell lg:hidden xl:table-cell">
+                <TableCell className="hidden  xl:table-cell text-center">
                   {template.repaymentPeriods}
                 </TableCell>
-                <TableCell className="hidden md:table-cell lg:hidden xl:table-cell">
+                <TableCell className="hidden xl:table-cell text-center">
                   {template.maxLoanTenure}
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-center flex items-center justify-center gap-4">
                   <Link
                     href={
                       template.creator
@@ -85,6 +106,30 @@ const LoanTemplatesTable = () => {
                       ? ellipseAddress(template.creator.address)
                       : template.pool?.name}
                   </Link>
+                  <Popover>
+                    <PopoverTrigger>
+                      <Button variant="outline" size="icon">
+                        <MiOptionsVertical />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0">
+                      <Command>
+                        <CommandList>
+                          <CommandGroup>
+                            <CommandItem
+                              onSelect={() =>
+                                router.push(`/p2p/offers/${template.id}`)
+                              }
+                              className="flex items-center gap-2"
+                            >
+                              <TdesignUndertake />
+                              <span>Collect</span>
+                            </CommandItem>
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </TableCell>
               </TableRow>
             ))}

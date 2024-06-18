@@ -1,5 +1,42 @@
 import { gql } from "urql";
 
+export const LOAN_TEMPLATE = gql`
+  query LoanTemplate($templateId: Int!) {
+    loanTemplate(templateId: $templateId) {
+      asset {
+        imageUrl
+        id
+        decimals
+        assetId
+        name
+        network
+        unitName
+      }
+      collateralPercentage
+      creator {
+        id
+        address
+      }
+      dateAdded
+      earlyRepaymentPenaltyPercentage
+      id
+      interestRate
+      lastUpdated
+      loanType
+      maxLoanAmount
+      maxLoanTenure
+      minLoanTenure
+      repaymentPeriods
+      pool {
+        name
+        netValue
+        totalLoanTemplates
+        id
+      }
+    }
+  }
+`;
+
 export const LOAN_OFFERS = gql`
   query LoanTemplates(
     $opts: LoanTemplateFilterLoanTemplateOrderingListOptions

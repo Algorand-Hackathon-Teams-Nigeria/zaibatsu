@@ -457,6 +457,13 @@ export type AlgorandStandardAssetsQueryVariables = Exact<{
 
 export type AlgorandStandardAssetsQuery = { __typename?: 'Query', algorandStandardAssets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, id: number, decimals: number, assetId: any, unitName: string }> };
 
+export type LoanTemplateQueryVariables = Exact<{
+  templateId: Scalars['Int']['input'];
+}>;
+
+
+export type LoanTemplateQuery = { __typename?: 'Query', loanTemplate: { __typename?: 'LoanTemplateType', collateralPercentage: number, dateAdded: any, earlyRepaymentPenaltyPercentage: number, id: number, interestRate: number, lastUpdated: any, loanType: LoanEnumType, maxLoanAmount: any, maxLoanTenure: number, minLoanTenure: number, repaymentPeriods: number, asset: { __typename?: 'AlgorandStandardAssetType', imageUrl: string, id: number, decimals: number, assetId: any, name: string, network: NetworkType, unitName: string }, creator?: { __typename?: 'UserType', id: string, address: string } | null, pool?: { __typename?: 'PoolType', name: string, netValue: number, totalLoanTemplates: number, id: string } | null } };
+
 export type LoanTemplatesQueryVariables = Exact<{
   opts?: InputMaybe<LoanTemplateFilterLoanTemplateOrderingListOptions>;
 }>;
@@ -523,6 +530,46 @@ export const AlgorandStandardAssetsDocument = gql`
 
 export function useAlgorandStandardAssetsQuery(options?: Omit<Urql.UseQueryArgs<AlgorandStandardAssetsQueryVariables>, 'query'>) {
   return Urql.useQuery<AlgorandStandardAssetsQuery, AlgorandStandardAssetsQueryVariables>({ query: AlgorandStandardAssetsDocument, ...options });
+};
+export const LoanTemplateDocument = gql`
+    query LoanTemplate($templateId: Int!) {
+  loanTemplate(templateId: $templateId) {
+    asset {
+      imageUrl
+      id
+      decimals
+      assetId
+      name
+      network
+      unitName
+    }
+    collateralPercentage
+    creator {
+      id
+      address
+    }
+    dateAdded
+    earlyRepaymentPenaltyPercentage
+    id
+    interestRate
+    lastUpdated
+    loanType
+    maxLoanAmount
+    maxLoanTenure
+    minLoanTenure
+    repaymentPeriods
+    pool {
+      name
+      netValue
+      totalLoanTemplates
+      id
+    }
+  }
+}
+    `;
+
+export function useLoanTemplateQuery(options: Omit<Urql.UseQueryArgs<LoanTemplateQueryVariables>, 'query'>) {
+  return Urql.useQuery<LoanTemplateQuery, LoanTemplateQueryVariables>({ query: LoanTemplateDocument, ...options });
 };
 export const LoanTemplatesDocument = gql`
     query LoanTemplates($opts: LoanTemplateFilterLoanTemplateOrderingListOptions) {
