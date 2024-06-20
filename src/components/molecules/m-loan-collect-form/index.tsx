@@ -14,9 +14,17 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import AssetSelectCombobox from "../m-asset-select-combobox";
+import {
+  LoanTemplateQuery,
+  useCalculateLoanSpecificsMutation,
+} from "@/services/graphql/generated";
+import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
+import { useWallet } from "@txnlab/use-wallet";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  price: validZodNumber(),
+  loanAmount: validZodNumber(),
   assetId: z.number({ message: "Please select an asset" }),
   tenure: validZodNumber(),
 });
@@ -24,13 +32,17 @@ const formSchema = z.object({
 type CollectLoanFormSchema = z.infer<typeof formSchema>;
 
 interface Props {
-  maxTenure: number;
-  minTenure: number;
+  template?: LoanTemplateQuery["loanTemplate"];
 }
 
-const CollectLoanForm: React.FC<Props> = ({ maxTenure, minTenure }) => {
+const CollectLoanForm: React.FC<Props> = ({ template }) => {
+  const router = useRouter();
+  const { toast } = useToast();
+  const { activeAddress } = useWallet();
+  const [{ fetching }, calculateSpecificsMutate] =
+    useCalculateLoanSpecificsMutation();
   const [formData, setFormData] = React.useState<CollectLoanFormSchema>({
-    price: "0.00",
+    loanAmount: "0.00",
     assetId: undefined as any,
     tenure: undefined as any,
   });
@@ -41,6 +53,47 @@ const CollectLoanForm: React.FC<Props> = ({ maxTenure, minTenure }) => {
 
   const onSubmit = async (value: CollectLoanFormSchema) => {
     setFormData(value);
+    if (!activeAddress) {
+      toast({
+        title: "Unidentified User",
+        description: "Please connect your wallet to proceed",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!template) {
+      toast({
+        title: "Missing Template",
+        description: "Loan Template not found when one was required",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const { data, error } = await calculateSpecificsMutate({
+      args: {
+        tenure: Number(value.tenure),
+        loanType: template.loanType,
+        loanAmount:
+          Number(value.loanAmount) *
+          getMultiplierForDecimalPlaces(template.asset.decimals),
+        templateId: template.id,
+        borrowerAddress: activeAddress,
+        collateralAssetId: value.assetId,
+      },
+    });
+    if (error?.graphQLErrors) {
+      error.graphQLErrors.map((err) =>
+        toast({
+          title: "Error",
+          description: err.message,
+          variant: "destructive",
+        }),
+      );
+    } else {
+      router.push(`/loans/${data?.calculateLoanSpecifics.id}`);
+    }
   };
 
   return (
@@ -51,7 +104,7 @@ const CollectLoanForm: React.FC<Props> = ({ maxTenure, minTenure }) => {
       >
         <FormField
           control={form.control}
-          name="price"
+          name="loanAmount"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Loan Amount</FormLabel>
@@ -85,8 +138,8 @@ const CollectLoanForm: React.FC<Props> = ({ maxTenure, minTenure }) => {
               <FormLabel>Loan Tenure</FormLabel>
               <FormControl>
                 <Input
-                  min={minTenure}
-                  max={maxTenure}
+                  min={template?.minLoanTenure ?? 1}
+                  max={template?.maxLoanTenure ?? 1}
                   type="number"
                   placeholder="0.00"
                   {...field}
@@ -96,7 +149,9 @@ const CollectLoanForm: React.FC<Props> = ({ maxTenure, minTenure }) => {
             </FormItem>
           )}
         />
-        <Button>Proceed</Button>
+        <Button loading={fetching} disabled={fetching}>
+          Proceed
+        </Button>
       </form>
     </Form>
   );

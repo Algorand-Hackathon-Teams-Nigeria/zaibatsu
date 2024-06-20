@@ -10,6 +10,18 @@ const nextConfig = {
         pathname: "**",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "www.freepnglogos.com",
+        pathname: "**",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "aqua-tricky-mammal-620.mypinata.cloud",
+        pathname: "**",
+        port: "",
+      },
     ],
   },
   webpack(config) {

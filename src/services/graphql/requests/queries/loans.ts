@@ -1,5 +1,63 @@
 import { gql } from "urql";
 
+export const LOAN = gql`
+  query Loan($loanId: Int!) {
+    loan(loanId: $loanId) {
+      id
+      loanType
+      tenure
+      ipfsHash
+      loanKey
+      encodedId
+      interestAssetAmount
+      principalAssetAmount
+      collateralAssetAmount
+      earlyPaymentPenaltyAmount
+      paymentRounds
+      paymentCompletionTimestamp
+      collateralPaid
+      principalPaid
+      dateAdded
+      lastUpdated
+      paymentRecipients {
+        recipient {
+          address
+          id
+        }
+        paymentPercentage
+      }
+      principalAsset {
+        id
+        assetId
+        unitName
+        decimals
+        network
+        imageUrl
+      }
+      collateralAsset {
+        id
+        assetId
+        unitName
+        decimals
+        network
+        imageUrl
+      }
+      borrower {
+        address
+        id
+      }
+      borrowerIpfsAsset {
+        id
+        ipfsHash
+      }
+      lenderIpfsAsset {
+        id
+        ipfsHash
+      }
+    }
+  }
+`;
+
 export const LOAN_TEMPLATE = gql`
   query LoanTemplate($templateId: Int!) {
     loanTemplate(templateId: $templateId) {

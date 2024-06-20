@@ -4,6 +4,7 @@ import PhHandCoinsLight from "~icons/ph/hand-coins-light.jsx";
 import TdesignUndertake from "~icons/tdesign/undertake.jsx";
 import HeroiconsUserGroup from "~icons/heroicons/user-group.jsx";
 import RiP2pLine from "~icons/ri/p2p-line.jsx";
+import ClarityContractLine from "~icons/clarity/contract-line.jsx";
 import IconoirProfileCircle from "~icons/iconoir/profile-circle.jsx";
 
 export type NavType = {
@@ -42,6 +43,11 @@ const SIDEBAR_NAVS: readonly NavType[] = [
     href: "/p2p",
     title: "P2P",
     icon: <RiP2pLine />,
+  },
+  {
+    href: "/loans",
+    title: "Loans",
+    icon: <ClarityContractLine />,
   },
   {
     href: "/profile",
