@@ -1,62 +1,66 @@
 {
-  "include": [
-    "remix.env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "./.eslintrc.cjs"
-  ],
   "compilerOptions": {
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
+    "types": [
+      "unplugin-icons/types/react"
     ],
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "target": "ES2022",
-    "strict": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
       "@/*": [
-        "./app/*"
-      ],
-      "@lib/*": [
-        "./app/lib/*"
-      ],
-      "@components/*": [
-        "./app/components/*"
-      ],
-      "@molecules/*": [
-        "./app/components/molecules/*"
-      ],
-      "@constants/*": [
-        "./app/constants/*"
+        "./src/*"
       ],
       "@ui/*": [
-        "./app/components/ui/*"
+        "./src/components/ui/*"
       ],
-      "@stores/*": [
-        "./app/stores/*"
+      "@utils/*": [
+        "./src/lib/utils/*"
       ],
-      "@types/*": [
-        "./app/types/*"
+      "@atoms/*": [
+        "./src/components/atoms/*"
       ],
-      "@providers/*": [
-        "./app/providers/*"
+      "@layouts/*": [
+        "./src/components/layouts/*"
       ],
-      "@services/*": [
-        "./app/services/*"
+      "@molecules/*": [
+        "./src/components/molecules/*"
       ],
-      "@contract/*": [
-        "./app/services/contract/*"
+      "@state/*": [
+        "./src/state/*"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@graphql/*": [
+        "./src/services/graphql/*"
       ]
-    },
-    // Remix takes care of building everything in `remix build`.
-    "noEmit": true
-  }
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
