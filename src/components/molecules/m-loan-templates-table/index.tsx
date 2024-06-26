@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/command";
 import TdesignUndertake from "~icons/tdesign/undertake.jsx";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const LoanTemplatesTable = () => {
   const router = useRouter();
@@ -133,6 +134,10 @@ const LoanTemplatesTable = () => {
                 </TableCell>
               </TableRow>
             ))}
+          {fetching &&
+            Array.from({ length: 10 }).map((_, id) => (
+              <LoanTemplateRowSkeleton key={id} />
+            ))}
         </TableBody>
       </Table>
       {templates.length === 0 && !fetching && (
@@ -147,3 +152,37 @@ const LoanTemplatesTable = () => {
 };
 
 export default LoanTemplatesTable;
+
+const LoanTemplateRowSkeleton = () => {
+  return (
+    <TableRow>
+      <TableCell>
+        <div className="flex items-center justify-center gap-3">
+          <Skeleton className="w-8 h-8 rounded-full" />
+          <Skeleton className="h-6 w-screen max-w-[60px]" />
+        </div>
+      </TableCell>
+      <TableCell className="flex flex-col items-center">
+        <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
+      </TableCell>
+      <TableCell className="text-center">
+        <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
+      </TableCell>
+      <TableCell className="text-center">
+        <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
+      </TableCell>
+      <TableCell className="text-center">
+        <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
+      </TableCell>
+      <TableCell className="text-center">
+        <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
+      </TableCell>
+      <TableCell className="hidden xl:table-cell">
+        <div className="flex items-center gap-3 justify-center">
+          <Skeleton className="h-7 w-full  max-w-[150px]" />
+          <Skeleton className="h-8 w-8" />
+        </div>
+      </TableCell>
+    </TableRow>
+  );
+};

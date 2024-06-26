@@ -400,7 +400,10 @@ export type PoolType = {
   manager: UserType;
   name: Scalars['String']['output'];
   netValue: Scalars['Float']['output'];
+  totalContributions: Scalars['Int']['output'];
+  totalContributors: Scalars['Int']['output'];
   totalLoanTemplates: Scalars['Int']['output'];
+  totalLoansValue: Scalars['Float']['output'];
 };
 
 
@@ -557,7 +560,14 @@ export type PoolsQueryVariables = Exact<{
 }>;
 
 
-export type PoolsQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'PoolType', name: string, totalLoanTemplates: number, netValue: number, id: string, assets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, unitName: string, id: number }> }> };
+export type PoolsQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'PoolType', name: string, totalLoanTemplates: number, netValue: number, id: string, totalContributors: number, assets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, unitName: string, id: number }> }> };
+
+export type PoolQueryVariables = Exact<{
+  poolId: Scalars['Int']['input'];
+}>;
+
+
+export type PoolQuery = { __typename?: 'Query', pool: { __typename?: 'PoolType', totalLoansValue: number, totalLoanTemplates: number, totalContributors: number, totalContributions: number, netValue: number, name: string, id: string, dateAdded: any, manager: { __typename?: 'UserType', id: string, address: string } } };
 
 
 export const NewLoanTemplateDocument = gql`
@@ -786,10 +796,33 @@ export const PoolsDocument = gql`
     totalLoanTemplates
     netValue
     id
+    totalContributors
   }
 }
     `;
 
 export function usePoolsQuery(options?: Omit<Urql.UseQueryArgs<PoolsQueryVariables>, 'query'>) {
   return Urql.useQuery<PoolsQuery, PoolsQueryVariables>({ query: PoolsDocument, ...options });
+};
+export const PoolDocument = gql`
+    query Pool($poolId: Int!) {
+  pool(poolId: $poolId) {
+    totalLoansValue
+    totalLoanTemplates
+    totalContributors
+    totalContributions
+    netValue
+    name
+    id
+    dateAdded
+    manager {
+      id
+      address
+    }
+  }
+}
+    `;
+
+export function usePoolQuery(options: Omit<Urql.UseQueryArgs<PoolQueryVariables>, 'query'>) {
+  return Urql.useQuery<PoolQuery, PoolQueryVariables>({ query: PoolDocument, ...options });
 };

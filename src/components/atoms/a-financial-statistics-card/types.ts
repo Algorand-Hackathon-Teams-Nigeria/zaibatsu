@@ -3,5 +3,5 @@ export type FinancialStatistic = {
   value: number;
   valuePrefix?: string;
   variant: "user" | "order" | "sales" | "pending";
-  yesterdaysValue: number;
+  oldValue: number;
 };

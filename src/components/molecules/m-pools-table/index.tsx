@@ -19,6 +19,7 @@ import {
   AvatarGroup,
   AvatarImage,
 } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const PoolsTable = () => {
   const listOpts = useAtomValue(listOptionsAtoms.pools);
@@ -33,12 +34,17 @@ const PoolsTable = () => {
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>
-            <TableHead>Assets</TableHead>
-            <TableHead className="hidden lg:table-cell">Net Value</TableHead>
-            <TableHead className="hidden lg:table-cell">
+            <TableHead className="text-center">Assets</TableHead>
+            <TableHead className="hidden lg:table-cell text-center">
+              Net Value
+            </TableHead>
+            <TableHead className="hidden lg:table-cell text-center">
+              Total Contributors
+            </TableHead>
+            <TableHead className="hidden lg:table-cell text-center">
               Loan Offerings
             </TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -54,7 +60,7 @@ const PoolsTable = () => {
                     {pool.name}
                   </Link>
                 </TableCell>
-                <TableCell>
+                <TableCell className="flex flex-col items-center">
                   <AvatarGroup>
                     {pool.assets.map((asset) => (
                       <Avatar className="w-6 h-6 aspect-square" key={asset.id}>
@@ -66,10 +72,17 @@ const PoolsTable = () => {
                     ))}
                   </AvatarGroup>
                 </TableCell>
-                <TableCell>${pool.netValue.toFixed(2)}</TableCell>
-                <TableCell>{pool.totalLoanTemplates}</TableCell>
+                <TableCell className="text-center">
+                  ${pool.netValue.toFixed(2)}
+                </TableCell>
+                <TableCell className="text-center">
+                  {pool.totalContributors}
+                </TableCell>
+                <TableCell className="text-center">
+                  {pool.totalLoanTemplates}
+                </TableCell>
                 <TableCell className="hidden xl:table-cell">
-                  <div className="flex items-center gap-2">
+                  <div className="flex justify-center items-center gap-2">
                     <Link
                       className="p-2 rounded-md bg-primary/60 hover:bg-primary/80 transition-all text-primary-foreground"
                       href={`/pools/${pool.id}/contribute`}
@@ -86,6 +99,10 @@ const PoolsTable = () => {
                 </TableCell>
               </TableRow>
             ))}
+          {fetching &&
+            Array.from({ length: 10 }).map((_, id) => (
+              <PoolRowSkeleton key={id} />
+            ))}
         </TableBody>
       </Table>
       {pools.length === 0 && !fetching && (
@@ -100,3 +117,35 @@ const PoolsTable = () => {
 };
 
 export default PoolsTable;
+
+const PoolRowSkeleton = () => {
+  return (
+    <TableRow>
+      <TableCell>
+        <Skeleton className="h-6 w-screen max-w-[200px]" />
+      </TableCell>
+      <TableCell className="flex flex-col items-center">
+        <AvatarGroup>
+          {Array.from({ length: 3 }).map((_, id) => (
+            <Skeleton key={id} className="w-6 h-6 rounded-full" />
+          ))}
+        </AvatarGroup>
+      </TableCell>
+      <TableCell className="text-center">
+        <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
+      </TableCell>
+      <TableCell className="text-center">
+        <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
+      </TableCell>
+      <TableCell className="text-center">
+        <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
+      </TableCell>
+      <TableCell className="hidden xl:table-cell">
+        <div className="w-screen grid gap-x-2 max-w-[150px] mx-auto grid-cols-2">
+          <Skeleton className="h-7" />
+          <Skeleton className="h-7" />
+        </div>
+      </TableCell>
+    </TableRow>
+  );
+};

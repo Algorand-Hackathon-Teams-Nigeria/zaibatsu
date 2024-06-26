@@ -15,6 +15,26 @@ export const POOLS = gql`
       totalLoanTemplates
       netValue
       id
+      totalContributors
+    }
+  }
+`;
+
+export const POOL = gql`
+  query Pool($poolId: Int!) {
+    pool(poolId: $poolId) {
+      totalLoansValue
+      totalLoanTemplates
+      totalContributors
+      totalContributions
+      netValue
+      name
+      id
+      dateAdded
+      manager {
+        id
+        address
+      }
     }
   }
 `;

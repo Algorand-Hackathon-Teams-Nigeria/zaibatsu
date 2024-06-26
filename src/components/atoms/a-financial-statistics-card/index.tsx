@@ -9,6 +9,7 @@ import PhClockCounterClockwiseDuotone from "~icons/ph/clock-counter-clockwise-du
 import IconamoonTrendDownFill from "~icons/iconamoon/trend-down-fill.jsx";
 import IconamoonTrendUpFill from "~icons/iconamoon/trend-up-fill.jsx";
 import { FinancialStatistic } from "./types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props {
   data: FinancialStatistic;
@@ -22,13 +23,13 @@ const FinancialStatisticCard: React.FC<Props> = ({ data }) => {
   const [performance, setPerformance] = React.useState(0);
 
   React.useEffect(() => {
-    setPerformance(calcPercentage(data.value, data.yesterdaysValue));
-  }, [data.value, data.yesterdaysValue]);
+    setPerformance(calcPercentage(data.value, data.oldValue));
+  }, [data.value, data.oldValue]);
 
   return (
     <Card x-chunk="dashboard-01-chunk-0">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-        <CardTitle className="text-lg font-semibold">Total Revenue</CardTitle>
+        <CardTitle className="text-lg font-semibold">{data.label}</CardTitle>
         <div className="p-2 aspect-square text-2xl rounded-xl bg-primary/10">
           {data.variant === "user" ? (
             <SolarUsersGroupRoundedBoldDuotone />
@@ -68,3 +69,18 @@ const FinancialStatisticCard: React.FC<Props> = ({ data }) => {
 };
 
 export default FinancialStatisticCard;
+
+export const FinancialStatisticCardSkeleton = () => {
+  return (
+    <Card className="animate-pulse bg-muted/20">
+      <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+        <Skeleton className="h-6 w-[60%]" />
+        <Skeleton className="h-12 aspect-square text-2xl rounded-xl bg-primary/10" />
+      </CardHeader>
+      <CardContent>
+        <Skeleton className="h-8 aspect-square" />
+        <Skeleton className="h-5 w-[50%] mt-4" />
+      </CardContent>
+    </Card>
+  );
+};
