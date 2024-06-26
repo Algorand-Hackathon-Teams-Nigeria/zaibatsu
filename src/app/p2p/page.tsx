@@ -1,3 +1,4 @@
+"use client";
 import Page from "@atoms/a-page";
 import LoanTemplateFilter from "@molecules/m-loan-templates-filter";
 import FinancialStatisticsGrid from "@molecules/m-financial-statistics-grid";

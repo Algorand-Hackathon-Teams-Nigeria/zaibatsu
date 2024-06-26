@@ -19,7 +19,7 @@ const appClient = new ZaibatsuServiceClient(
     id: Number(process.env.NEXT_PUBLIC_CONTRACT_APPLICATION_ID ?? ""),
     resolveBy: "id",
   },
-  algodClient,
+  algodClient
 );
 
 const ContractClientsContext = React.createContext({ algodClient, appClient });
@@ -40,12 +40,12 @@ export const ContractClientsProvider: React.FC<Props> = ({ children }) => {
         resolveBy: "id",
         sender: activeAddress
           ? {
-            addr: activeAddress,
-            signer,
-          }
+              addr: activeAddress,
+              signer,
+            }
           : undefined,
       },
-      newAlgodClient,
+      newAlgodClient
     );
   }, [activeAddress, signer, newAlgodClient]);
 

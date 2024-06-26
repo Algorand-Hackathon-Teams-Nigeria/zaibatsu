@@ -30,7 +30,7 @@ const FinancialStatisticCard: React.FC<Props> = ({ data }) => {
     <Card x-chunk="dashboard-01-chunk-0">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
         <CardTitle className="text-lg font-semibold">{data.label}</CardTitle>
-        <div className="p-2 aspect-square text-2xl rounded-xl bg-primary/10">
+        <div className="p-3 aspect-square flex items-center text-center text-2xl rounded-2xl bg-heading/20">
           {data.variant === "user" ? (
             <SolarUsersGroupRoundedBoldDuotone />
           ) : data.variant === "order" ? (
