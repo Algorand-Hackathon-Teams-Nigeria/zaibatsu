@@ -96,7 +96,7 @@ const LoanDetailsOverview: React.FC<Props> = ({
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Payment Completion Date">
             {new Date(
-              Number(data?.loan.paymentCompletionTimestamp ?? "0"),
+              Number(data?.loan.paymentCompletionTimestamp ?? "0") * 1000,
             ).toLocaleDateString("en-US", {
               day: "numeric",
               month: "short",
