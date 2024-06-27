@@ -7,7 +7,7 @@ phases:
       - aws --version
       - docker login --username ${USERNAME} --password ${PASSWORD}
       - aws ecr get-login-password --region ${DEFAULT_REGION} | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${DEFAULT_REGION}.amazonaws.com
-      - REPOSITORY_URI=${ACCOUNT_ID}.dkr.ecr.${DEFAULT_REGION}.amazonaws.com/dapp
+      - REPOSITORY_URI=${ACCOUNT_ID}.dkr.ecr.${DEFAULT_REGION}.amazonaws.com/dapp-prod
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)-$(date +%Y-%m-%d-%H-%M)
   build:
     commands:
@@ -32,6 +32,6 @@ phases:
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"zaibatsu-backend","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"zaibatsu-dapp","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
     files: imagedefinitions.json
