@@ -24,6 +24,7 @@ phases:
       - echo "NEXT_PUBLIC_INDEXER_TOKEN=${NEXT_PUBLIC_INDEXER_TOKEN}" >> .env.local
       - echo "NEXT_PUBLIC_INDEXER_SERVER=${NEXT_PUBLIC_INDEXER_SERVER}" >> .env.local
       - echo "NEXT_PUBLIC_INDEXER_PORT=${NEXT_PUBLIC_INDEXER_PORT}" >> .env.local
+      - cat .env.local
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
   post_build:
@@ -32,6 +33,6 @@ phases:
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"zaibatsu-backend","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"zaibatsu-dapp","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
     files: imagedefinitions.json
