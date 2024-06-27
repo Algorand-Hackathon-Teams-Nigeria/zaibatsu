@@ -9,7 +9,7 @@ RUN npm run build
 
 FROM node:21.7-alpine AS runner
 WORKDIR /app
-RUN groupadd -g 1001 next && useradd -u 1001 -g python -M -N -r -s /usr/sbin/nologin zaibatsu
+RUN addgroup --system --gid 1001 next && adduser --system --uid 1001 zaibatsu
 RUN chown -R zaibatsu:next /app
 COPY --from=builder --chown=zaibatsu:next /app/.next ./.next
 COPY --from=builder --chown=zaibatsu:next /app/node_modules ./node_modules

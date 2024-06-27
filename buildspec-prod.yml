@@ -1,0 +1,37 @@
+version: 0.2
+
+phases:  
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR.....
+      - aws --version
+      - docker login --username ${USERNAME} --password ${PASSWORD}
+      - aws ecr get-login-password --region ${DEFAULT_REGION} | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${DEFAULT_REGION}.amazonaws.com
+      - REPOSITORY_URI=${ACCOUNT_ID}.dkr.ecr.${DEFAULT_REGION}.amazonaws.com/dapp
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)-$(date +%Y-%m-%d-%H-%M)
+  build:
+    commands:
+      - echo Build started on `date`
+      - touch .env.local
+      - echo "NEXT_PUBLIC_GRAPHQL_ENDPOINT=${NEXT_PUBLIC_GRAPHQL_ENDPOINT}" > .env.local
+      - echo "NEXT_PUBLIC_CONTRACT_APPLICATION_ID=${NEXT_PUBLIC_CONTRACT_APPLICATION_ID}" >> .env.local
+      - echo "NEXT_PUBLIC_ALGOD_TOKEN=${NEXT_PUBLIC_ALGOD_TOKEN}" >> .env.local
+      - echo "NEXT_PUBLIC_ALGOD_SERVER=${NEXT_PUBLIC_ALGOD_SERVER}" >> .env.local
+      - echo "NEXT_PUBLIC_ALGOD_PORT=${NEXT_PUBLIC_ALGOD_PORT}" >> .env.local
+      - echo "NEXT_PUBLIC_ALGOD_NETWORK=${NEXT_PUBLIC_ALGOD_NETWORK}" >> .env.local
+      - echo "NEXT_PUBLIC_FOLKS_FEED_ORACLE_APP_ID=${NEXT_PUBLIC_FOLKS_FEED_ORACLE_APP_ID}" >> .env.local
+      - echo "NEXT_PUBLIC_PINYATA_GATEWAY_URL=${NEXT_PUBLIC_PINYATA_GATEWAY_URL}" >> .env.local
+      - echo "NEXT_PUBLIC_INDEXER_TOKEN=${NEXT_PUBLIC_INDEXER_TOKEN}" >> .env.local
+      - echo "NEXT_PUBLIC_INDEXER_SERVER=${NEXT_PUBLIC_INDEXER_SERVER}" >> .env.local
+      - echo "NEXT_PUBLIC_INDEXER_PORT=${NEXT_PUBLIC_INDEXER_PORT}" >> .env.local
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"zaibatsu-backend","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+    files: imagedefinitions.json
