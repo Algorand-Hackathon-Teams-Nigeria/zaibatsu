@@ -26,12 +26,13 @@ import Image from "next/image";
 
 interface Props {
   id?: string;
+  className?: string;
   onSelect?: (
     asset?: AlgorandStandardAssetsQuery["algorandStandardAssets"][number],
   ) => void;
 }
 
-const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect }) => {
+const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect, className }) => {
   const [searchString, setSearchString] = React.useState<string>();
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] =
@@ -49,16 +50,18 @@ const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect }) => {
   });
 
   const assets = data?.algorandStandardAssets ?? [];
+  const btnRef = React.useRef<HTMLButtonElement>(null);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal>
       <PopoverTrigger asChild>
         <Button
           id={id}
           variant="outline"
           role="combobox"
+          ref={btnRef}
           aria-expanded={open}
-          className="w-full justify-between"
+          className={cn("w-full justify-between", className)}
         >
           {selected ? (
             <div className="flex items-center gap-2">
@@ -77,7 +80,11 @@ const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect }) => {
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
+      <PopoverContent
+        style={{ width: `${btnRef.current?.clientWidth}px` }}
+        id="content-popover"
+        className="p-0"
+      >
         <Command>
           <CommandInput
             onValueChange={(v) => setSearchString(v)}

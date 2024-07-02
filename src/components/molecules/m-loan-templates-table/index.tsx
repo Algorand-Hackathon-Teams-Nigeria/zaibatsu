@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useLoanTemplatesQuery } from "@/services/graphql/generated";
 import Image from "next/image";
-import { ellipseAddress } from "@/lib/utils/address";
+import { ellipseAddress } from "@/lib/utils/text";
 import Link from "next/link";
 import { useAtomValue } from "jotai";
 import listOptionsAtoms from "@state/atoms/listOptions";

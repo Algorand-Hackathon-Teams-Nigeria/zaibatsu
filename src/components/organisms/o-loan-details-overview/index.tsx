@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LoanQuery } from "@/services/graphql/generated";
 import { LoanEnumType } from "@/services/graphql/generated";
-import { ellipseAddress } from "@/lib/utils/address";
+import { ellipseAddress } from "@/lib/utils/text";
 import { generateUrlFromIpfsHash } from "@/lib/utils/ipfs";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 

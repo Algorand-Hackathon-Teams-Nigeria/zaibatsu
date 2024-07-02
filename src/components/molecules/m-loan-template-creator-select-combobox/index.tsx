@@ -22,7 +22,7 @@ import {
   LoanCreatorsQuery,
   useLoanCreatorsQuery,
 } from "@/services/graphql/generated";
-import { ellipseAddress } from "@/lib/utils/address";
+import { ellipseAddress } from "@/lib/utils/text";
 import InView from "@/components/atoms/a-in-view";
 
 const LIMIT = 40;

@@ -20,7 +20,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { PoolFormSchema, usePoolForm } from "./schema";
 import { useContractClients } from "@/components/providers/contract";
 import algosdk from "algosdk";
-import { ellipseAddress } from "@/lib/utils/address";
+import { ellipseAddress } from "@/lib/utils/text";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 
 interface Props {
