@@ -62,7 +62,8 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
       assetIndex: Number(data.loan.principalAsset.assetId),
       suggestedParams: sp,
     });
-    const encodedId = data.loan.encodedId ?? encodeIdToBase64(data.loan.id);
+    const encodedId =
+      data.loan.encodedId ?? encodeIdToBase64(Number(data.loan.id));
 
     const completionArgs: CompleteLoanArgs = {
       loanHash: generateObjectHash(data.loan).slice(0, 32),
@@ -123,7 +124,7 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
 
         const { error } = await updateMutate({
           args: details,
-          loanId: data.loan.id,
+          loanId: Number(data.loan.id),
         });
 
         if (error?.graphQLErrors) {

@@ -129,7 +129,7 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
 
         const { error } = await updateMutate({
           args: details,
-          loanId: data.loan.id,
+          loanId: Number(data.loan.id),
         });
 
         if (error?.graphQLErrors) {

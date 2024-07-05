@@ -260,16 +260,16 @@ export type OnCompleteCloseOut = {
  */
 export type OnCompleteDelApp = {
   onCompleteAction:
-  | "delete_application"
-  | OnApplicationComplete.DeleteApplicationOC;
+    | "delete_application"
+    | OnApplicationComplete.DeleteApplicationOC;
 };
 /**
  * Defines an onCompletionAction of 'update_application'
  */
 export type OnCompleteUpdApp = {
   onCompleteAction:
-  | "update_application"
-  | OnApplicationComplete.UpdateApplicationOC;
+    | "update_application"
+    | OnApplicationComplete.UpdateApplicationOC;
 };
 /**
  * A state record containing a single unsigned integer
@@ -349,80 +349,80 @@ export type ZaibatsuAuthAndDao = {
       returns: string;
     }
   > &
-  Record<
-    "create()bool" | "create",
-    {
-      argsObj: {};
-      argsTuple: [];
-      returns: boolean;
-    }
-  > &
-  Record<
-    "update()bool" | "update",
-    {
-      argsObj: {};
-      argsTuple: [];
-      returns: boolean;
-    }
-  > &
-  Record<
-    "delete()bool" | "delete",
-    {
-      argsObj: {};
-      argsTuple: [];
-      returns: boolean;
-    }
-  > &
-  Record<
-    | "set_service_contract_address(address)bool"
-    | "set_service_contract_address",
-    {
-      argsObj: {
-        address: string;
-      };
-      argsTuple: [address: string];
-      returns: boolean;
-    }
-  > &
-  Record<
-    | "authorize_pool_creation(axfer,application,uint64)(uint64,bool)"
-    | "authorize_pool_creation",
-    {
-      argsObj: {
-        txn: TransactionToSign | Transaction | Promise<SendTransactionResult>;
-        folksFeedOracle: number | bigint;
-        assetDecimalsMultiplier: bigint | number;
-      };
-      argsTuple: [
-        txn: TransactionToSign | Transaction | Promise<SendTransactionResult>,
-        folksFeedOracle: number | bigint,
-        assetDecimalsMultiplier: bigint | number,
-      ];
-      returns: PoolFundResponse;
-    }
-  > &
-  Record<
-    "fund_pool(axfer)(uint64,bool)" | "fund_pool",
-    {
-      argsObj: {
-        txn: TransactionToSign | Transaction | Promise<SendTransactionResult>;
-      };
-      argsTuple: [
-        txn: TransactionToSign | Transaction | Promise<SendTransactionResult>,
-      ];
-      returns: PoolFundResponse;
-    }
-  > &
-  Record<
-    "opt_contract_into_asset(asset)bool" | "opt_contract_into_asset",
-    {
-      argsObj: {
-        asset: number | bigint;
-      };
-      argsTuple: [asset: number | bigint];
-      returns: boolean;
-    }
-  >;
+    Record<
+      "create()bool" | "create",
+      {
+        argsObj: {};
+        argsTuple: [];
+        returns: boolean;
+      }
+    > &
+    Record<
+      "update()bool" | "update",
+      {
+        argsObj: {};
+        argsTuple: [];
+        returns: boolean;
+      }
+    > &
+    Record<
+      "delete()bool" | "delete",
+      {
+        argsObj: {};
+        argsTuple: [];
+        returns: boolean;
+      }
+    > &
+    Record<
+      | "set_service_contract_address(address)bool"
+      | "set_service_contract_address",
+      {
+        argsObj: {
+          address: string;
+        };
+        argsTuple: [address: string];
+        returns: boolean;
+      }
+    > &
+    Record<
+      | "authorize_pool_creation(axfer,application,uint64)(uint64,bool)"
+      | "authorize_pool_creation",
+      {
+        argsObj: {
+          txn: TransactionToSign | Transaction | Promise<SendTransactionResult>;
+          folksFeedOracle: number | bigint;
+          assetDecimalsMultiplier: bigint | number;
+        };
+        argsTuple: [
+          txn: TransactionToSign | Transaction | Promise<SendTransactionResult>,
+          folksFeedOracle: number | bigint,
+          assetDecimalsMultiplier: bigint | number,
+        ];
+        returns: PoolFundResponse;
+      }
+    > &
+    Record<
+      "fund_pool(axfer)(uint64,bool)" | "fund_pool",
+      {
+        argsObj: {
+          txn: TransactionToSign | Transaction | Promise<SendTransactionResult>;
+        };
+        argsTuple: [
+          txn: TransactionToSign | Transaction | Promise<SendTransactionResult>,
+        ];
+        returns: PoolFundResponse;
+      }
+    > &
+    Record<
+      "opt_contract_into_asset(asset)bool" | "opt_contract_into_asset",
+      {
+        argsObj: {
+          asset: number | bigint;
+        };
+        argsTuple: [asset: number | bigint];
+        returns: boolean;
+      }
+    >;
   /**
    * Defines the shape of the global and local state of the application.
    */
@@ -446,8 +446,8 @@ export type TypedCallParams<
 > = {
   method: TSignature;
   methodArgs: TSignature extends undefined
-  ? undefined
-  : Array<ABIAppCallArg | undefined>;
+    ? undefined
+    : Array<ABIAppCallArg | undefined>;
 } & AppClientCallCoreParams &
   CoreAppCallArgs;
 /**
@@ -779,7 +779,7 @@ export class ZaibatsuAuthAndDaoClient {
     }
     const returnValue =
       result.return?.returnValue !== undefined &&
-        returnValueFormatter !== undefined
+      returnValueFormatter !== undefined
         ? returnValueFormatter(result.return.returnValue)
         : (result.return?.returnValue as TReturn | undefined);
     return {
@@ -1140,8 +1140,8 @@ export class ZaibatsuAuthAndDaoClient {
         args: MethodArgs<"create()bool">,
         params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
       ) {
-        // @ts-ignore
         promiseChain = promiseChain.then(() =>
+          // @ts-ignore
           client.create(args, {
             ...params,
             sendParams: { ...params?.sendParams, skipSending: true, atc },
