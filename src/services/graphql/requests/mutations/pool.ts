@@ -12,3 +12,11 @@ export const NEW_POOL = gql`
     }
   }
 `;
+
+export const NEW_POOL_CONTRIBUTION = gql`
+  mutation NewPoolContribution($input: PoolContributionInput!) {
+    newPoolContribution(input: $input) {
+      id
+    }
+  }
+`;

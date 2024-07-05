@@ -27,7 +27,7 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [contractLoanding, setContractLoading] = React.useState(false);
-  const { appClient, algodClient } = useContractClients();
+  const { algodClient, loanClient } = useContractClients();
   const [{ fetching: updating }, updateMutate] =
     useUpdateLoanWithContractDetailsMutation();
   const [{ fetching, data }] = useLoanQuery({
@@ -46,7 +46,7 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
       return;
     }
     const textEncoder = new TextEncoder();
-    const appRef = await appClient.appClient.getAppReference();
+    const appRef = await loanClient.appClient.getAppReference();
     const sp = await algodClient.getTransactionParams().do();
     const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
       to: appRef.appAddress,
@@ -81,10 +81,10 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
     };
     try {
       setContractLoading(true);
-      await appClient.optContractIntoAsset({
+      await loanClient.optContractIntoAsset({
         asset: BigInt(data.loan.collateralAsset.assetId),
       });
-      const res = await appClient.initiateP2pLoanPurchase(
+      const res = await loanClient.initiateLoanPurchase(
         {
           txn,
           loanKey: textEncoder.encode(loanKey),

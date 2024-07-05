@@ -11,7 +11,7 @@ interface Props {
 }
 const FinancialStatisticsGrid: React.FC<Props> = ({ stats, fetching }) => {
   return (
-    <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+    <div className="grid gap-4 grid-cols-2 md:gap-8 xl:grid-cols-4">
       {fetching
         ? Array.from({ length: 4 }).map((_, id) => (
           <FinancialStatisticCardSkeleton key={id} />

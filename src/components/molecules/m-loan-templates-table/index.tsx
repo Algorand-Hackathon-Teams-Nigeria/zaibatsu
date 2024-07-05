@@ -31,10 +31,19 @@ import {
 import TdesignUndertake from "~icons/tdesign/undertake.jsx";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import React from "react";
 
-const LoanTemplatesTable = () => {
+interface Props {
+  variant?: "P2P" | "Pool";
+}
+
+const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
   const router = useRouter();
-  const listOpts = useAtomValue(listOptionsAtoms.p2pLoanTemplate);
+  const listOpts = useAtomValue(
+    variant === "Pool"
+      ? listOptionsAtoms.poolLoanTemplate
+      : listOptionsAtoms.p2pLoanTemplate,
+  );
   const [{ fetching, data }] = useLoanTemplatesQuery({
     variables: { opts: listOpts },
   });
