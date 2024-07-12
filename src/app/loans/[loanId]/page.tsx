@@ -55,7 +55,9 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
       assetIndex: Number(data.loan.collateralAsset.assetId),
       suggestedParams: sp,
     });
+
     const loanKey = uuidv4();
+
     const loanDetails: LoanDetails = {
       loanKey,
       collateralAssetAmount: BigInt(data.loan.collateralAssetAmount),
@@ -149,7 +151,7 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log({ error });
       setContractLoading(false);
       toast({
         title: "Transaction Error",
