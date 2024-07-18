@@ -4,9 +4,12 @@ export function getMultiplierForDecimalPlaces(decimalPlaces: number) {
   return Math.pow(10, decimalPlaces);
 }
 
+const FEE_PERCENTAGE = 0.5;
+
 export function calcAmountPlusFee(amount: number): number {
-  const percentage = Math.ceil((5 * (amount * 10)) / 100);
-  return Math.ceil(percentage / 10 + amount);
+  const feeDecimal = FEE_PERCENTAGE / 100;
+  const percentage = feeDecimal * amount;
+  return Math.ceil(percentage + amount);
 }
 
 export function generateObjectHash(obj: Record<string, any>): string {

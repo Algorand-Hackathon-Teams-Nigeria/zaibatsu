@@ -20,7 +20,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { PoolFormSchema, usePoolForm } from "./schema";
 import { useContractClients } from "@/components/providers/contract";
 import algosdk from "algosdk";
-import { ellipseAddress } from "@/lib/utils/address";
+import { ellipseAddress } from "@/lib/utils/text";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 
 interface Props {
@@ -33,7 +33,7 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
   const [contractLoading, setContractLoading] = React.useState(false);
   const { activeAddress } = useWallet();
   const [assetDecimals, setAssetDecimals] = React.useState(1);
-  const { appClient, algodClient } = useContractClients();
+  const { loanClient, algodClient, authAndDaoClient } = useContractClients();
 
   const { toast } = useToast();
 
@@ -49,10 +49,10 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
     }
 
     setContractLoading(true);
-    const appRef = await appClient.appClient.getAppReference();
+    const loanAppRef = await loanClient.appClient.getAppReference();
     const sp = await algodClient.getTransactionParams().do();
     const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-      to: appRef.appAddress,
+      to: loanAppRef.appAddress,
       from: activeAddress,
       assetIndex: value.assetId,
       amount:
@@ -60,7 +60,7 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
       suggestedParams: sp,
     });
     try {
-      const res = await appClient.authorizePoolCreation({
+      const res = await authAndDaoClient.authorizePoolCreation({
         txn,
         assetDecimalsMultiplier: getMultiplierForDecimalPlaces(assetDecimals),
         folksFeedOracle: Number(

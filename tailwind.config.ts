@@ -29,9 +29,13 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#00a86b", //"hsl(var(--primary))",
-          foreground: "#ffffff", //"hsl(var(--primary-foreground))",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
+        // primary: {
+        //   DEFAULT: "#00a86b",
+        //   foreground: "#ffffff",
+        // },
         heading: " hsl(var(--heading))",
         paragraph: " hsl(var(--heading))",
         grey: {

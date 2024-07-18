@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useLoanTemplatesQuery } from "@/services/graphql/generated";
 import Image from "next/image";
-import { ellipseAddress } from "@/lib/utils/address";
+import { ellipseAddress } from "@/lib/utils/text";
 import Link from "next/link";
 import { useAtomValue } from "jotai";
 import listOptionsAtoms from "@state/atoms/listOptions";
@@ -31,10 +31,19 @@ import {
 import TdesignUndertake from "~icons/tdesign/undertake.jsx";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import React from "react";
 
-const LoanTemplatesTable = () => {
+interface Props {
+  variant?: "P2P" | "Pool";
+}
+
+const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
   const router = useRouter();
-  const listOpts = useAtomValue(listOptionsAtoms.p2pLoanTemplate);
+  const listOpts = useAtomValue(
+    variant === "Pool"
+      ? listOptionsAtoms.poolLoanTemplate
+      : listOptionsAtoms.p2pLoanTemplate,
+  );
   const [{ fetching, data }] = useLoanTemplatesQuery({
     variables: { opts: listOpts },
   });

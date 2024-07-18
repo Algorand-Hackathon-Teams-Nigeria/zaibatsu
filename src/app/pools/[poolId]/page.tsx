@@ -9,6 +9,8 @@ import { LoanEnumType, usePoolQuery } from "@/services/graphql/generated";
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWallet } from "@txnlab/use-wallet";
+import { useSetAtom } from "jotai";
+import listOptionsAtoms from "@/state/atoms/listOptions";
 
 interface Props {
   params: {
@@ -18,11 +20,20 @@ interface Props {
 
 const PoolDetailsPage: React.FC<Props> = ({ params }) => {
   const { activeAddress } = useWallet();
+  const setPoolTemplatesOpts = useSetAtom(listOptionsAtoms.poolLoanTemplate);
   const [{ data, fetching }] = usePoolQuery({
     variables: {
       poolId: Number(params.poolId),
     },
   });
+
+  React.useEffect(() => {
+    setPoolTemplatesOpts((c) => ({
+      ...c,
+      filter: { ...c?.filter, poolId: Number(params.poolId) },
+    }));
+  }, [params.poolId, setPoolTemplatesOpts]);
+
   return (
     <Page>
       <FinancialStatisticsGrid
@@ -54,7 +65,7 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
           },
         ]}
       />
-      <LoanTemplateFilter />
+      <LoanTemplateFilter variant="Pool" />
       <div className="flex items-center justify-between">
         <h2 className="text-xl lg:text-2xl font-semibold">
           {fetching ? (
@@ -67,7 +78,7 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
           <LoanTemplateActions loanType={LoanEnumType.Dao} />
         )}
       </div>
-      <LoanTemplatesTable />
+      <LoanTemplatesTable variant="Pool" />
     </Page>
   );
 };

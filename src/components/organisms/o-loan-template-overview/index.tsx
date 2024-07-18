@@ -3,9 +3,7 @@
 import React from "react";
 import { LoanEnumType, LoanTemplateQuery } from "@/services/graphql/generated";
 import CollectLoanForm from "@/components/molecules/m-loan-collect-form";
-import { Card } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ellipseAddress } from "@/lib/utils/address";
+import { ellipseAddress } from "@/lib/utils/text";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 import Overview from "@/components/atoms/a-overview";
 

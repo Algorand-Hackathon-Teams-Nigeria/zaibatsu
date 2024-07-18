@@ -20,6 +20,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import PoolContributeModal from "@/components/atoms/a-pool-contribute-modal";
 
 const PoolsTable = () => {
   const listOpts = useAtomValue(listOptionsAtoms.pools);
@@ -83,12 +84,7 @@ const PoolsTable = () => {
                 </TableCell>
                 <TableCell className="hidden xl:table-cell">
                   <div className="flex justify-center items-center gap-2">
-                    <Link
-                      className="p-2 rounded-md bg-primary/60 hover:bg-primary/80 transition-all text-primary-foreground"
-                      href={`/pools/${pool.id}/contribute`}
-                    >
-                      Contribute
-                    </Link>
+                    <PoolContributeModal pool={pool} />
                     <Link
                       className="border border-primary/60 p-2 rounded-md hover:text-primary-foreground hover:bg-primary/60 transition-all"
                       href={`/pools/${pool.id}/borrow`}
