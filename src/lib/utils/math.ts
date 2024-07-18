@@ -4,19 +4,15 @@ export function getMultiplierForDecimalPlaces(decimalPlaces: number) {
   return Math.pow(10, decimalPlaces);
 }
 
-const FEE_PERCENTAGE = 0.5;
-
-export function calcAmountPlusFee(amount: number): number {
-  const feeDecimal = FEE_PERCENTAGE / 100;
-  const percentage = feeDecimal * amount;
-  return Math.ceil(percentage + amount);
+export function getMinDecimalPlacesValues(decimalPlaces: number): number {
+  if (decimalPlaces < 0) {
+    throw new Error("Number of decimal places must be non-negative");
+  }
+  return Number(`0.${"0".repeat(decimalPlaces - 1)}1`);
 }
 
 export function generateObjectHash(obj: Record<string, any>): string {
-  const hash = crypto
-    .createHash("sha256")
-    .update(JSON.stringify(obj))
-    .digest("hex");
+  const hash = crypto.createHash("sha256").update(JSON.stringify(obj)).digest("hex");
   return hash;
 }
 

@@ -58,14 +58,14 @@ export type AlgorandStandardAssetType = {
 
 export type ContractLoanDetails = {
   borrower: Scalars['String']['input'];
-  borrowerNftAsserId: Scalars['Union']['input'];
+  borrowerNftAssetId: Scalars['Union']['input'];
   collateralAssetAmount: Scalars['Union']['input'];
   collateralAssetId: Scalars['Union']['input'];
   collateralPaid: Scalars['Boolean']['input'];
   completedPaymentRounds: Scalars['Int']['input'];
   earlyPaymentPenaltyAmount: Scalars['Union']['input'];
   interestAssetAmount: Scalars['Union']['input'];
-  lenderNftAsserId: Scalars['Union']['input'];
+  lenderNftAssetId: Scalars['Union']['input'];
   loanKey: Scalars['String']['input'];
   loanType: Scalars['String']['input'];
   paymentCompletionTimestamp: Scalars['Union']['input'];
@@ -87,6 +87,11 @@ export type IpfsAssetType = {
   timestamp: Scalars['String']['output'];
 };
 
+export type InitiateLoanPaymentRoundInput = {
+  loanKey: Scalars['String']['input'];
+  repaymentKey: Scalars['String']['input'];
+};
+
 export enum LoanEnumType {
   Dao = 'DAO',
   P2P = 'P2P',
@@ -97,6 +102,7 @@ export type LoanFilter = {
   borrowerAddress?: InputMaybe<Scalars['String']['input']>;
   collateralAssetId?: InputMaybe<Scalars['Union']['input']>;
   collateralPaid?: InputMaybe<Scalars['Boolean']['input']>;
+  lenderAddress?: InputMaybe<Scalars['String']['input']>;
   loanType?: InputMaybe<LoanEnumType>;
   maxCollateralAssetAmount?: InputMaybe<Scalars['Union']['input']>;
   maxCompletedPaymentRounds?: InputMaybe<Scalars['Int']['input']>;
@@ -130,12 +136,19 @@ export type LoanOrdering = {
   lastUpdatedDesc: Scalars['DateTime']['input'];
 };
 
+export type LoanRepaymentInfoType = {
+  __typename?: 'LoanRepaymentInfoType';
+  amount: Scalars['Union']['output'];
+  completedRounds: Scalars['Int']['output'];
+  paymentRounds: Scalars['Int']['output'];
+};
+
 export type LoanRequestInput = {
   borrowerAddress: Scalars['String']['input'];
   collateralAssetId: Scalars['Union']['input'];
-  loanAmount: Scalars['Int']['input'];
   loanId?: InputMaybe<Scalars['Int']['input']>;
   loanType: LoanEnumType;
+  principalAmount: Scalars['Int']['input'];
   templateId: Scalars['Int']['input'];
   tenure: Scalars['Int']['input'];
 };
@@ -166,10 +179,10 @@ export type LoanTemplateFilterLoanTemplateOrderingListOptions = {
 
 export type LoanTemplateInput = {
   assetId: Scalars['String']['input'];
-  collateralPercentage: Scalars['Int']['input'];
+  collateralPercentage: Scalars['Float']['input'];
   creatorAddress?: InputMaybe<Scalars['String']['input']>;
-  earlyRepaymentPenaltyPercentage?: InputMaybe<Scalars['Int']['input']>;
-  interestRate: Scalars['Int']['input'];
+  earlyRepaymentPenaltyPercentage?: InputMaybe<Scalars['Float']['input']>;
+  interestRate: Scalars['Float']['input'];
   loanType: LoanEnumType;
   maxLoanAmount: Scalars['Union']['input'];
   maxLoanTenure: Scalars['Int']['input'];
@@ -231,6 +244,7 @@ export type LoanType = {
   lenderNftAsset?: Maybe<AlgorandStandardAssetType>;
   loanKey?: Maybe<Scalars['String']['output']>;
   loanType: LoanEnumType;
+  paymentComplete: Scalars['Boolean']['output'];
   paymentCompletionTimestamp: Scalars['Union']['output'];
   paymentRecipients: Array<PaymentRecipientType>;
   paymentRounds: Scalars['Int']['output'];
@@ -249,6 +263,7 @@ export type LoanTypePaymentRecipientsArgs = {
 export type Mutation = {
   __typename?: 'Mutation';
   calculateLoanSpecifics: LoanType;
+  initiateLoanPaymentRound: PendingLoanRoundPaymentType;
   newLoanTemplate: LoanTemplateType;
   newPool: PoolType;
   newPoolContribution: PoolContributionType;
@@ -259,6 +274,11 @@ export type Mutation = {
 
 export type MutationCalculateLoanSpecificsArgs = {
   args: LoanRequestInput;
+};
+
+
+export type MutationInitiateLoanPaymentRoundArgs = {
+  input: InitiateLoanPaymentRoundInput;
 };
 
 
@@ -334,6 +354,24 @@ export type PaymentRecipientType = {
   loan: LoanType;
   paymentPercentage: Scalars['Float']['output'];
   recipient: UserType;
+};
+
+export type PendingLoanRoundPaymentType = {
+  __typename?: 'PendingLoanRoundPaymentType';
+  completed: Scalars['Boolean']['output'];
+  dateAdded: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  lastUpdated: Scalars['DateTime']['output'];
+  loanKey: Scalars['String']['output'];
+  percentagePaid: Scalars['Int']['output'];
+  recipients: Array<PaymentRecipientType>;
+  repaymentAmount: Scalars['Int']['output'];
+  repaymentKey: Scalars['String']['output'];
+};
+
+
+export type PendingLoanRoundPaymentTypeRecipientsArgs = {
+  args?: InputMaybe<PaymentRecipientFilterPaymentRecipientOrderingListOptions>;
 };
 
 export type PoolAssetHoldingFilter = {
@@ -465,6 +503,7 @@ export type Query = {
   __typename?: 'Query';
   algorandStandardAssets: Array<AlgorandStandardAssetType>;
   loan: LoanType;
+  loanRepaymentInfo: LoanRepaymentInfoType;
   loanTemplate: LoanTemplateType;
   loanTemplateCreators: Array<Maybe<Scalars['String']['output']>>;
   loanTemplates: Array<LoanTemplateType>;
@@ -484,6 +523,11 @@ export type QueryAlgorandStandardAssetsArgs = {
 
 export type QueryLoanArgs = {
   loanId: Scalars['Int']['input'];
+};
+
+
+export type QueryLoanRepaymentInfoArgs = {
+  loanId: Scalars['Union']['input'];
 };
 
 
@@ -535,6 +579,13 @@ export type UserType = {
   profile?: Maybe<ProfileType>;
 };
 
+export type InitiateLoanPaymentRoundMutationVariables = Exact<{
+  input: InitiateLoanPaymentRoundInput;
+}>;
+
+
+export type InitiateLoanPaymentRoundMutation = { __typename?: 'Mutation', initiateLoanPaymentRound: { __typename?: 'PendingLoanRoundPaymentType', id: string, percentagePaid: number } };
+
 export type NewLoanTemplateMutationVariables = Exact<{
   input: LoanTemplateInput;
 }>;
@@ -578,12 +629,26 @@ export type AlgorandStandardAssetsQueryVariables = Exact<{
 
 export type AlgorandStandardAssetsQuery = { __typename?: 'Query', algorandStandardAssets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, id: number, decimals: number, assetId: any, unitName: string }> };
 
+export type LoanRepaymentInfoQueryVariables = Exact<{
+  loanId: Scalars['Union']['input'];
+}>;
+
+
+export type LoanRepaymentInfoQuery = { __typename?: 'Query', loanRepaymentInfo: { __typename?: 'LoanRepaymentInfoType', amount: any, completedRounds: number, paymentRounds: number } };
+
+export type LoansQueryVariables = Exact<{
+  opts?: InputMaybe<LoanFilterLoanOrderingListOptions>;
+}>;
+
+
+export type LoansQuery = { __typename?: 'Query', loans: Array<{ __typename?: 'LoanType', collateralAssetAmount: any, dateAdded: any, earlyPaymentPenaltyAmount: any, encodedId?: string | null, id: string, principalPaid: boolean, interestAssetAmount: any, lastUpdated: any, loanType: LoanEnumType, principalAssetAmount: any, tenure: number, paymentRounds: number, completedPaymentRounds: number, borrower: { __typename?: 'UserType', address: string, id: string }, collateralAsset: { __typename?: 'AlgorandStandardAssetType', assetId: any, decimals: number, id: number, imageUrl: string, name: string, unitName: string }, principalAsset: { __typename?: 'AlgorandStandardAssetType', assetId: any, decimals: number, id: number, imageUrl: string, name: string, unitName: string }, borrowerNftAsset?: { __typename?: 'AlgorandStandardAssetType', assetId: any, unitName: string, id: number, network: NetworkType } | null, lenderNftAsset?: { __typename?: 'AlgorandStandardAssetType', assetId: any, id: number, network: NetworkType, unitName: string } | null }> };
+
 export type LoanQueryVariables = Exact<{
   loanId: Scalars['Int']['input'];
 }>;
 
 
-export type LoanQuery = { __typename?: 'Query', loan: { __typename?: 'LoanType', id: string, loanType: LoanEnumType, tenure: number, ipfsHash?: string | null, loanKey?: string | null, encodedId?: string | null, interestAssetAmount: any, principalAssetAmount: any, collateralAssetAmount: any, earlyPaymentPenaltyAmount: any, paymentRounds: number, paymentCompletionTimestamp: any, collateralPaid: boolean, principalPaid: boolean, dateAdded: any, lastUpdated: any, paymentRecipients: Array<{ __typename?: 'PaymentRecipientType', paymentPercentage: number, recipient: { __typename?: 'UserType', address: string, id: string } }>, principalAsset: { __typename?: 'AlgorandStandardAssetType', id: number, assetId: any, unitName: string, decimals: number, network: NetworkType, imageUrl: string }, collateralAsset: { __typename?: 'AlgorandStandardAssetType', id: number, assetId: any, unitName: string, decimals: number, network: NetworkType, imageUrl: string }, borrower: { __typename?: 'UserType', address: string, id: string }, borrowerIpfsAsset?: { __typename?: 'IPFSAssetType', id: number, ipfsHash: string } | null, lenderIpfsAsset?: { __typename?: 'IPFSAssetType', id: number, ipfsHash: string } | null } };
+export type LoanQuery = { __typename?: 'Query', loan: { __typename?: 'LoanType', id: string, loanType: LoanEnumType, tenure: number, ipfsHash?: string | null, loanKey?: string | null, encodedId?: string | null, interestAssetAmount: any, principalAssetAmount: any, collateralAssetAmount: any, earlyPaymentPenaltyAmount: any, paymentRounds: number, completedPaymentRounds: number, paymentCompletionTimestamp: any, collateralPaid: boolean, principalPaid: boolean, dateAdded: any, lastUpdated: any, paymentRecipients: Array<{ __typename?: 'PaymentRecipientType', paymentPercentage: number, recipient: { __typename?: 'UserType', address: string, id: string } }>, principalAsset: { __typename?: 'AlgorandStandardAssetType', id: number, assetId: any, unitName: string, decimals: number, network: NetworkType, imageUrl: string }, collateralAsset: { __typename?: 'AlgorandStandardAssetType', id: number, assetId: any, unitName: string, decimals: number, network: NetworkType, imageUrl: string }, borrower: { __typename?: 'UserType', address: string, id: string }, borrowerIpfsAsset?: { __typename?: 'IPFSAssetType', id: number, ipfsHash: string } | null, lenderIpfsAsset?: { __typename?: 'IPFSAssetType', id: number, ipfsHash: string } | null } };
 
 export type LoanTemplateQueryVariables = Exact<{
   templateId: Scalars['Int']['input'];
@@ -624,6 +689,18 @@ export type PoolQueryVariables = Exact<{
 export type PoolQuery = { __typename?: 'Query', pool: { __typename?: 'PoolType', totalLoansValue: number, totalLoanTemplates: number, totalContributors: number, totalContributions: number, netValue: number, name: string, id: string, dateAdded: any, manager: { __typename?: 'UserType', id: string, address: string } } };
 
 
+export const InitiateLoanPaymentRoundDocument = gql`
+    mutation InitiateLoanPaymentRound($input: InitiateLoanPaymentRoundInput!) {
+  initiateLoanPaymentRound(input: $input) {
+    id
+    percentagePaid
+  }
+}
+    `;
+
+export function useInitiateLoanPaymentRoundMutation() {
+  return Urql.useMutation<InitiateLoanPaymentRoundMutation, InitiateLoanPaymentRoundMutationVariables>(InitiateLoanPaymentRoundDocument);
+};
 export const NewLoanTemplateDocument = gql`
     mutation NewLoanTemplate($input: LoanTemplateInput!) {
   newLoanTemplate(input: $input) {
@@ -699,6 +776,74 @@ export const AlgorandStandardAssetsDocument = gql`
 export function useAlgorandStandardAssetsQuery(options?: Omit<Urql.UseQueryArgs<AlgorandStandardAssetsQueryVariables>, 'query'>) {
   return Urql.useQuery<AlgorandStandardAssetsQuery, AlgorandStandardAssetsQueryVariables>({ query: AlgorandStandardAssetsDocument, ...options });
 };
+export const LoanRepaymentInfoDocument = gql`
+    query LoanRepaymentInfo($loanId: Union!) {
+  loanRepaymentInfo(loanId: $loanId) {
+    amount
+    completedRounds
+    paymentRounds
+  }
+}
+    `;
+
+export function useLoanRepaymentInfoQuery(options: Omit<Urql.UseQueryArgs<LoanRepaymentInfoQueryVariables>, 'query'>) {
+  return Urql.useQuery<LoanRepaymentInfoQuery, LoanRepaymentInfoQueryVariables>({ query: LoanRepaymentInfoDocument, ...options });
+};
+export const LoansDocument = gql`
+    query Loans($opts: LoanFilterLoanOrderingListOptions) {
+  loans(opts: $opts) {
+    borrower {
+      address
+      id
+    }
+    collateralAsset {
+      assetId
+      decimals
+      id
+      imageUrl
+      name
+      unitName
+    }
+    collateralAssetAmount
+    dateAdded
+    earlyPaymentPenaltyAmount
+    encodedId
+    id
+    principalPaid
+    interestAssetAmount
+    lastUpdated
+    loanType
+    principalAsset {
+      assetId
+      decimals
+      id
+      imageUrl
+      name
+      unitName
+    }
+    principalAssetAmount
+    tenure
+    borrowerNftAsset {
+      assetId
+      unitName
+      id
+      network
+    }
+    lenderNftAsset {
+      assetId
+      id
+      network
+      unitName
+    }
+    paymentRounds
+    completedPaymentRounds
+  }
+}
+    `;
+
+export function useLoansQuery(options?: Omit<Urql.UseQueryArgs<LoansQueryVariables>, 'query'>) {
+  return Urql.useQuery<LoansQuery, LoansQueryVariables>({ query: LoansDocument, ...options });
+};
 export const LoanDocument = gql`
     query Loan($loanId: Int!) {
   loan(loanId: $loanId) {
@@ -713,6 +858,7 @@ export const LoanDocument = gql`
     collateralAssetAmount
     earlyPaymentPenaltyAmount
     paymentRounds
+    completedPaymentRounds
     paymentCompletionTimestamp
     collateralPaid
     principalPaid

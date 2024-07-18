@@ -12,7 +12,7 @@ import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 interface Props {
   data?: LoanQuery;
   fetching?: boolean;
-  variant: "lender" | "borrower";
+  variant: "lend" | "borrow" | "repay";
   processing?: boolean;
   onConfirm?: CallableFunction;
   disabled?: boolean;
@@ -37,7 +37,7 @@ const LoanDetailsOverview: React.FC<Props> = ({
             className="absolute -top-12 right-0 w-full max-w-[150px]"
             loading={processing}
           >
-            {variant === "lender" ? "Confirm" : "Collect"}
+            {variant === "lend" ? "Confirm" : variant === "repay" ? "Repay" : "Collect"}
           </Button>
           <Overview.Item fetching={fetching} title="Type">
             {data?.loan.loanType}
@@ -93,6 +93,9 @@ const LoanDetailsOverview: React.FC<Props> = ({
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Payment Rounds">
             {data?.loan.paymentRounds}
+          </Overview.Item>
+          <Overview.Item fetching={fetching} title="Completed Payment Rounds">
+            {data?.loan.completedPaymentRounds}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Payment Completion Date">
             {new Date(

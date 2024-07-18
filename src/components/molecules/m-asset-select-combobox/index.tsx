@@ -27,12 +27,13 @@ import Image from "next/image";
 interface Props {
   id?: string;
   className?: string;
+  exclude?: string[];
   onSelect?: (
     asset?: AlgorandStandardAssetsQuery["algorandStandardAssets"][number],
   ) => void;
 }
 
-const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect, className }) => {
+const AssetSelectCombobox: React.FC<Props> = ({ id, exclude, onSelect, className }) => {
   const [searchString, setSearchString] = React.useState<string>();
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] =
@@ -49,7 +50,7 @@ const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect, className }) => {
     },
   });
 
-  const assets = data?.algorandStandardAssets ?? [];
+  const assets = (data?.algorandStandardAssets ?? []).filter(i => !(exclude?? []).includes(String(i.assetId)));
   const btnRef = React.useRef<HTMLButtonElement>(null);
 
   return (
@@ -61,7 +62,7 @@ const AssetSelectCombobox: React.FC<Props> = ({ id, onSelect, className }) => {
           role="combobox"
           ref={btnRef}
           aria-expanded={open}
-          className={cn("w-full justify-between", className)}
+          className={cn("w-full overflow-x-clip justify-between", className)}
         >
           {selected ? (
             <div className="flex items-center gap-2">

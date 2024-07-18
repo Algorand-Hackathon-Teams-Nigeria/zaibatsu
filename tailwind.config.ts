@@ -19,7 +19,9 @@ const config = {
     },
     extend: {
       fontFamily: {
-        inter: ["Inter Variable", "sans-serif"],
+        inter: "var(--font-inter)",
+        mono: "var(--font-mono)",
+        sans: "var(--font-sans)",
         trispace: ["Trispace Variable", "sans-serif"],
       },
       colors: {

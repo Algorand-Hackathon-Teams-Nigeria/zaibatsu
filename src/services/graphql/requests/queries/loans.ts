@@ -1,5 +1,67 @@
 import { gql } from "urql";
 
+export const LOAN_REPAYMENT_INFO = gql`
+  query LoanRepaymentInfo($loanId: Union!) {
+    loanRepaymentInfo(loanId: $loanId) {
+      amount
+      completedRounds
+      paymentRounds
+    }
+  }
+`;
+
+export const LOANS = gql`
+  query Loans($opts: LoanFilterLoanOrderingListOptions) {
+    loans(opts: $opts) {
+      borrower {
+        address
+        id
+      }
+      collateralAsset {
+        assetId
+        decimals
+        id
+        imageUrl
+        name
+        unitName
+      }
+      collateralAssetAmount
+      dateAdded
+      earlyPaymentPenaltyAmount
+      encodedId
+      id
+      principalPaid
+      interestAssetAmount
+      lastUpdated
+      loanType
+      principalAsset {
+        assetId
+        decimals
+        id
+        imageUrl
+        name
+        unitName
+      }
+      principalAssetAmount
+      tenure
+      borrowerNftAsset {
+        assetId
+        unitName
+        id
+        network
+      }
+      lenderNftAsset {
+        assetId
+        id
+        network
+        unitName
+      }
+      paymentRounds
+      completedPaymentRounds
+    }
+  }
+`;
+
 export const LOAN = gql`
   query Loan($loanId: Int!) {
     loan(loanId: $loanId) {
@@ -14,6 +76,7 @@ export const LOAN = gql`
       collateralAssetAmount
       earlyPaymentPenaltyAmount
       paymentRounds
+      completedPaymentRounds
       paymentCompletionTimestamp
       collateralPaid
       principalPaid

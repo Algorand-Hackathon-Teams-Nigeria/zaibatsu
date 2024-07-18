@@ -18,8 +18,8 @@ const LTFCollateralAndInterstRate: React.FC<Props> = ({
   value,
 }) => {
   return (
-    <div className="grid gap-2">
-      <div className="grid grid-cols-6 gap-2">
+    <div className="grid gap-2 text-sm">
+      <div className="grid items-center grid-cols-6 gap-2">
         <label htmlFor="minInterestRate" className="col-span-4">
           Min Interest rate
         </label>
@@ -34,7 +34,7 @@ const LTFCollateralAndInterstRate: React.FC<Props> = ({
           }
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label htmlFor="maxInterestRate" className="col-span-4">
           Max Interest rate
         </label>
@@ -49,7 +49,7 @@ const LTFCollateralAndInterstRate: React.FC<Props> = ({
           }
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label htmlFor="minCollateralPercentage" className="col-span-4">
           Min Collateral %
         </label>
@@ -67,7 +67,7 @@ const LTFCollateralAndInterstRate: React.FC<Props> = ({
           }
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label htmlFor="maxCollateralPercentage" className="col-span-4">
           Max Collateral %
         </label>

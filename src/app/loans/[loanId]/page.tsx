@@ -5,8 +5,8 @@ import LoanDetailsOverview from "@/components/organisms/o-loan-details-overview"
 import { useContractClients } from "@/components/providers/contract";
 import { useToast } from "@/components/ui/use-toast";
 import { convertLoanDetailsToTupple } from "@/lib/utils/contract";
-import { calcAmountPlusFee } from "@/lib/utils/math";
-import { LoanDetails } from "@/services/contract/zaibatsuClient";
+import { calcAmountPlusFee } from "@utils/finance";
+import { LoanDetails } from "@/services/contract/loanClient";
 import {
   ContractLoanDetails,
   useLoanQuery,
@@ -64,7 +64,7 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
       borrower: data.loan.borrower.address,
       loanType: data.loan.loanType,
       paymentRecipients: data.loan.paymentRecipients.map((r) => [
-        BigInt(r.paymentPercentage * 100),
+        BigInt(Math.ceil(r.paymentPercentage * 100)),
         r.recipient.address,
       ]),
       principalPaid: false,
@@ -109,14 +109,14 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
           paymentRounds: Number(res.return.paymentRounds.toString()),
           principalPaid: res.return.principalPaid,
           collateralPaid: res.return.collateralPaid,
-          lenderNftAsserId: res.return.lenderNftAsserId.toString(),
+          lenderNftAssetId: res.return.lenderNftAsserId.toString(),
           principalAssetId: res.return.principalAssetId.toString(),
           collateralAssetId: res.return.collateralAssetId.toString(),
           paymentRecipients: res.return.paymentRecipients.map((r) => [
             r[0].toString(),
             r[1],
           ]),
-          borrowerNftAsserId: res.return.borrowerNftAsserId.toString(),
+          borrowerNftAssetId: res.return.borrowerNftAsserId.toString(),
           interestAssetAmount: res.return.interestAssetAmount.toString(),
           principalAssetAmount: res.return.principalAssetAmount.toString(),
           collateralAssetAmount: res.return.collateralAssetAmount.toString(),
@@ -151,7 +151,6 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
         }
       }
     } catch (error) {
-      // console.log({ error });
       setContractLoading(false);
       toast({
         title: "Transaction Error",
@@ -166,7 +165,7 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
       <LoanDetailsOverview
         data={data}
         fetching={fetching}
-        variant="borrower"
+        variant="borrow"
         onConfirm={handleCollectLoan}
         processing={fetching || contractLoanding || updating}
       />

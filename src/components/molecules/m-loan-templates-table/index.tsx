@@ -1,37 +1,22 @@
 "use client";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { useLoanTemplatesQuery } from "@/services/graphql/generated";
-import Image from "next/image";
-import { ellipseAddress } from "@/lib/utils/text";
-import Link from "next/link";
-import { useAtomValue } from "jotai";
-import listOptionsAtoms from "@state/atoms/listOptions";
-import { Card } from "@/components/ui/card";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import MiOptionsVertical from "~icons/mi/options-vertical.jsx";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import TdesignUndertake from "~icons/tdesign/undertake.jsx";
-import { useRouter } from "next/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useAtomValue } from "jotai";
+import { useRouter } from "next/navigation";
+import { Card } from "@ui/card";
+import { Button } from "@ui/button";
+import { Skeleton } from "@ui/skeleton";
+import { ellipseAddress } from "@utils/text";
+import listOptionsAtoms from "@state/atoms/listOptions";
+import { useLoanTemplatesQuery } from "@graphql/generated";
+import { getMultiplierForDecimalPlaces } from "@utils/math";
+import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover";
+import { Command, CommandGroup, CommandItem, CommandList } from "@ui/command";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
+import TdesignUndertake from "~icons/tdesign/undertake.jsx";
+import MiOptionsVertical from "~icons/mi/options-vertical.jsx";
 
 interface Props {
   variant?: "P2P" | "Pool";
@@ -40,9 +25,7 @@ interface Props {
 const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
   const router = useRouter();
   const listOpts = useAtomValue(
-    variant === "Pool"
-      ? listOptionsAtoms.poolLoanTemplate
-      : listOptionsAtoms.p2pLoanTemplate,
+    variant === "Pool" ? listOptionsAtoms.poolLoanTemplate : listOptionsAtoms.p2pLoanTemplate,
   );
   const [{ fetching, data }] = useLoanTemplatesQuery({
     variables: { opts: listOpts },
@@ -56,18 +39,12 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
           <TableRow>
             <TableHead className="text-center">Asset</TableHead>
             <TableHead className="text-center">Max Amount</TableHead>
-            <TableHead className="hidden lg:table-cell text-center">
-              Interest Rate
-            </TableHead>
+            <TableHead className="hidden lg:table-cell text-center">Interest Rate</TableHead>
             <TableHead className="hidden xl:table-cell text-center">
               Collateral Percentage
             </TableHead>
-            <TableHead className="hidden xl:table-cell text-center">
-              Repayments Periods
-            </TableHead>
-            <TableHead className="hidden xl:table-cell text-center">
-              Max Tenure
-            </TableHead>
+            <TableHead className="hidden xl:table-cell text-center">Repayments Periods</TableHead>
+            <TableHead className="hidden xl:table-cell text-center">Max Tenure</TableHead>
             <TableHead className="text-center">Creator</TableHead>
           </TableRow>
         </TableHeader>
@@ -88,9 +65,9 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
                   </div>
                 </TableCell>
                 <TableCell className="text-center">
-                  {(template.maxLoanAmount / template.asset.decimals).toFixed(
-                    2,
-                  )}
+                  {(
+                    template.maxLoanAmount / getMultiplierForDecimalPlaces(template.asset.decimals)
+                  ).toFixed(8)}
                 </TableCell>
                 <TableCell className="hidden xl:table-cell text-center">
                   {template.interestRate}
@@ -127,9 +104,7 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
                         <CommandList>
                           <CommandGroup>
                             <CommandItem
-                              onSelect={() =>
-                                router.push(`/p2p/offers/${template.id}`)
-                              }
+                              onSelect={() => router.push(`/p2p/offers/${template.id}`)}
                               className="flex items-center gap-2"
                             >
                               <TdesignUndertake />
@@ -144,9 +119,7 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
               </TableRow>
             ))}
           {fetching &&
-            Array.from({ length: 10 }).map((_, id) => (
-              <LoanTemplateRowSkeleton key={id} />
-            ))}
+            Array.from({ length: 10 }).map((_, id) => <LoanTemplateRowSkeleton key={id} />)}
         </TableBody>
       </Table>
       {templates.length === 0 && !fetching && (

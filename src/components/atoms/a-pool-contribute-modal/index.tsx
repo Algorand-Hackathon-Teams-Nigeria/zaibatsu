@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { validZodNumber } from "@/lib/utils/forms/fields";
-import { calcAmountPlusFee } from "@/lib/utils/math";
+import { calcAmountPlusFee } from "@utils/finance";
 import { ellipseText } from "@/lib/utils/text";
 import useFundPool from "@/services/contract/hooks/fundPool";
 import {

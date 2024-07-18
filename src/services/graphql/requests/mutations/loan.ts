@@ -1,5 +1,14 @@
 import { gql } from "urql";
 
+export const INITIATE_LOAN_REPAYMENT = gql`
+  mutation InitiateLoanPaymentRound($input: InitiateLoanPaymentRoundInput!) {
+    initiateLoanPaymentRound(input: $input) {
+      id
+      percentagePaid
+    }
+  }
+`;
+
 export const LOAN_TEMPLATE = gql`
   mutation NewLoanTemplate($input: LoanTemplateInput!) {
     newLoanTemplate(input: $input) {

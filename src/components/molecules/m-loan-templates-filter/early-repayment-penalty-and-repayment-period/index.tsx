@@ -18,8 +18,8 @@ const LTFEarlyRepaymentPenaltyAndRepaymentPeriod: React.FC<Props> = ({
   value,
 }) => {
   return (
-    <div className="grid gap-2">
-      <div className="grid grid-cols-6 gap-2">
+    <div className="grid text-sm gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label
           htmlFor="minEarlyRepaymentPenaltyPercentage"
           className="col-span-4"
@@ -40,7 +40,7 @@ const LTFEarlyRepaymentPenaltyAndRepaymentPeriod: React.FC<Props> = ({
           }
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label
           htmlFor="maxEarlyRepaymentPenaltyPercentage"
           className="col-span-4"
@@ -61,7 +61,7 @@ const LTFEarlyRepaymentPenaltyAndRepaymentPeriod: React.FC<Props> = ({
           }
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label htmlFor="minRepaymentPeriods" className="col-span-4">
           Min Payment Periods
         </label>
@@ -76,7 +76,7 @@ const LTFEarlyRepaymentPenaltyAndRepaymentPeriod: React.FC<Props> = ({
           }
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label htmlFor="maxRepaymentPeriods" className="col-span-4">
           Max Payment Periods
         </label>

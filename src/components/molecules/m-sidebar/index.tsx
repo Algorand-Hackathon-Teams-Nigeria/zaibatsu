@@ -9,12 +9,15 @@ const Sidebar = () => {
     <div className="md:shadow-[rgba(0,0,0,0.05)_7px_2px_7px] max-w-full h-full md:bg-muted/40">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="md:flex hidden h-14 items-center px-4 lg:h-[100px] lg:px-6">
-          <Image
-            src="/images/full-logo.svg"
-            alt="Zaibatsu"
-            width={132}
-            height={37}
-          />
+          <Link href="/">
+            <Image
+              src="/images/full-logo.svg"
+              alt="Zaibatsu"
+              width={132}
+              height={37}
+            />
+            <span className="sr-only">Dashboard</span>
+          </Link>
         </div>
         <div className="mt-16 md:mt-0 flex-1 ">
           <nav className="grid items-start text-sm font-medium">
