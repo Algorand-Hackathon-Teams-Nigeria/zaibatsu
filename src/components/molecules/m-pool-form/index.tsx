@@ -22,6 +22,7 @@ import { useContractClients } from "@/components/providers/contract";
 import algosdk from "algosdk";
 import { ellipseAddress } from "@/lib/utils/text";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
+import { TooltipInfo } from "@/components/atoms/a-tooltip-info/index";
 
 interface Props {
   onClose?: CallableFunction;
@@ -64,7 +65,7 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
         txn,
         assetDecimalsMultiplier: getMultiplierForDecimalPlaces(assetDecimals),
         folksFeedOracle: Number(
-          process.env.NEXT_PUBLIC_FOLKS_FEED_ORACLE_APP_ID,
+          process.env.NEXT_PUBLIC_FOLKS_FEED_ORACLE_APP_ID
         ),
       });
       setContractLoading(false);
@@ -86,12 +87,16 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
             title: "Error",
             description: err.message,
             variant: "destructive",
-          }),
+          })
         );
       } else {
         toast({
           title: "Success",
-          description: `Pool ${value.name} has been created with ${ellipseAddress(activeAddress)} as the manager`,
+          description: `Pool ${
+            value.name
+          } has been created with ${ellipseAddress(
+            activeAddress
+          )} as the manager`,
         });
         onClose && onClose();
       }
@@ -114,7 +119,12 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Pool Name</FormLabel>
+              <FormLabel>
+                <div className="flex flex-row ">
+                  Pool Name&nbsp;
+                  <TooltipInfo description="Name of the pool you wish to create" />
+                </div>
+              </FormLabel>
               <FormControl>
                 <Input type="text" placeholder="Enter name" {...field} />
               </FormControl>
@@ -136,7 +146,12 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
               name="assetId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Asset</FormLabel>
+                  <FormLabel>
+                    <div className="flex flex-row ">
+                      Asset&nbsp;
+                      <TooltipInfo description="Select the crypto asset you wish to contribute to the pool" />
+                    </div>
+                  </FormLabel>
                   <FormControl>
                     <AssetSelectCombobox
                       onSelect={(v) => {

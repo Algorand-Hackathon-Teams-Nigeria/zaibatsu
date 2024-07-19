@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/command";
 import TdesignUndertake from "~icons/tdesign/undertake.jsx";
 import TablerRubberStamp from "~icons/tabler/rubber-stamp.jsx";
-import UiwPay from '~icons/uiw/pay.jsx';
+import UiwPay from "~icons/uiw/pay.jsx";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
@@ -90,6 +90,7 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
               Remaining Payment Rounds
             </TableHead>
             <TableHead className="text-center">Tenure</TableHead>
+            <TableHead className="text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -112,7 +113,7 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                       {(
                         Number(loan.principalAssetAmount) /
                         getMultiplierForDecimalPlaces(
-                          loan.principalAsset.decimals,
+                          loan.principalAsset.decimals
                         )
                       ).toFixed(4)}
                     </span>
@@ -130,7 +131,7 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                       {(
                         Number(loan.collateralAssetAmount) /
                         getMultiplierForDecimalPlaces(
-                          loan.collateralAsset.decimals,
+                          loan.collateralAsset.decimals
                         )
                       ).toFixed(4)}
                     </span>
@@ -158,8 +159,10 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                     : Number(loan.paymentRounds) -
                       Number(loan.completedPaymentRounds)}
                 </TableCell>
-                <TableCell className="text-center flex items-center justify-center gap-4">
+                <TableCell className="text-center  table-cell ">
                   {loan.tenure}
+                </TableCell>
+                <TableCell className="text-center flex items-center justify-center ">
                   <Popover>
                     <PopoverTrigger>
                       <Button variant="outline" size="icon">
@@ -171,18 +174,22 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                       <Command>
                         <CommandList>
                           <CommandGroup className="flex flex-col gap-2">
-                            {variant === "collected" && loan.borrower.address === activeAddress && (
-                              <CommandItem
-                                disabled={loan.completedPaymentRounds === loan.paymentRounds}
-                                onSelect={() =>
-                                  router.push(`/loans/${loan.id}/repay`)
-                                }
-                                className="flex items-center gap-2"
-                              >
-                                <UiwPay />
-                                <span>Repay</span>
-                              </CommandItem>
-                            )}
+                            {variant === "collected" &&
+                              loan.borrower.address === activeAddress && (
+                                <CommandItem
+                                  disabled={
+                                    loan.completedPaymentRounds ===
+                                    loan.paymentRounds
+                                  }
+                                  onSelect={() =>
+                                    router.push(`/loans/${loan.id}/repay`)
+                                  }
+                                  className="flex items-center gap-2"
+                                >
+                                  <UiwPay />
+                                  <span>Repay</span>
+                                </CommandItem>
+                              )}
                             {variant === "sold" && (
                               <CommandItem
                                 disabled={loan.principalPaid}
@@ -256,6 +263,10 @@ const LoanTemplateRowSkeleton = () => {
       <TableCell className="hidden xl:table-cell">
         <div className="flex items-center gap-3 justify-center">
           <Skeleton className="h-7 w-full  max-w-[150px]" />
+        </div>
+      </TableCell>
+      <TableCell className="hidden xl:table-cell">
+        <div className="flex items-center gap-3 justify-center">
           <Skeleton className="h-8 w-8" />
         </div>
       </TableCell>
