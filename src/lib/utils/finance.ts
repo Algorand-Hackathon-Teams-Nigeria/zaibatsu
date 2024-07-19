@@ -1,10 +1,12 @@
-const TRANSACTION_PERCENTAGE = 0.5
+const TRANSACTION_PERCENTAGE = 0.5;
 
 export function calculateTransactionFee(amount: number): number {
-  return Math.ceil((TRANSACTION_PERCENTAGE / 100) * amount)
+  const calced = (TRANSACTION_PERCENTAGE / 100) * amount;
+  console.log({ calced });
+  return calced;
 }
 
 export function calcAmountPlusFee(amount: number): number {
-  const fee = calculateTransactionFee(amount)
-  return Math.ceil(fee + amount);
+  const fee = calculateTransactionFee(amount);
+  return fee + amount;
 }

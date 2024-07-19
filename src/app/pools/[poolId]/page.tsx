@@ -5,12 +5,13 @@ import LoanTemplateFilter from "@molecules/m-loan-templates-filter";
 import FinancialStatisticsGrid from "@molecules/m-financial-statistics-grid";
 import LoanTemplatesTable from "@molecules/m-loan-templates-table";
 import LoanTemplateActions from "@/components/organisms/o-loan-template-actions";
-import { LoanEnumType, usePoolQuery } from "@/services/graphql/generated";
+import { usePoolQuery } from "@/services/graphql/generated";
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWallet } from "@txnlab/use-wallet";
 import { useSetAtom } from "jotai";
 import listOptionsAtoms from "@/state/atoms/listOptions";
+import PoolLoanTemplateProposals from "@/components/molecules/m-pool-loan-template-proposals";
 
 interface Props {
   params: {
@@ -23,7 +24,7 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
   const setPoolTemplatesOpts = useSetAtom(listOptionsAtoms.poolLoanTemplate);
   const [{ data, fetching }] = usePoolQuery({
     variables: {
-      poolId: Number(params.poolId),
+      poolId: params.poolId,
     },
   });
 
@@ -33,6 +34,8 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
       filter: { ...c?.filter, poolId: Number(params.poolId) },
     }));
   }, [params.poolId, setPoolTemplatesOpts]);
+
+  console.log(data?.pool)
 
   return (
     <Page>
@@ -65,6 +68,7 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
           },
         ]}
       />
+      <PoolLoanTemplateProposals poolId={params.poolId}/>
       <LoanTemplateFilter variant="Pool" />
       <div className="flex items-center justify-between">
         <h2 className="text-xl lg:text-2xl font-semibold">
@@ -75,7 +79,7 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
           )}
         </h2>
         {activeAddress === data?.pool.manager.address && (
-          <LoanTemplateActions loanType={LoanEnumType.Dao} />
+          <LoanTemplateActions loanType="Dao" poolId={params.poolId} />
         )}
       </div>
       <LoanTemplatesTable variant="Pool" />

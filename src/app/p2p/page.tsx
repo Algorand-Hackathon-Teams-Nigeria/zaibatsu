@@ -4,7 +4,6 @@ import LoanTemplateFilter from "@molecules/m-loan-templates-filter";
 import FinancialStatisticsGrid from "@molecules/m-financial-statistics-grid";
 import LoanTemplatesTable from "@molecules/m-loan-templates-table";
 import LoanTemplateActions from "@/components/organisms/o-loan-template-actions";
-import { LoanEnumType } from "@/services/graphql/generated";
 
 const P2PPage = () => {
   return (
@@ -13,7 +12,7 @@ const P2PPage = () => {
       <LoanTemplateFilter />
       <div className="flex items-center justify-between">
         <h2 className="text-xl lg:text-2xl font-semibold">P2P</h2>
-        <LoanTemplateActions loanType={LoanEnumType.P2P} />
+        <LoanTemplateActions loanType="P2P" />
       </div>
       <LoanTemplatesTable />
     </Page>

@@ -51,7 +51,7 @@ const LoanDetailsPage: React.FC<Props> = ({ params }) => {
     const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
       to: appRef.appAddress,
       from: data?.loan.borrower.address,
-      amount: calcAmountPlusFee(Number(data.loan.collateralAssetAmount)),
+      amount: Math.ceil(calcAmountPlusFee(Number(data.loan.collateralAssetAmount))),
       assetIndex: Number(data.loan.collateralAsset.assetId),
       suggestedParams: sp,
     });

@@ -21,11 +21,10 @@ interface FundPoolArgs {
 }
 
 const useFundPool = () => {
-  const { activeAddress } = useWallet();
+  const { activeAddress, getAccountInfo } = useWallet();
   const { authAndDaoClient, loanClient, algodClient } = useContractClients();
   const [contractProcessing, setContractProcessing] = React.useState(false);
-  const [{ fetching }, recordPoolContribution] =
-    useNewPoolContributionMutation();
+  const [{ fetching }, recordPoolContribution] = useNewPoolContributionMutation();
 
   const { toast } = useToast();
 
@@ -35,24 +34,62 @@ const useFundPool = () => {
         toast(ERRORS.WALLET_DISCONNECTED);
         return;
       }
-      const encoder = new TextEncoder();
+      const encoder = new TextEncoder(); const fundAmount = Math.ceil(
+        args.amount * getMultiplierForDecimalPlaces(args.asset.decimals),
+      );
       setContractProcessing(true);
+      const poolAsset = await (async () => {
+        const info = await getAccountInfo();
+        const poolAsset = info.assets?.find((item) => {
+          const id = item["asset-id"];
+          return id === Number(args.pool.poolAssetId);
+        });
+        return poolAsset;
+      })();
+
       const sp = await algodClient.getTransactionParams().do();
       const loanAppRef = await loanClient.appClient.getAppReference();
+      const daoAppRef = await authAndDaoClient.appClient.getAppReference();
+
+      if (!poolAsset) {
+        try {
+          const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+            from: activeAddress,
+            to: activeAddress,
+            assetIndex: Number(args.pool.poolAssetId),
+            note: encoder.encode(`OptIn to ${ellipseText(args.pool.name, 10)}'s asset`),
+            amount: 0,
+            suggestedParams: sp,
+          });
+          await authAndDaoClient.optinPoolAsset({ optinTxn: txn, poolKey: args.pool.poolKey });
+        } catch (e) {
+          console.log({ e });
+          setContractProcessing(false);
+        }
+      }
+
       const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
         from: activeAddress,
         to: loanAppRef.appAddress,
         assetIndex: Number(args.asset.assetId),
-        note: encoder.encode(
-          `Contribution to (${ellipseText(args.pool.name, 10)})`,
-        ),
-        amount: Math.ceil(
-          args.amount * getMultiplierForDecimalPlaces(args.asset.decimals),
-        ),
+        note: encoder.encode(`Contribution to (${ellipseText(args.pool.name, 10)})`),
+        amount: fundAmount,
         suggestedParams: sp,
       });
+
       try {
-        const res = await authAndDaoClient.fundPool({ txn });
+        const res = await authAndDaoClient.fundPool(
+          {
+            txn,
+            poolAsset: Number(args.pool.poolAssetId),
+            poolKey: args.pool.poolKey,
+            fundAmount,
+            userAccount: activeAddress,
+            folksFeedOracle: Number(process.env.NEXT_PUBLIC_FOLKS_FEED_ORACLE_APP_ID ?? ""),
+            assetDecimalsMultiplier: getMultiplierForDecimalPlaces(args.asset.decimals),
+          },
+          { boxes: [{ appId: daoAppRef.appId, name: args.pool.poolKey }] },
+        );
         setContractProcessing(false);
         if (res.return?.success) {
           const { error } = await recordPoolContribution({
@@ -69,8 +106,7 @@ const useFundPool = () => {
           } else {
             toast(
               SUCCESS.POOL_CONTRIBUTION_COMPLETE(
-                Number(res.return.amount) /
-                getMultiplierForDecimalPlaces(args.asset.decimals),
+                Number(res.return.amount) / getMultiplierForDecimalPlaces(args.asset.decimals),
                 args.asset.unitName,
               ),
             );
@@ -89,6 +125,7 @@ const useFundPool = () => {
       authAndDaoClient,
       loanClient,
       toast,
+      getAccountInfo,
       recordPoolContribution,
     ],
   );

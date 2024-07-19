@@ -22,6 +22,12 @@ const nextConfig = {
         pathname: "**",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "ipfs.zaibatsu.vip",
+        pathname: "**",
+        port: "",
+      },
     ],
   },
   webpack(config) {
@@ -33,7 +39,7 @@ const nextConfig = {
       Icons({
         compiler: "jsx",
         jsx: "react",
-        // autoInstall: true,
+        autoInstall: true,
       }),
     );
     return config;

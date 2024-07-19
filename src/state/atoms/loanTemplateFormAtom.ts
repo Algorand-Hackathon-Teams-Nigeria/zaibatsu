@@ -1,4 +1,4 @@
-import { LoanTemplateFormSchema } from "@/components/molecules/m-loan-template-form/schema";
+import { LoanTemplateFormSchema } from "@molecules/m-loan-template-form/schema";
 import ATOM_KEYS from "../keys";
 import { atomWithLocalStorage } from "../utils";
 

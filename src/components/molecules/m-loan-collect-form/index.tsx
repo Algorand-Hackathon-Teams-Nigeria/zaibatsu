@@ -108,7 +108,6 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
               <FormLabel>Loan Amount</FormLabel>
               <FormControl>
                 <Input
-                  min={getMinDecimalPlacesValues(template?.asset.decimals ?? 1)}
                   type="number"
                   placeholder="0.00"
                   {...field}
@@ -142,8 +141,6 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
               <FormLabel>Loan Tenure</FormLabel>
               <FormControl>
                 <Input
-                  min={template?.minLoanTenure ?? 1}
-                  max={template?.maxLoanTenure ?? 1}
                   type="number"
                   placeholder="0.00"
                   {...field}

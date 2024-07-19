@@ -20,3 +20,19 @@ export const NEW_POOL_CONTRIBUTION = gql`
     }
   }
 `;
+
+export const CREATE_UPDATE_POOL_LOAN_TEMPLATE_PROPOSAL = gql`
+  mutation CreateUpdatePoolLoanTemplateProposal($input: PoolLoanTemplateProposalInput!) {
+    createUpdatePoolLoanTemplateProposal(input: $input) {
+      id
+    }
+  }
+`;
+
+export const NEW_POOL_LOAN_TEMPLATE_PROPOSAL_VOTE = gql`
+  mutation NewPoolLoanTemplateProposalVote($input: PoolLoanTemplateProposalVoteInput!) {
+    newPoolLoanTemplateProposalVote(input: $input) {
+      assetId
+    }
+  }
+`;

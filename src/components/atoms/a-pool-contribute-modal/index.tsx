@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { validZodNumber } from "@/lib/utils/forms/fields";
-import { calcAmountPlusFee } from "@utils/finance";
+import { calculateTransactionFee } from "@utils/finance";
 import { ellipseText } from "@/lib/utils/text";
 import useFundPool from "@/services/contract/hooks/fundPool";
 import {
@@ -58,9 +58,7 @@ const PoolContributeModal: React.FC<Props> = ({ pool }) => {
   const onSubmit = (data: FormSchema) => {
     if (formData?.asset?.decimals) {
       const assetAmount = Number(data.amount) * formData.asset.decimals;
-      const amountPlusFee = calcAmountPlusFee(assetAmount);
-      const transactionFee =
-        (amountPlusFee - assetAmount) / formData.asset.decimals;
+      const transactionFee = calculateTransactionFee(assetAmount)
       const amount = assetAmount / formData.asset.decimals;
 
       setFormData((c) => ({
