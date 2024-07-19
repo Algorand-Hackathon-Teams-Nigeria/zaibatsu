@@ -87,8 +87,10 @@ const PoolContributeModal: React.FC<Props> = ({ pool }) => {
   return (
     <>
       <Dialog open={fundOpen} onOpenChange={setFundOpen}>
-        <DialogTrigger>
-          <Button type="button">Contribute</Button>
+        <DialogTrigger className="w-full">
+          <Button type="button" className="w-full">
+            Contribute
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader className="text-2xl font-medium my-4">

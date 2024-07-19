@@ -92,7 +92,7 @@ const PoolsTable = () => {
                     <div className="flex justify-center items-center gap-2">
                       <PoolContributeModal pool={pool} />
                       <Link
-                        className="border border-primary/60 p-2 rounded-md hover:text-primary-foreground hover:bg-primary/60 transition-all"
+                        className="border w-full text-center border-primary/60 p-2 rounded-md hover:text-primary-foreground hover:bg-primary/60 transition-all"
                         href={`/pools/${pool.id}/borrow`}
                       >
                         Borrow

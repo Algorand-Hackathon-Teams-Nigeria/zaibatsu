@@ -153,7 +153,7 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                     {loan.lenderNftAsset?.assetId}
                   </Link>
                 </TableCell>
-                <TableCell className="hidden xl:table-cell text-center">
+                <TableCell className="table-cell text-center">
                   {loan.completedPaymentRounds === loan.paymentRounds
                     ? "Fully Paid"
                     : Number(loan.paymentRounds) -
@@ -241,7 +241,6 @@ const LoanTemplateRowSkeleton = () => {
     <TableRow>
       <TableCell>
         <div className="flex items-center justify-center gap-3">
-          <Skeleton className="w-8 h-8 rounded-full" />
           <Skeleton className="h-6 w-screen max-w-[60px]" />
         </div>
       </TableCell>
@@ -257,7 +256,7 @@ const LoanTemplateRowSkeleton = () => {
       <TableCell className="text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
-      <TableCell className="text-center">
+      <TableCell className="hidden xl:text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
       <TableCell className="hidden xl:table-cell">
