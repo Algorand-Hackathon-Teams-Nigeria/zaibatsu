@@ -34,9 +34,11 @@ const useFundPool = () => {
         toast(ERRORS.WALLET_DISCONNECTED);
         return;
       }
+
       const encoder = new TextEncoder(); const fundAmount = Math.ceil(
         args.amount * getMultiplierForDecimalPlaces(args.asset.decimals),
       );
+
       setContractProcessing(true);
       const poolAsset = await (async () => {
         const info = await getAccountInfo();

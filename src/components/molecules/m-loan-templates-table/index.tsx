@@ -24,7 +24,6 @@ import {
 } from "@ui/table";
 import TdesignUndertake from "~icons/tdesign/undertake.jsx";
 import MiOptionsVertical from "~icons/mi/options-vertical.jsx";
-import LoanTemplatesCard from "../m-loan-templates-table-mobile";
 interface Props {
   variant?: "P2P" | "Pool";
 }
@@ -84,7 +83,7 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
                   </TableCell>
                   <TableCell className="text-center">
                     {(
-                      template.malgoanAmount /
+                      template.maxLoanAmount /
                       getMultiplierForDecimalPlaces(template.asset.decimals)
                     ).toFixed(8)}
                   </TableCell>
@@ -98,7 +97,7 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
                     {template.repaymentPeriods}
                   </TableCell>
                   <TableCell className="hidden lg:table-cell text-center">
-                    {template.malgoanTenure}
+                    {template.maxLoanTenure}
                   </TableCell>
                   <TableCell className="text-center flex items-center justify-center gap-4">
                     <Link
