@@ -1,7 +1,4 @@
-import {
-  CompleteLoanArgs,
-  LoanDetails,
-} from "@/services/contract/zaibatsuClient";
+import { CompleteLoanArgs, LoanDetails } from "@/services/contract/loanClient";
 
 export const convertCompleteLoanArgsToTuple = (
   completeLoanArgs: CompleteLoanArgs,

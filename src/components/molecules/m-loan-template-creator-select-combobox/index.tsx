@@ -22,7 +22,7 @@ import {
   LoanCreatorsQuery,
   useLoanCreatorsQuery,
 } from "@/services/graphql/generated";
-import { ellipseAddress } from "@/lib/utils/address";
+import { ellipseAddress } from "@/lib/utils/text";
 import InView from "@/components/atoms/a-in-view";
 
 const LIMIT = 40;
@@ -50,6 +50,7 @@ const LoanTemplateCreatorCombobox: React.FC<Props> = ({ id, onSelect }) => {
       offset,
     },
   });
+  const btnRef = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
     setCreators([]);
@@ -76,13 +77,17 @@ const LoanTemplateCreatorCombobox: React.FC<Props> = ({ id, onSelect }) => {
           role="combobox"
           id={id}
           aria-expanded={open}
-          className="w-full justify-between"
+          ref={btnRef}
+          className="w-full overflow-x-clip justify-between"
         >
           {value ? ellipseAddress(value) : "Select creator..."}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
+      <PopoverContent
+        style={{ width: `${btnRef.current?.clientWidth}px` }}
+        className="w-full p-0"
+      >
         <Command>
           <CommandInput
             onValueChange={(v) => setSearchString(v)}

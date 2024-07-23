@@ -29,8 +29,8 @@ const FinancialStatisticCard: React.FC<Props> = ({ data }) => {
   return (
     <Card x-chunk="dashboard-01-chunk-0">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-        <CardTitle className="text-lg font-semibold">{data.label}</CardTitle>
-        <div className="p-3 aspect-square flex items-center text-center text-2xl rounded-2xl bg-heading/20">
+        <CardTitle className="md:text-lg font-semibold">{data.label}</CardTitle>
+        <div className="md:p-3 aspect-square flex items-center text-center md:text-2xl rounded-2xl bg-card-foreground/20">
           {data.variant === "user" ? (
             <SolarUsersGroupRoundedBoldDuotone />
           ) : data.variant === "order" ? (
@@ -43,7 +43,7 @@ const FinancialStatisticCard: React.FC<Props> = ({ data }) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">
+        <div className="md:text-2xl font-bold">
           {data.valuePrefix}
           {data.value.toLocaleString()}
         </div>
@@ -61,7 +61,7 @@ const FinancialStatisticCard: React.FC<Props> = ({ data }) => {
             </span>
             <span>{performance.toFixed(2).replace("-", "")}%</span>
           </span>
-          <span>from yesterday</span>
+          <span className="line-clamp-1">from yesterday</span>
         </p>
       </CardContent>
     </Card>

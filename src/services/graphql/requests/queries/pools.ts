@@ -1,10 +1,23 @@
 import { gql } from "urql";
 
-export const POOLS = gql`
-  query Pools(
-    $assetOpts: NoneTypeNoneTypeListOptions
-    $opts: PoolFilterPoolOrderingListOptions
+export const POOL_LOAN_TEMPLATE_PROPOSALS = gql`
+  query PoolTemplateProposals(
+    $opts: PoolLoanTemplateProposalFilterPoolLoanTemplateProposalOrderingListOptions!
   ) {
+    poolTemplateProposals(opts: $opts) {
+      id
+      startTime
+      endTime
+      totalVotes
+      open
+      dateAdded
+      lastUpdated
+    }
+  }
+`;
+
+export const POOLS = gql`
+  query Pools($assetOpts: NoneTypeNoneTypeListOptions, $opts: PoolFilterPoolOrderingListOptions) {
     pools(opts: $opts) {
       assets(opts: $assetOpts) {
         imageUrl
@@ -12,6 +25,8 @@ export const POOLS = gql`
         id
       }
       name
+      poolKey
+      poolAssetId
       totalLoanTemplates
       netValue
       id
@@ -21,7 +36,7 @@ export const POOLS = gql`
 `;
 
 export const POOL = gql`
-  query Pool($poolId: Int!) {
+  query Pool($poolId: ID!) {
     pool(poolId: $poolId) {
       totalLoansValue
       totalLoanTemplates
@@ -30,6 +45,11 @@ export const POOL = gql`
       netValue
       name
       id
+      imageUrl
+      poolKey
+      poolAssetId
+      tokenUnitName
+      tokenAssetName
       dateAdded
       manager {
         id

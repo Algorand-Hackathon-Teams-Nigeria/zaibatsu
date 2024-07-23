@@ -4,16 +4,15 @@ export function getMultiplierForDecimalPlaces(decimalPlaces: number) {
   return Math.pow(10, decimalPlaces);
 }
 
-export function calcAmountPlusFee(amount: number): number {
-  const percentage = Math.ceil((5 * (amount * 10)) / 100);
-  return Math.ceil(percentage / 10 + amount);
+export function getMinDecimalPlacesValues(decimalPlaces: number): number {
+  if (decimalPlaces < 0) {
+    throw new Error("Number of decimal places must be non-negative");
+  }
+  return Number(`0.${"0".repeat(decimalPlaces - 1)}1`);
 }
 
 export function generateObjectHash(obj: Record<string, any>): string {
-  const hash = crypto
-    .createHash("sha256")
-    .update(JSON.stringify(obj))
-    .digest("hex");
+  const hash = crypto.createHash("sha256").update(JSON.stringify(obj)).digest("hex");
   return hash;
 }
 

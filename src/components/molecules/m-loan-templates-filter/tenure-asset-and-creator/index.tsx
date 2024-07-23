@@ -17,8 +17,8 @@ interface Props {
 
 const LTFTenureAssetAndCreator: React.FC<Props> = ({ setListOpts, value }) => {
   return (
-    <div className="grid gap-2">
-      <div className="grid grid-cols-6 gap-2">
+    <div className="grid text-sm gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label htmlFor="minLoanTenure" className="col-span-4">
           Min Loan Tenure
         </label>
@@ -33,7 +33,7 @@ const LTFTenureAssetAndCreator: React.FC<Props> = ({ setListOpts, value }) => {
           }
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label htmlFor="maxLoanTenure" className="col-span-4">
           Max Loan Tenure
         </label>
@@ -48,7 +48,7 @@ const LTFTenureAssetAndCreator: React.FC<Props> = ({ setListOpts, value }) => {
           }
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label htmlFor="assetId" className="col-span-3">
           Asset
         </label>
@@ -59,7 +59,7 @@ const LTFTenureAssetAndCreator: React.FC<Props> = ({ setListOpts, value }) => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 items-center gap-2">
         <label htmlFor="creatorAddress" className="col-span-3">
           Creator
         </label>

@@ -6,12 +6,9 @@ import { useContractClients } from "@/components/providers/contract";
 import { useToast } from "@/components/ui/use-toast";
 import { convertCompleteLoanArgsToTuple } from "@/lib/utils/contract";
 import { generateUrlFromIpfsHash } from "@/lib/utils/ipfs";
-import {
-  calcAmountPlusFee,
-  encodeIdToBase64,
-  generateObjectHash,
-} from "@/lib/utils/math";
-import { CompleteLoanArgs } from "@/services/contract/zaibatsuClient";
+import { encodeIdToBase64, generateObjectHash } from "@/lib/utils/math";
+import { calcAmountPlusFee } from "@utils/finance";
+import { CompleteLoanArgs, LoanDetails } from "@/services/contract/loanClient";
 import {
   ContractLoanDetails,
   LoanEnumType,
@@ -34,9 +31,8 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
   const { toast } = useToast();
   const { activeAddress } = useWallet();
   const [contractLoanding, setContractLoading] = React.useState(false);
-  const { appClient, algodClient } = useContractClients();
-  const [{ fetching: updating }, updateMutate] =
-    useUpdateLoanWithContractDetailsMutation();
+  const { algodClient, loanClient } = useContractClients();
+  const [{ fetching: updating }, updateMutate] = useUpdateLoanWithContractDetailsMutation();
   const [{ fetching, data }] = useLoanQuery({
     variables: {
       loanId: Number(params.loanId),
@@ -52,17 +48,24 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
       });
       return;
     }
+    const val = await loanClient.appClient.getBoxValueFromABIType(
+      data.loan.loanKey ?? "",
+      algosdk.ABIType.from(
+        "(string,string,uint8,uint64,uint64,uint64,uint64,uint64,uint64,uint8,uint64,(uint64,address)[],bool,bool,uint8,address,uint64,uint64)",
+      ),
+    );
+    console.log({ val: LoanDetails(val as any) });
     const textEncoder = new TextEncoder();
-    const appRef = await appClient.appClient.getAppReference();
+    const appRef = await loanClient.appClient.getAppReference();
     const sp = await algodClient.getTransactionParams().do();
     const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
       to: appRef.appAddress,
       from: data?.loan.borrower.address,
-      amount: calcAmountPlusFee(Number(data.loan.principalAssetAmount)),
+      amount: Math.ceil(calcAmountPlusFee(Number(data.loan.principalAssetAmount))),
       assetIndex: Number(data.loan.principalAsset.assetId),
       suggestedParams: sp,
     });
-    const encodedId = data.loan.encodedId ?? encodeIdToBase64(data.loan.id);
+    const encodedId = data.loan.encodedId ?? encodeIdToBase64(Number(data.loan.id));
 
     const completionArgs: CompleteLoanArgs = {
       loanHash: generateObjectHash(data.loan).slice(0, 32),
@@ -76,10 +79,10 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
     };
     try {
       setContractLoading(true);
-      await appClient.optContractIntoAsset({
+      await loanClient.optContractIntoAsset({
         asset: BigInt(data.loan.principalAsset.assetId),
       });
-      const res = await appClient.completeP2pLoanPurchase(
+      const res = await loanClient.completeP2pLoanPurchase(
         {
           txn,
           loanKey: textEncoder.encode(data.loan.loanKey ?? ""),
@@ -101,29 +104,22 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
           paymentRounds: Number(res.return.paymentRounds.toString()),
           principalPaid: res.return.principalPaid,
           collateralPaid: res.return.collateralPaid,
-          lenderNftAsserId: res.return.lenderNftAsserId.toString(),
+          lenderNftAssetId: res.return.lenderNftAsserId.toString(),
           principalAssetId: res.return.principalAssetId.toString(),
           collateralAssetId: res.return.collateralAssetId.toString(),
-          paymentRecipients: res.return.paymentRecipients.map((r) => [
-            r[0].toString(),
-            r[1],
-          ]),
-          borrowerNftAsserId: res.return.borrowerNftAsserId.toString(),
+          paymentRecipients: res.return.paymentRecipients.map((r) => [r[0].toString(), r[1]]),
+          borrowerNftAssetId: res.return.borrowerNftAsserId.toString(),
           interestAssetAmount: res.return.interestAssetAmount.toString(),
           principalAssetAmount: res.return.principalAssetAmount.toString(),
           collateralAssetAmount: res.return.collateralAssetAmount.toString(),
-          completedPaymentRounds: Number(
-            res.return.completedPaymentRounds.toString(),
-          ),
-          earlyPaymentPenaltyAmount:
-            res.return.earlyPaymentPenaltyAmount.toString(),
-          paymentCompletionTimestamp:
-            res.return.paymentCompletionTimestamp.toString(),
+          completedPaymentRounds: Number(res.return.completedPaymentRounds.toString()),
+          earlyPaymentPenaltyAmount: res.return.earlyPaymentPenaltyAmount.toString(),
+          paymentCompletionTimestamp: res.return.paymentCompletionTimestamp.toString(),
         };
 
         const { error } = await updateMutate({
           args: details,
-          loanId: data.loan.id,
+          loanId: Number(data.loan.id),
         });
 
         if (error?.graphQLErrors) {
@@ -158,11 +154,11 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
       <LoanDetailsOverview
         data={data}
         fetching={fetching}
-        variant="lender"
+        variant="lend"
         disabled={
-          data?.loan.loanType === LoanEnumType.P2P
+          (data?.loan.loanType === LoanEnumType.P2P
             ? data.loan.paymentRecipients[0].recipient.address !== activeAddress
-            : false
+            : false) || data?.loan.principalPaid
         }
         onConfirm={handleCollectLoan}
         processing={fetching || contractLoanding || updating}

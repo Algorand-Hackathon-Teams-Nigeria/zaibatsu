@@ -27,7 +27,7 @@ const PoolActions: React.FC = () => {
             <span>Create Pool</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-w-[700px]">
+        <DialogContent className="max-w-[90vw] max-h-[70vh] overflow-y-auto md:max-w-[700px]">
           <DialogHeader>
             <DialogTitle>New Pool</DialogTitle>
             <DialogDescription>

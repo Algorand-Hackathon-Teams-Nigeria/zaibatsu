@@ -51,6 +51,12 @@
       ],
       "@graphql/*": [
         "./src/services/graphql/*"
+      ],
+      "@organisms/*": [
+        "./src/components/organisms/*"
+      ],
+      "@providers/*": [
+        "./src/components/providers/*"
       ]
     }
   },

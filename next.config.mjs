@@ -22,6 +22,12 @@ const nextConfig = {
         pathname: "**",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "ipfs.zaibatsu.vip",
+        pathname: "**",
+        port: "",
+      },
     ],
   },
   webpack(config) {
