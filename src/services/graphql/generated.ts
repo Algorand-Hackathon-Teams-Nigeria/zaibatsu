@@ -57,6 +57,11 @@ export type AlgorandStandardAssetType = {
   unitName: Scalars['String']['output'];
 };
 
+export type ClosePoolLoanTemplateProposalInput = {
+  proposalId: Scalars['ID']['input'];
+  senderAddress: Scalars['String']['input'];
+};
+
 export type ContractLoanDetails = {
   borrower: Scalars['String']['input'];
   borrowerNftAssetId: Scalars['Union']['input'];
@@ -264,6 +269,7 @@ export type LoanTypePaymentRecipientsArgs = {
 export type Mutation = {
   __typename?: 'Mutation';
   calculateLoanSpecifics: LoanType;
+  closePoolLoanTemplateProposalVote: LoanTemplateType;
   createUpdatePoolLoanTemplateProposal: PoolLoanTemplateProposalType;
   initiateLoanPaymentRound: PendingLoanRoundPaymentType;
   newLoanTemplate: LoanTemplateType;
@@ -278,6 +284,11 @@ export type Mutation = {
 
 export type MutationCalculateLoanSpecificsArgs = {
   args: LoanRequestInput;
+};
+
+
+export type MutationClosePoolLoanTemplateProposalVoteArgs = {
+  input: ClosePoolLoanTemplateProposalInput;
 };
 
 
