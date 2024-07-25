@@ -1,15 +1,20 @@
-"use client";
-import BxMenu from "~icons/bx/menu.jsx";
-
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import Sidebar from "../m-sidebar";
-import Image from "next/image";
-import ConnectWallet from "../m-connect-wallet";
-import { useWallet } from "@txnlab/use-wallet";
 import { ellipseAddress } from "@/lib/utils/text";
+import sidebarAtom from "@/state/atoms/sidebarAtom";
+import { useWallet } from "@txnlab/use-wallet";
+import { useAtom } from "jotai";
+import Image from "next/image";
+import BxMenu from "~icons/bx/menu.jsx";
+import ConnectWallet from "../m-connect-wallet";
+import Sidebar from "../m-sidebar";
 
+("use client");
 const TopNav = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useAtom(sidebarAtom);
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
   const { activeAddress } = useWallet();
   return (
     <header className="flex justify-between h-14 items-center gap-4 px-4 lg:h-[60px] lg:px-6">
@@ -36,7 +41,7 @@ const TopNav = () => {
             <ConnectWallet />
           </SheetContent>
         </Sheet>
-        <Sheet>
+        <Sheet onOpenChange={closeSidebar} open={isSidebarOpen}>
           <SheetTrigger asChild>
             <Button
               variant="outline"
@@ -51,7 +56,7 @@ const TopNav = () => {
             side="right"
             className="flex max-w-[350px] px-0 flex-col"
           >
-            <Sidebar />
+            <Sidebar onNavChange={closeSidebar} open={isSidebarOpen} />
           </SheetContent>
         </Sheet>
       </div>
