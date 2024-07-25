@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ellipseAddress } from "@/lib/utils/text";
@@ -9,12 +10,16 @@ import BxMenu from "~icons/bx/menu.jsx";
 import ConnectWallet from "../m-connect-wallet";
 import Sidebar from "../m-sidebar";
 
-("use client");
 const TopNav = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useAtom(sidebarAtom);
   const closeSidebar = () => {
     setIsSidebarOpen(false);
   };
+
+  const changeSidebarState = (value) => {
+    setIsSidebarOpen(value);
+  };
+
   const { activeAddress } = useWallet();
   return (
     <header className="flex justify-between h-14 items-center gap-4 px-4 lg:h-[60px] lg:px-6">
@@ -41,7 +46,7 @@ const TopNav = () => {
             <ConnectWallet />
           </SheetContent>
         </Sheet>
-        <Sheet onOpenChange={closeSidebar} open={isSidebarOpen}>
+        <Sheet onOpenChange={changeSidebarState} open={isSidebarOpen}>
           <SheetTrigger asChild>
             <Button
               variant="outline"
