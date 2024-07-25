@@ -30,7 +30,7 @@ const LoanTemplateOverview: React.FC<Props> = ({ data, fetching }) => {
           <Overview.Item fetching={fetching} title="Max Loan Amount">
             {data?.loanTemplate.maxLoanAmount /
               getMultiplierForDecimalPlaces(
-                data?.loanTemplate.asset.decimals ?? 1,
+                data?.loanTemplate.asset.decimals ?? 1
               )}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Min Loan Tenure">
@@ -64,7 +64,7 @@ const LoanTemplateOverview: React.FC<Props> = ({ data, fetching }) => {
             </Overview.Item>
           )}
         </Overview.Root>
-        <div className="max-w-[300px] py-4">
+        <div className="py-4 w-full">
           <h2 className="font-semibold text-xl mb-4">Collect Loan</h2>
           <CollectLoanForm template={data?.loanTemplate} />
         </div>

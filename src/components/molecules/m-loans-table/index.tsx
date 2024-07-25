@@ -225,7 +225,7 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
       </Table>
       {loans.length === 0 && !fetching && (
         <div className="flex items-center justify-center text-muted-foreground p-10 py-16">
-          <p className="border p-2 rounded-md px-4 opacity-60">
+          <p className="border p-2 rounded-md px-4 text-center opacity-60">
             There are currently no Loans available
           </p>
         </div>

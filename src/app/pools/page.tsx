@@ -7,7 +7,7 @@ const PoolPage = () => {
   return (
     <Page>
       <FinancialStatisticsGrid />
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <h2 className="text-xl lg:text-2xl font-semibold">Pools</h2>
         <PoolActions />
       </div>

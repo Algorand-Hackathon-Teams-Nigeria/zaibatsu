@@ -99,7 +99,7 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
                   <TableCell className="hidden lg:table-cell text-center">
                     {template.maxLoanTenure}
                   </TableCell>
-                  <TableCell className="text-center flex items-center justify-center gap-4">
+                  <TableCell className="text-center flex items-center justify-center gap-2">
                     <Link
                       href={
                         template.creator
@@ -146,7 +146,7 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
         </Table>
         {templates.length === 0 && !fetching && (
           <div className="flex items-center justify-center text-muted-foreground p-10 py-16">
-            <p className="border p-2 rounded-md px-4 opacity-60">
+            <p className="border p-2 rounded-md px-4 text-center opacity-60">
               There are currently no Loan offerings available
             </p>
           </div>
@@ -176,13 +176,13 @@ const LoanTemplateRowSkeleton = () => {
       <TableCell className="text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
-      <TableCell className="text-center">
+      <TableCell className="hidden lg:table-cell text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
-      <TableCell className="text-center">
+      <TableCell className="hidden lg:table-cell text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
-      <TableCell className="text-center">
+      <TableCell className="hidden lg:table-cell text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
       <TableCell className="hidden lg:table-cell">
