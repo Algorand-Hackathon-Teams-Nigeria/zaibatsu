@@ -16,7 +16,7 @@ const TopNav = () => {
     setIsSidebarOpen(false);
   };
 
-  const changeSidebarState = (value) => {
+  const changeSidebarState = (value: boolean) => {
     setIsSidebarOpen(value);
   };
 
