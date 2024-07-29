@@ -35,7 +35,7 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
     }));
   }, [params.poolId, setPoolTemplatesOpts]);
 
-  console.log(data?.pool)
+  console.log(data?.pool);
 
   return (
     <Page>
@@ -43,32 +43,32 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
         fetching={fetching}
         stats={[
           {
-            label: "Total Contributors",
+            label: "Contributors",
             value: data?.pool.totalContributors ?? 0,
             variant: "user",
             oldValue: 1,
           },
           {
-            label: "Total Contributions",
+            label: "Contributions",
             value: data?.pool.totalContributions ?? 0,
             variant: "order",
             oldValue: 1,
           },
           {
-            label: "Total Offers",
+            label: "Approved Loans",
             value: data?.pool.totalLoanTemplates ?? 0,
             variant: "pending",
             oldValue: 1,
           },
           {
-            label: "Total Loans",
+            label: "Loans",
             value: data?.pool.totalLoansValue ?? 0,
             variant: "sales",
             oldValue: 1,
           },
         ]}
       />
-      <PoolLoanTemplateProposals poolId={params.poolId}/>
+      <PoolLoanTemplateProposals poolId={params.poolId} />
       <LoanTemplateFilter variant="Pool" />
       <div className="flex items-center justify-between">
         <h2 className="text-xl lg:text-2xl font-semibold">

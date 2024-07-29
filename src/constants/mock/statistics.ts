@@ -10,20 +10,20 @@ const MOCK_STATISTICS: readonly FinancialStatistic[] = [
   {
     value: 10293,
     variant: "order",
-    label: "Total Orders",
+    label: "Loans Approved",
     oldValue: 9200,
   },
   {
     value: 89000,
     variant: "sales",
-    label: "Total Sales",
+    label: "Total Loans Disbursed",
     oldValue: 92000,
     valuePrefix: "$",
   },
   {
     value: 2040,
     variant: "pending",
-    label: "Total Pending",
+    label: "Loans Pending",
     oldValue: 1982,
   },
 ];
