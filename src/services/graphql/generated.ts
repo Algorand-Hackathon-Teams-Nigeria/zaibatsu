@@ -21,6 +21,34 @@ export type Scalars = {
   Void: { input: any; output: any; }
 };
 
+export type ActivityFilter = {
+  userAddress?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ActivityFilterActivityOrderingListOptions = {
+  filter?: InputMaybe<ActivityFilter>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  ordering?: InputMaybe<ActivityOrdering>;
+};
+
+export type ActivityOrdering = {
+  dateAdded?: InputMaybe<Scalars['Boolean']['input']>;
+  dateAddedDesc?: InputMaybe<Scalars['Boolean']['input']>;
+  lastUpdated?: InputMaybe<Scalars['Boolean']['input']>;
+  lastUpdatedDesc?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type ActivityType = {
+  __typename?: 'ActivityType';
+  dateAdded: Scalars['DateTime']['output'];
+  detailId?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  lastUpdated: Scalars['DateTime']['output'];
+  message: Scalars['String']['output'];
+  user: UserType;
+};
+
 export type AlgorandStandardAssetFilter = {
   assetId?: InputMaybe<Scalars['Union']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -55,11 +83,6 @@ export type AlgorandStandardAssetType = {
   name: Scalars['String']['output'];
   network: NetworkType;
   unitName: Scalars['String']['output'];
-};
-
-export type ClosePoolLoanTemplateProposalInput = {
-  proposalId: Scalars['ID']['input'];
-  senderAddress: Scalars['String']['input'];
 };
 
 export type ContractLoanDetails = {
@@ -250,6 +273,8 @@ export type LoanType = {
   lenderNftAsset?: Maybe<AlgorandStandardAssetType>;
   loanKey?: Maybe<Scalars['String']['output']>;
   loanType: LoanEnumType;
+  nextPaymentCloses?: Maybe<Scalars['DateTime']['output']>;
+  nextPaymentOpens?: Maybe<Scalars['DateTime']['output']>;
   paymentComplete: Scalars['Boolean']['output'];
   paymentCompletionTimestamp: Scalars['Union']['output'];
   paymentRecipients: Array<PaymentRecipientType>;
@@ -269,7 +294,6 @@ export type LoanTypePaymentRecipientsArgs = {
 export type Mutation = {
   __typename?: 'Mutation';
   calculateLoanSpecifics: LoanType;
-  closePoolLoanTemplateProposalVote: LoanTemplateType;
   createUpdatePoolLoanTemplateProposal: PoolLoanTemplateProposalType;
   initiateLoanPaymentRound: PendingLoanRoundPaymentType;
   newLoanTemplate: LoanTemplateType;
@@ -284,11 +308,6 @@ export type Mutation = {
 
 export type MutationCalculateLoanSpecificsArgs = {
   args: LoanRequestInput;
-};
-
-
-export type MutationClosePoolLoanTemplateProposalVoteArgs = {
-  input: ClosePoolLoanTemplateProposalInput;
 };
 
 
@@ -330,6 +349,7 @@ export type MutationSaveAlgorandAstandardAssetArgs = {
 export type MutationUpdateLoanWithContractDetailsArgs = {
   args: ContractLoanDetails;
   loanId: Scalars['Int']['input'];
+  poolId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -345,14 +365,8 @@ export enum NetworkType {
 
 export type NewPoolInput = {
   creatorAddress: Scalars['String']['input'];
-  imageUrl: Scalars['String']['input'];
   maxContributors: Scalars['Int']['input'];
   name: Scalars['String']['input'];
-  poolAssetId: Scalars['Union']['input'];
-  poolKey: Scalars['String']['input'];
-  tokenAssetName: Scalars['String']['input'];
-  tokenBalance: Scalars['Union']['input'];
-  tokenUnitName: Scalars['String']['input'];
 };
 
 export type NoneTypeNoneTypeListOptions = {
@@ -584,17 +598,11 @@ export type PoolType = {
   assets: Array<AlgorandStandardAssetType>;
   dateAdded: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
-  imageUrl: Scalars['String']['output'];
   lastUpdated: Scalars['DateTime']['output'];
   manager: UserType;
   maxContributors: Scalars['Int']['output'];
   name: Scalars['String']['output'];
   netValue: Scalars['Float']['output'];
-  poolAssetId: Scalars['Union']['output'];
-  poolKey: Scalars['String']['output'];
-  tokenAssetName: Scalars['String']['output'];
-  tokenBalance: Scalars['Union']['output'];
-  tokenUnitName: Scalars['String']['output'];
   totalContributions: Scalars['Int']['output'];
   totalContributors: Scalars['Int']['output'];
   totalLoanTemplates: Scalars['Int']['output'];
@@ -617,6 +625,7 @@ export type ProfileType = {
 
 export type Query = {
   __typename?: 'Query';
+  activities: Array<ActivityType>;
   algorandStandardAssets: Array<AlgorandStandardAssetType>;
   loan: LoanType;
   loanRepaymentInfo: LoanRepaymentInfoType;
@@ -630,6 +639,11 @@ export type Query = {
   poolTemplateProposals: Array<PoolLoanTemplateProposalType>;
   pools: Array<PoolType>;
   version: Scalars['String']['output'];
+};
+
+
+export type QueryActivitiesArgs = {
+  opts?: InputMaybe<ActivityFilterActivityOrderingListOptions>;
 };
 
 
@@ -725,6 +739,7 @@ export type CalculateLoanSpecificsMutation = { __typename?: 'Mutation', calculat
 export type UpdateLoanWithContractDetailsMutationVariables = Exact<{
   args: ContractLoanDetails;
   loanId: Scalars['Int']['input'];
+  poolId?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -829,14 +844,19 @@ export type PoolsQueryVariables = Exact<{
 }>;
 
 
-export type PoolsQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'PoolType', name: string, poolKey: string, poolAssetId: any, totalLoanTemplates: number, netValue: number, id: string, totalContributors: number, assets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, unitName: string, id: number }> }> };
+export type PoolsQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'PoolType', name: string, totalLoanTemplates: number, netValue: number, id: string, totalContributors: number, assets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, unitName: string, id: number }> }> };
 
 export type PoolQueryVariables = Exact<{
   poolId: Scalars['ID']['input'];
 }>;
 
 
-export type PoolQuery = { __typename?: 'Query', pool: { __typename?: 'PoolType', totalLoansValue: number, totalLoanTemplates: number, totalContributors: number, totalContributions: number, netValue: number, name: string, id: string, imageUrl: string, poolKey: string, poolAssetId: any, tokenUnitName: string, tokenAssetName: string, dateAdded: any, manager: { __typename?: 'UserType', id: string, address: string } } };
+export type PoolQuery = { __typename?: 'Query', pool: { __typename?: 'PoolType', totalLoansValue: number, totalLoanTemplates: number, totalContributors: number, totalContributions: number, netValue: number, name: string, id: string, dateAdded: any, manager: { __typename?: 'UserType', id: string, address: string } } };
+
+export type ActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ActivitiesQuery = { __typename?: 'Query', activities: Array<{ __typename?: 'ActivityType', message: string, id: string, detailId?: string | null, dateAdded: any }> };
 
 
 export const InitiateLoanPaymentRoundDocument = gql`
@@ -874,8 +894,8 @@ export function useCalculateLoanSpecificsMutation() {
   return Urql.useMutation<CalculateLoanSpecificsMutation, CalculateLoanSpecificsMutationVariables>(CalculateLoanSpecificsDocument);
 };
 export const UpdateLoanWithContractDetailsDocument = gql`
-    mutation UpdateLoanWithContractDetails($args: ContractLoanDetails!, $loanId: Int!) {
-  updateLoanWithContractDetails(args: $args, loanId: $loanId) {
+    mutation UpdateLoanWithContractDetails($args: ContractLoanDetails!, $loanId: Int!, $poolId: Int) {
+  updateLoanWithContractDetails(args: $args, loanId: $loanId, poolId: $poolId) {
     id
   }
 }
@@ -1202,8 +1222,6 @@ export const PoolsDocument = gql`
       id
     }
     name
-    poolKey
-    poolAssetId
     totalLoanTemplates
     netValue
     id
@@ -1225,11 +1243,6 @@ export const PoolDocument = gql`
     netValue
     name
     id
-    imageUrl
-    poolKey
-    poolAssetId
-    tokenUnitName
-    tokenAssetName
     dateAdded
     manager {
       id
@@ -1241,4 +1254,18 @@ export const PoolDocument = gql`
 
 export function usePoolQuery(options: Omit<Urql.UseQueryArgs<PoolQueryVariables>, 'query'>) {
   return Urql.useQuery<PoolQuery, PoolQueryVariables>({ query: PoolDocument, ...options });
+};
+export const ActivitiesDocument = gql`
+    query Activities {
+  activities {
+    message
+    id
+    detailId
+    dateAdded
+  }
+}
+    `;
+
+export function useActivitiesQuery(options?: Omit<Urql.UseQueryArgs<ActivitiesQueryVariables>, 'query'>) {
+  return Urql.useQuery<ActivitiesQuery, ActivitiesQueryVariables>({ query: ActivitiesDocument, ...options });
 };

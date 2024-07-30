@@ -29,8 +29,13 @@ export const UPDATE_LOAN_WITH_CONTRACT_DETAILS = gql`
   mutation UpdateLoanWithContractDetails(
     $args: ContractLoanDetails!
     $loanId: Int!
+    $poolId: Int
   ) {
-    updateLoanWithContractDetails(args: $args, loanId: $loanId) {
+    updateLoanWithContractDetails(
+      args: $args
+      loanId: $loanId
+      poolId: $poolId
+    ) {
       id
     }
   }
