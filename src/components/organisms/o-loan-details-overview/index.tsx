@@ -8,7 +8,7 @@ import { LoanEnumType } from "@/services/graphql/generated";
 import { ellipseAddress } from "@/lib/utils/text";
 import { generateUrlFromIpfsHash } from "@/lib/utils/ipfs";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
-
+import NFTCard from "@/components/molecules/m-loan-nft-card";
 interface Props {
   data?: LoanQuery;
   fetching?: boolean;
@@ -37,7 +37,11 @@ const LoanDetailsOverview: React.FC<Props> = ({
             className="absolute -top-12 right-0 w-full max-w-[150px]"
             loading={processing}
           >
-            {variant === "lend" ? "Confirm" : variant === "repay" ? "Repay" : "Collect"}
+            {variant === "lend"
+              ? "Confirm"
+              : variant === "repay"
+                ? "Repay"
+                : "Collect"}
           </Button>
           <Overview.Item fetching={fetching} title="Type">
             {data?.loan.loanType}
@@ -48,25 +52,25 @@ const LoanDetailsOverview: React.FC<Props> = ({
           <Overview.Item fetching={fetching} title="Principal Amount">
             {Number(data?.loan.principalAssetAmount) /
               getMultiplierForDecimalPlaces(
-                data?.loan.principalAsset.decimals ?? 1,
+                data?.loan.principalAsset.decimals ?? 1
               )}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Interest Amount">
             {Number(data?.loan.interestAssetAmount) /
               getMultiplierForDecimalPlaces(
-                data?.loan.principalAsset.decimals ?? 1,
+                data?.loan.principalAsset.decimals ?? 1
               )}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Collateral Amount">
             {Number(data?.loan.collateralAssetAmount) /
               getMultiplierForDecimalPlaces(
-                data?.loan.collateralAsset.decimals ?? 1,
+                data?.loan.collateralAsset.decimals ?? 1
               )}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Early Payment Penalty">
             {Number(data?.loan.earlyPaymentPenaltyAmount) /
               getMultiplierForDecimalPlaces(
-                data?.loan.principalAsset.decimals ?? 1,
+                data?.loan.principalAsset.decimals ?? 1
               )}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Principal Asset">
@@ -99,7 +103,7 @@ const LoanDetailsOverview: React.FC<Props> = ({
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Payment Completion Date">
             {new Date(
-              Number(data?.loan.paymentCompletionTimestamp ?? "0") * 1000,
+              Number(data?.loan.paymentCompletionTimestamp ?? "0") * 1000
             ).toLocaleDateString("en-US", {
               day: "numeric",
               month: "short",
@@ -134,24 +138,26 @@ const LoanDetailsOverview: React.FC<Props> = ({
             </div>
           ) : (
             <div className="flex flex-col gap-4 w-full">
-              <Image
-                src={generateUrlFromIpfsHash(
-                  data?.loan.borrowerIpfsAsset?.ipfsHash ?? "",
-                )}
-                alt="Borrower Loan NFT Image"
-                width={600}
-                height={360}
-                unoptimized
+              <NFTCard
+                url={"www.google.com"}
+                title={ellipseAddress(data?.loan.borrower.address, 10)}
+                type={"borrower"}
+                PaymentReciepient={
+                  ellipseAddress(
+                    data?.loan.paymentRecipients[0].recipient.address
+                  ) + "%"
+                }
               />
               {data?.loan.loanType === LoanEnumType.P2P && (
-                <Image
-                  src={generateUrlFromIpfsHash(
-                    data?.loan.lenderIpfsAsset?.ipfsHash ?? "",
-                  )}
-                  alt="Lender Loan NFT Image"
-                  width={600}
-                  height={360}
-                  unoptimized
+                <NFTCard
+                  url={"www.google.com"}
+                  title={ellipseAddress(data?.loan.borrower.address, 10)}
+                  type={"lender"}
+                  PaymentReciepient={
+                    ellipseAddress(
+                      data?.loan.paymentRecipients[0].recipient.address
+                    ) + "%"
+                  }
                 />
               )}
             </div>
