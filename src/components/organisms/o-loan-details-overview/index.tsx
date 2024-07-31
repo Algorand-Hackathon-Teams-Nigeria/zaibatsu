@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Overview from "@/components/atoms/a-overview";
@@ -6,13 +8,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { LoanQuery } from "@/services/graphql/generated";
 import { LoanEnumType } from "@/services/graphql/generated";
 import { ellipseAddress } from "@/lib/utils/text";
-import { generateUrlFromIpfsHash } from "@/lib/utils/ipfs";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
+import NFTCard from "@/components/atoms/a-nft-card";
 
 interface Props {
   data?: LoanQuery;
   fetching?: boolean;
-  variant: "lend" | "borrow" | "repay";
+  variant: "lend" | "borrow" | "repay" | "view";
+  onBorrowerNftImageChange?(file: File): void;
+  onLenderNftImageChange?(file: File): void;
   processing?: boolean;
   onConfirm?: CallableFunction;
   disabled?: boolean;
@@ -25,20 +29,28 @@ const LoanDetailsOverview: React.FC<Props> = ({
   variant,
   onConfirm,
   disabled,
+  onLenderNftImageChange,
+  onBorrowerNftImageChange,
 }) => {
   return (
     <div>
       <h1 className="text-2xl font-semibold mb-4">Overview</h1>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         <Overview.Root className="relative">
-          <Button
-            disabled={disabled}
-            onClick={() => onConfirm && onConfirm()}
-            className="absolute -top-12 right-0 w-full max-w-[150px]"
-            loading={processing}
-          >
-            {variant === "lend" ? "Confirm" : variant === "repay" ? "Repay" : "Collect"}
-          </Button>
+          {variant !== "view" && (
+            <Button
+              disabled={disabled}
+              onClick={() => onConfirm && onConfirm()}
+              className="absolute -top-12 right-0 w-full max-w-[150px]"
+              loading={processing}
+            >
+              {variant === "lend"
+                ? "Confirm"
+                : variant === "repay"
+                  ? "Repay"
+                  : "Collect"}
+            </Button>
+          )}
           <Overview.Item fetching={fetching} title="Type">
             {data?.loan.loanType}
           </Overview.Item>
@@ -134,26 +146,12 @@ const LoanDetailsOverview: React.FC<Props> = ({
             </div>
           ) : (
             <div className="flex flex-col gap-4 w-full">
-              <Image
-                src={generateUrlFromIpfsHash(
-                  data?.loan.borrowerIpfsAsset?.ipfsHash ?? "",
-                )}
-                alt="Borrower Loan NFT Image"
-                width={600}
-                height={360}
-                unoptimized
+              <NFTCard onChange={onBorrowerNftImageChange} loan={data?.loan} />
+              <NFTCard
+                onChange={onLenderNftImageChange}
+                variant="lender"
+                loan={data?.loan}
               />
-              {data?.loan.loanType === LoanEnumType.P2P && (
-                <Image
-                  src={generateUrlFromIpfsHash(
-                    data?.loan.lenderIpfsAsset?.ipfsHash ?? "",
-                  )}
-                  alt="Lender Loan NFT Image"
-                  width={600}
-                  height={360}
-                  unoptimized
-                />
-              )}
             </div>
           )}
         </div>

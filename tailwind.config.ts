@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config = {
   darkMode: ["class"],
@@ -108,7 +109,16 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        ".responsive-text": {
+          "font-size": "calc(1vw + 1vh + 0.5vmin)",
+        },
+      });
+    }),
+  ],
 } satisfies Config;
 
 export default config;
