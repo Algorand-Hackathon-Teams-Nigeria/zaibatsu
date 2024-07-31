@@ -9,10 +9,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@ui/collapsible";
-import {
-  Sheet,
-  SheetContent,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 import React from "react";
 import OcticonFilter16 from "~icons/octicon/filter-16.jsx";
@@ -21,12 +18,14 @@ import IconParkOutlineSearch from "~icons/icon-park-outline/search.jsx";
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   title?: string;
   children?: React.ReactNode;
+  nested?: React.JSX.Element;
   withSearch?: boolean;
 }
 
 const CollapsibleFilter: React.FC<Props> = ({
   title,
   children,
+  nested,
   withSearch,
   ...props
 }) => {
@@ -67,6 +66,7 @@ const CollapsibleFilter: React.FC<Props> = ({
                   />
                 </div>
               )}
+              {nested}
               <CollapsibleTrigger>
                 <Button className="bg-card flex gap-2 hover:bg-card/50 items-center">
                   <OcticonFilter16 />

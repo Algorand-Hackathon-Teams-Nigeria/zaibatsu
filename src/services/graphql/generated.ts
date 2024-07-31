@@ -302,6 +302,7 @@ export type Mutation = {
   newPoolContribution: PoolContributionType;
   newPoolLoanTemplateProposalVote: PoolLoanTemplateProposalVoteType;
   pinLoanNftImages: PinLoanNftImagesResponse;
+  runCloseExpiredProposals: Scalars['Boolean']['output'];
   saveAlgorandAstandardAsset: AlgorandStandardAssetType;
   updateLoanWithContractDetails: LoanType;
   updloadImage: Scalars['String']['output'];
@@ -442,6 +443,37 @@ export type PinLoanNftImagesResponse = {
   __typename?: 'PinLoanNftImagesResponse';
   borrowerIpfsAsset: IpfsAssetType;
   lenderIpfsAsset: IpfsAssetType;
+};
+
+export type PoolAnalyticsFilter = {
+  after?: InputMaybe<Scalars['DateTime']['input']>;
+  before?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type PoolAnalyticsFilterPoolAnalyticsOrderingListOptions = {
+  filter?: InputMaybe<PoolAnalyticsFilter>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  ordering?: InputMaybe<PoolAnalyticsOrdering>;
+};
+
+export type PoolAnalyticsOrdering = {
+  dateAdded?: InputMaybe<Scalars['Boolean']['input']>;
+  dateAddedDesc?: InputMaybe<Scalars['Boolean']['input']>;
+  lastUpdated?: InputMaybe<Scalars['Boolean']['input']>;
+  lastUpdatedDesc?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type PoolAnalyticsType = {
+  __typename?: 'PoolAnalyticsType';
+  dateAdded: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  lastUpdated: Scalars['DateTime']['output'];
+  totalApprovedLoans: Scalars['Union']['output'];
+  totalApprovedLonasValue: Scalars['Union']['output'];
+  totalContributions: Scalars['Union']['output'];
+  totalContributors: Scalars['Union']['output'];
+  totalLoansPendingApproval: Scalars['Union']['output'];
 };
 
 export type PoolAssetHoldingFilter = {
@@ -653,11 +685,14 @@ export type Query = {
   loanTemplates: Array<LoanTemplateType>;
   loans: Array<LoanType>;
   pool: PoolType;
+  poolAnalytics: Array<PoolAnalyticsType>;
   poolAssetHoldings: Array<PoolAssetHoldingsRecordType>;
   poolContributions: Array<PoolContributionType>;
   poolTemplateProposals: Array<PoolLoanTemplateProposalType>;
   pools: Array<PoolType>;
+  userAnalytics: Array<UserAnalyticsType>;
   version: Scalars['String']['output'];
+  zaibatsuAnalytics: Array<ZaibatsuAnalyticsType>;
 };
 
 
@@ -708,6 +743,11 @@ export type QueryPoolArgs = {
 };
 
 
+export type QueryPoolAnalyticsArgs = {
+  opts?: InputMaybe<PoolAnalyticsFilterPoolAnalyticsOrderingListOptions>;
+};
+
+
 export type QueryPoolAssetHoldingsArgs = {
   opts?: InputMaybe<PoolAssetHoldingFilterPoolAssetHoldingOrderingListOptions>;
 };
@@ -727,11 +767,84 @@ export type QueryPoolsArgs = {
   opts?: InputMaybe<PoolFilterPoolOrderingListOptions>;
 };
 
+
+export type QueryUserAnalyticsArgs = {
+  opts?: InputMaybe<UserAnalyticsFilterUserAnalyticsOrderingListOptions>;
+};
+
+
+export type QueryZaibatsuAnalyticsArgs = {
+  opts?: InputMaybe<ZaibatsuAnalyticsFilterZaibatsuAnalyticsOrderingListOptions>;
+};
+
+export type UserAnalyticsFilter = {
+  after?: InputMaybe<Scalars['DateTime']['input']>;
+  before?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type UserAnalyticsFilterUserAnalyticsOrderingListOptions = {
+  filter?: InputMaybe<UserAnalyticsFilter>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  ordering?: InputMaybe<UserAnalyticsOrdering>;
+};
+
+export type UserAnalyticsOrdering = {
+  dateAdded?: InputMaybe<Scalars['Boolean']['input']>;
+  dateAddedDesc?: InputMaybe<Scalars['Boolean']['input']>;
+  lastUpdated?: InputMaybe<Scalars['Boolean']['input']>;
+  lastUpdatedDesc?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type UserAnalyticsType = {
+  __typename?: 'UserAnalyticsType';
+  dateAdded: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  lastUpdated: Scalars['DateTime']['output'];
+  totalApprovedLoans: Scalars['Union']['output'];
+  totalApprovedLonasValue: Scalars['Union']['output'];
+  totalCollectedLoans: Scalars['Union']['output'];
+  totalCollectedLoansValue: Scalars['Union']['output'];
+  totalCreatedLoans: Scalars['Union']['output'];
+  totalLoansAwaititngApproval: Scalars['Union']['output'];
+  totalUnapprovedLoans: Scalars['Union']['output'];
+};
+
 export type UserType = {
   __typename?: 'UserType';
   address: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   profile?: Maybe<ProfileType>;
+};
+
+export type ZaibatsuAnalyticsFilter = {
+  after?: InputMaybe<Scalars['DateTime']['input']>;
+  before?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type ZaibatsuAnalyticsFilterZaibatsuAnalyticsOrderingListOptions = {
+  filter?: InputMaybe<ZaibatsuAnalyticsFilter>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  ordering?: InputMaybe<ZaibatsuAnalyticsOrdering>;
+};
+
+export type ZaibatsuAnalyticsOrdering = {
+  dateAdded?: InputMaybe<Scalars['Boolean']['input']>;
+  dateAddedDesc?: InputMaybe<Scalars['Boolean']['input']>;
+  lastUpdated?: InputMaybe<Scalars['Boolean']['input']>;
+  lastUpdatedDesc?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type ZaibatsuAnalyticsType = {
+  __typename?: 'ZaibatsuAnalyticsType';
+  dateAdded: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  lastUpdated: Scalars['DateTime']['output'];
+  totalApprovedLoans: Scalars['Union']['output'];
+  totalApprovedLonasValue: Scalars['Union']['output'];
+  totalLoansPendingApproval: Scalars['Union']['output'];
+  totalUsers: Scalars['Union']['output'];
 };
 
 export type InitiateLoanPaymentRoundMutationVariables = Exact<{
