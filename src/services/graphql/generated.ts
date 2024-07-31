@@ -46,6 +46,7 @@ export type ActivityType = {
   id: Scalars['ID']['output'];
   lastUpdated: Scalars['DateTime']['output'];
   message: Scalars['String']['output'];
+  read: Scalars['Boolean']['output'];
   user: UserType;
 };
 
@@ -300,6 +301,7 @@ export type Mutation = {
   newPool: PoolType;
   newPoolContribution: PoolContributionType;
   newPoolLoanTemplateProposalVote: PoolLoanTemplateProposalVoteType;
+  pinLoanNftImages: PinLoanNftImagesResponse;
   saveAlgorandAstandardAsset: AlgorandStandardAssetType;
   updateLoanWithContractDetails: LoanType;
   updloadImage: Scalars['String']['output'];
@@ -338,6 +340,11 @@ export type MutationNewPoolContributionArgs = {
 
 export type MutationNewPoolLoanTemplateProposalVoteArgs = {
   input: PoolLoanTemplateProposalVoteInput;
+};
+
+
+export type MutationPinLoanNftImagesArgs = {
+  input: PinLoanNftImagesInput;
 };
 
 
@@ -423,6 +430,18 @@ export type PendingLoanRoundPaymentType = {
 
 export type PendingLoanRoundPaymentTypeRecipientsArgs = {
   args?: InputMaybe<PaymentRecipientFilterPaymentRecipientOrderingListOptions>;
+};
+
+export type PinLoanNftImagesInput = {
+  borrowerImage: Scalars['Upload']['input'];
+  lenderImage: Scalars['Upload']['input'];
+  loanId: Scalars['ID']['input'];
+};
+
+export type PinLoanNftImagesResponse = {
+  __typename?: 'PinLoanNftImagesResponse';
+  borrowerIpfsAsset: IpfsAssetType;
+  lenderIpfsAsset: IpfsAssetType;
 };
 
 export type PoolAssetHoldingFilter = {
@@ -780,6 +799,13 @@ export type UpdloadImageMutationVariables = Exact<{
 
 export type UpdloadImageMutation = { __typename?: 'Mutation', updloadImage: string };
 
+export type PinLoanNftImagesMutationVariables = Exact<{
+  input: PinLoanNftImagesInput;
+}>;
+
+
+export type PinLoanNftImagesMutation = { __typename?: 'Mutation', pinLoanNftImages: { __typename?: 'PinLoanNftImagesResponse', borrowerIpfsAsset: { __typename?: 'IPFSAssetType', id: number, ipfsHash: string }, lenderIpfsAsset: { __typename?: 'IPFSAssetType', id: number, ipfsHash: string } } };
+
 export type AlgorandStandardAssetsQueryVariables = Exact<{
   opts?: InputMaybe<AlgorandStandardAssetFilterNoneTypeListOptions>;
 }>;
@@ -961,6 +987,24 @@ export const UpdloadImageDocument = gql`
 
 export function useUpdloadImageMutation() {
   return Urql.useMutation<UpdloadImageMutation, UpdloadImageMutationVariables>(UpdloadImageDocument);
+};
+export const PinLoanNftImagesDocument = gql`
+    mutation PinLoanNftImages($input: PinLoanNftImagesInput!) {
+  pinLoanNftImages(input: $input) {
+    borrowerIpfsAsset {
+      id
+      ipfsHash
+    }
+    lenderIpfsAsset {
+      id
+      ipfsHash
+    }
+  }
+}
+    `;
+
+export function usePinLoanNftImagesMutation() {
+  return Urql.useMutation<PinLoanNftImagesMutation, PinLoanNftImagesMutationVariables>(PinLoanNftImagesDocument);
 };
 export const AlgorandStandardAssetsDocument = gql`
     query AlgorandStandardAssets($opts: AlgorandStandardAssetFilterNoneTypeListOptions) {
