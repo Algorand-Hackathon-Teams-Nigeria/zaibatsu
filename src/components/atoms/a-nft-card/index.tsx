@@ -32,8 +32,8 @@ const NFTCard: React.FC<Props> = ({ variant = "borrower", loan, onChange }) => {
       onChange(
         dataURLtoFile(
           data,
-          `ZAI ${variant === "lender" ? "L" : "B"}${formatId(Number(loan?.id), 6)}.jpg`,
-        ),
+          `ZAI ${variant === "lender" ? "L" : "B"}${formatId(Number(loan?.id), 6)}.jpg`
+        )
       );
     }
   };
@@ -73,7 +73,7 @@ const NFTCard: React.FC<Props> = ({ variant = "borrower", loan, onChange }) => {
       const data = canvas.toDataURL("image/png");
       const file = dataURLtoFile(
         data,
-        `ZAI ${variant === "lender" ? "L" : "B"}${formatId(Number(loan?.id), 6)}.jpg`,
+        `ZAI ${variant === "lender" ? "L" : "B"}${formatId(Number(loan?.id), 6)}.jpg`
       );
       const link = document.createElement("a");
 
@@ -96,7 +96,7 @@ const NFTCard: React.FC<Props> = ({ variant = "borrower", loan, onChange }) => {
           "relative z-0 w-full aspect-[16/10] overflow-hidden bg-gradient-to-bl",
           variant === "borrower"
             ? "from-green-300 via-green-400 to-green-500"
-            : "from-fuchsia-200 via-fuchsia-300 to-fuchsia-400",
+            : "from-fuchsia-200 via-fuchsia-300 to-fuchsia-400"
         )}
       >
         <div className="bg-black/10 absolute right-[40%] top-[40%] aspect-square w-full rounded-full" />

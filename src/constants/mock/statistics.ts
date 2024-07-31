@@ -16,7 +16,7 @@ const MOCK_STATISTICS: readonly FinancialStatistic[] = [
   {
     value: 89000,
     variant: "sales",
-    label: "Total Loans Disbursed",
+    label: "Loans Disbursed",
     oldValue: 92000,
     valuePrefix: "$",
   },
