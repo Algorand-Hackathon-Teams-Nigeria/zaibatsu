@@ -2,7 +2,7 @@ import IonDocument from "~icons/ion/document";
 import IonNotifications from "~icons/ion/notifications";
 import MdiAnnouncementOutline from "~icons/mdi/announcement-outline";
 import { Button } from "@/components/ui/button";
-import { ActivityType } from "@/services/graphql/generated";
+import { ActivityType, ActivitiesQuery } from "@/services/graphql/generated";
 
 const getIconForType = (type: string = "") => {
   switch (type) {
@@ -20,7 +20,7 @@ const getIconForType = (type: string = "") => {
 const NotificationItem = ({
   item,
 }: {
-  item: Omit<ActivityType, "__typename">;
+  item: ActivitiesQuery["activities"][number];
 }) => {
   const type: string = "notification";
   return (

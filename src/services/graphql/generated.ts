@@ -470,7 +470,7 @@ export type PoolAnalyticsType = {
   id: Scalars['ID']['output'];
   lastUpdated: Scalars['DateTime']['output'];
   totalApprovedLoans: Scalars['Union']['output'];
-  totalApprovedLonasValue: Scalars['Union']['output'];
+  totalApprovedLoansValue: Scalars['Union']['output'];
   totalContributions: Scalars['Union']['output'];
   totalContributors: Scalars['Union']['output'];
   totalLoansPendingApproval: Scalars['Union']['output'];
@@ -802,7 +802,7 @@ export type UserAnalyticsType = {
   id: Scalars['ID']['output'];
   lastUpdated: Scalars['DateTime']['output'];
   totalApprovedLoans: Scalars['Union']['output'];
-  totalApprovedLonasValue: Scalars['Union']['output'];
+  totalApprovedLoansValue: Scalars['Union']['output'];
   totalCollectedLoans: Scalars['Union']['output'];
   totalCollectedLoansValue: Scalars['Union']['output'];
   totalCreatedLoans: Scalars['Union']['output'];
@@ -842,7 +842,7 @@ export type ZaibatsuAnalyticsType = {
   id: Scalars['ID']['output'];
   lastUpdated: Scalars['DateTime']['output'];
   totalApprovedLoans: Scalars['Union']['output'];
-  totalApprovedLonasValue: Scalars['Union']['output'];
+  totalApprovedLoansValue: Scalars['Union']['output'];
   totalLoansPendingApproval: Scalars['Union']['output'];
   totalUsers: Scalars['Union']['output'];
 };
@@ -919,6 +919,27 @@ export type PinLoanNftImagesMutationVariables = Exact<{
 
 export type PinLoanNftImagesMutation = { __typename?: 'Mutation', pinLoanNftImages: { __typename?: 'PinLoanNftImagesResponse', borrowerIpfsAsset: { __typename?: 'IPFSAssetType', id: number, ipfsHash: string }, lenderIpfsAsset: { __typename?: 'IPFSAssetType', id: number, ipfsHash: string } } };
 
+export type PoolAnalyticsQueryVariables = Exact<{
+  opts?: InputMaybe<PoolAnalyticsFilterPoolAnalyticsOrderingListOptions>;
+}>;
+
+
+export type PoolAnalyticsQuery = { __typename?: 'Query', poolAnalytics: Array<{ __typename?: 'PoolAnalyticsType', id: string, totalContributors: any, totalContributions: any, totalApprovedLoans: any, totalApprovedLoansValue: any, totalLoansPendingApproval: any, dateAdded: any, lastUpdated: any }> };
+
+export type ZaibatsuAnalyticsQueryVariables = Exact<{
+  opts?: InputMaybe<ZaibatsuAnalyticsFilterZaibatsuAnalyticsOrderingListOptions>;
+}>;
+
+
+export type ZaibatsuAnalyticsQuery = { __typename?: 'Query', zaibatsuAnalytics: Array<{ __typename?: 'ZaibatsuAnalyticsType', id: string, totalUsers: any, totalApprovedLoans: any, totalApprovedLoansValue: any, totalLoansPendingApproval: any, dateAdded: any, lastUpdated: any }> };
+
+export type UserAnalyticsQueryVariables = Exact<{
+  opts?: InputMaybe<UserAnalyticsFilterUserAnalyticsOrderingListOptions>;
+}>;
+
+
+export type UserAnalyticsQuery = { __typename?: 'Query', userAnalytics: Array<{ __typename?: 'UserAnalyticsType', id: string, totalCreatedLoans: any, totalApprovedLoans: any, totalCollectedLoans: any, totalApprovedLoansValue: any, totalCollectedLoansValue: any, totalUnapprovedLoans: any, totalLoansAwaititngApproval: any, dateAdded: any, lastUpdated: any }> };
+
 export type AlgorandStandardAssetsQueryVariables = Exact<{
   opts?: InputMaybe<AlgorandStandardAssetFilterNoneTypeListOptions>;
 }>;
@@ -992,10 +1013,12 @@ export type PoolQueryVariables = Exact<{
 
 export type PoolQuery = { __typename?: 'Query', pool: { __typename?: 'PoolType', totalLoansValue: number, totalLoanTemplates: number, totalContributors: number, totalContributions: number, netValue: number, name: string, id: string, dateAdded: any, manager: { __typename?: 'UserType', id: string, address: string } } };
 
-export type ActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ActivitiesQueryVariables = Exact<{
+  opts?: InputMaybe<ActivityFilterActivityOrderingListOptions>;
+}>;
 
 
-export type ActivitiesQuery = { __typename?: 'Query', activities: Array<{ __typename?: 'ActivityType', message: string, id: string, detailId?: string | null, dateAdded: any }> };
+export type ActivitiesQuery = { __typename?: 'Query', activities: Array<{ __typename?: 'ActivityType', id: string, message: string, read: boolean, detailId?: string | null, dateAdded: any, lastUpdated: any }> };
 
 
 export const InitiateLoanPaymentRoundDocument = gql`
@@ -1118,6 +1141,61 @@ export const PinLoanNftImagesDocument = gql`
 
 export function usePinLoanNftImagesMutation() {
   return Urql.useMutation<PinLoanNftImagesMutation, PinLoanNftImagesMutationVariables>(PinLoanNftImagesDocument);
+};
+export const PoolAnalyticsDocument = gql`
+    query PoolAnalytics($opts: PoolAnalyticsFilterPoolAnalyticsOrderingListOptions) {
+  poolAnalytics(opts: $opts) {
+    id
+    totalContributors
+    totalContributions
+    totalApprovedLoans
+    totalApprovedLoansValue
+    totalLoansPendingApproval
+    dateAdded
+    lastUpdated
+  }
+}
+    `;
+
+export function usePoolAnalyticsQuery(options?: Omit<Urql.UseQueryArgs<PoolAnalyticsQueryVariables>, 'query'>) {
+  return Urql.useQuery<PoolAnalyticsQuery, PoolAnalyticsQueryVariables>({ query: PoolAnalyticsDocument, ...options });
+};
+export const ZaibatsuAnalyticsDocument = gql`
+    query ZaibatsuAnalytics($opts: ZaibatsuAnalyticsFilterZaibatsuAnalyticsOrderingListOptions) {
+  zaibatsuAnalytics(opts: $opts) {
+    id
+    totalUsers
+    totalApprovedLoans
+    totalApprovedLoansValue
+    totalLoansPendingApproval
+    dateAdded
+    lastUpdated
+  }
+}
+    `;
+
+export function useZaibatsuAnalyticsQuery(options?: Omit<Urql.UseQueryArgs<ZaibatsuAnalyticsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ZaibatsuAnalyticsQuery, ZaibatsuAnalyticsQueryVariables>({ query: ZaibatsuAnalyticsDocument, ...options });
+};
+export const UserAnalyticsDocument = gql`
+    query UserAnalytics($opts: UserAnalyticsFilterUserAnalyticsOrderingListOptions) {
+  userAnalytics(opts: $opts) {
+    id
+    totalCreatedLoans
+    totalApprovedLoans
+    totalCollectedLoans
+    totalApprovedLoansValue
+    totalCollectedLoansValue
+    totalUnapprovedLoans
+    totalLoansAwaititngApproval
+    dateAdded
+    lastUpdated
+  }
+}
+    `;
+
+export function useUserAnalyticsQuery(options?: Omit<Urql.UseQueryArgs<UserAnalyticsQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserAnalyticsQuery, UserAnalyticsQueryVariables>({ query: UserAnalyticsDocument, ...options });
 };
 export const AlgorandStandardAssetsDocument = gql`
     query AlgorandStandardAssets($opts: AlgorandStandardAssetFilterNoneTypeListOptions) {
@@ -1413,12 +1491,14 @@ export function usePoolQuery(options: Omit<Urql.UseQueryArgs<PoolQueryVariables>
   return Urql.useQuery<PoolQuery, PoolQueryVariables>({ query: PoolDocument, ...options });
 };
 export const ActivitiesDocument = gql`
-    query Activities {
-  activities {
-    message
+    query Activities($opts: ActivityFilterActivityOrderingListOptions) {
+  activities(opts: $opts) {
     id
+    message
+    read
     detailId
     dateAdded
+    lastUpdated
   }
 }
     `;

@@ -8,6 +8,7 @@ import { useAtomValue } from "jotai";
 import listOptionsAtoms from "@state/atoms/listOptions";
 import { ActivityType } from "../../../../services/graphql/generated";
 
+/**
 const NotifDummy: Omit<ActivityType, "__typename">[] = [
   {
     id: "1",
@@ -34,6 +35,7 @@ const NotifDummy: Omit<ActivityType, "__typename">[] = [
     },
   },
 ];
+ */
 
 const NotificationTable = () => {
   const listOpts = useAtomValue(listOptionsAtoms.activities);
@@ -49,15 +51,13 @@ const NotificationTable = () => {
         ? Array.from({ length: 3 }).map((_, index) => (
             <NotificationItemSkeleton key={index} />
           ))
-        : NotifDummy.map(
-            (item: Omit<ActivityType, "__typename">, index: number) => (
-              <NotificationItem
-                key={item.message + item.dateAdded + index}
-                item={item}
-              />
-            )
-          )}
-      {!fetching && activities.length > 0 && (
+        : activities.map((item, index: number) => (
+            <NotificationItem
+              key={item.message + item.dateAdded + index}
+              item={item}
+            />
+          ))}
+      {!fetching && activities.length < 1 && (
         <p className="border p-2 rounded-md px-4 opacity-60 text-center">
           No activities to display...{" "}
         </p>

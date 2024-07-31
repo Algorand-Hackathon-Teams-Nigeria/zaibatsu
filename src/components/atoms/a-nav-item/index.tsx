@@ -11,7 +11,6 @@ interface Props {
 
 const NavItem: React.FC<Props> = ({ nav, onClick }) => {
   const pathname = usePathname();
-  console.log("current path name is: ", pathname);
   return (
     <Link
       onClick={onClick}

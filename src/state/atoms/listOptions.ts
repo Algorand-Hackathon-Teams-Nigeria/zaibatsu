@@ -1,10 +1,13 @@
 import {
+  ActivityFilterActivityOrderingListOptions,
   LoanFilterLoanOrderingListOptions,
   LoanTemplateFilterLoanTemplateOrderingListOptions,
+  PoolAnalyticsFilterPoolAnalyticsOrderingListOptions,
   PoolFilterPoolOrderingListOptions,
-  ActivityFilterActivityOrderingListOptions,
-} from "@/services/graphql/generated";
-import { atom } from "jotai";
+  UserAnalyticsFilterUserAnalyticsOrderingListOptions,
+  ZaibatsuAnalyticsFilterZaibatsuAnalyticsOrderingListOptions,
+} from '@/services/graphql/generated';
+import { atom } from 'jotai';
 
 const listOptionsAtoms = {
   p2pLoanTemplate: atom<LoanTemplateFilterLoanTemplateOrderingListOptions>({}),
@@ -12,6 +15,9 @@ const listOptionsAtoms = {
   pools: atom<PoolFilterPoolOrderingListOptions>({}),
   activities: atom<ActivityFilterActivityOrderingListOptions>({}),
   loans: atom<LoanFilterLoanOrderingListOptions>({}),
+  zaibatsuAnalytics:atom<ZaibatsuAnalyticsFilterZaibatsuAnalyticsOrderingListOptions>({}),
+  poolAnalytics:atom<PoolAnalyticsFilterPoolAnalyticsOrderingListOptions>({}),
+  userAnalytics:atom<UserAnalyticsFilterUserAnalyticsOrderingListOptions>({})
 };
 
 export default listOptionsAtoms;
