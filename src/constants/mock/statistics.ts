@@ -13,12 +13,7 @@ const MOCK_STATISTICS: readonly FinancialStatistic[] = [
     label: "Loans Approved",
     oldValue: 9200,
   },
-  {
-    value: 10293,
-    variant: "order",
-    label: "Loans NotApproved",
-    oldValue: 9200,
-  },
+
   {
     value: 89000,
     variant: "sales",
