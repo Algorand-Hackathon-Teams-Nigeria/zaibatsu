@@ -185,7 +185,7 @@ const NFTCard: React.FC<Props> = ({ variant = "borrower", loan, onChange }) => {
           </div>
         </div>
       </div>
-      <button onClick={handleDownloadImage}>Downoad</button>
+      {/* <button onClick={handleDownloadImage}>Downoad</button> */}
     </div>
   );
 };
