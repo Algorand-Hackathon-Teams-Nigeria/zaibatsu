@@ -6,36 +6,6 @@ import ActivitiesActions from "../../m-activities-actions";
 import { useActivitiesQuery } from "@/services/graphql/generated";
 import { useAtomValue } from "jotai";
 import listOptionsAtoms from "@state/atoms/listOptions";
-import { ActivityType } from "../../../../services/graphql/generated";
-
-/**
-const NotifDummy: Omit<ActivityType, "__typename">[] = [
-  {
-    id: "1",
-    message: "Loan repayment received",
-    read: true,
-    detailId: "loan_123",
-    dateAdded: "2024-07-30T12:34:56Z",
-    lastUpdated: "2024-07-30T13:34:56Z",
-    user: {
-      id: "1",
-      address: "0x12345",
-    },
-  },
-  {
-    id: "2",
-    message: "New loan offer available",
-    read: false,
-    detailId: "loan_124",
-    dateAdded: "2024-07-29T10:30:00Z",
-    lastUpdated: "2024-07-29T11:00:00Z",
-    user: {
-      id: "2",
-      address: "0x67890",
-    },
-  },
-];
- */
 
 const NotificationTable = () => {
   const listOpts = useAtomValue(listOptionsAtoms.activities);
@@ -45,7 +15,7 @@ const NotificationTable = () => {
   });
   const activities = data?.activities ?? [];
   return (
-    <div className="py-1 md:py-5 px-2 md:px-7 bg-secondaryPool-foreground rounded-[6px] gap-1 flex flex-col justify-center items-center">
+    <div className="py-1  md:py-5   rounded-[6px] gap-1 flex flex-col justify-center items-center">
       <NotificationHeader />
       {fetching
         ? Array.from({ length: 3 }).map((_, index) => (
@@ -58,9 +28,9 @@ const NotificationTable = () => {
             />
           ))}
       {!fetching && activities.length < 1 && (
-        <p className="border p-2 rounded-md px-4 opacity-60 text-center">
+        <div className="border p-2 rounded-md px-4 opacity-60 text-center w-full h-48 items-center flex justify-center">
           No activities to display...{" "}
-        </p>
+        </div>
       )}
     </div>
   );

@@ -6,7 +6,7 @@ import LoanFilter from "@molecules/m-loan-filter";
 import { Button } from "@/components/ui/button";
 const ActivitiesActions = () => {
   return (
-    <CollapsibleFilter nested={<MarkRead />} title="Filter Activities">
+    <CollapsibleFilter nestedPrefix={<MarkRead />} title="Filter Activities">
       <LoanFilter />
     </CollapsibleFilter>
   );

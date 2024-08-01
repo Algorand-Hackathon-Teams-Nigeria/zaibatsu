@@ -24,7 +24,6 @@ const Dashboard = () => {
   const [{ fetching, data }] = useZaibatsuAnalyticsQuery({
     variables: { opts: { limit: 2, ordering: { dateAdded: true } } },
   });
-  console.log("zaibatsu analytics data: ", data?.zaibatsuAnalytics);
 
   const stats = useMemo(() => {
     return generateZaibatsuStatistics(data?.zaibatsuAnalytics ?? []);

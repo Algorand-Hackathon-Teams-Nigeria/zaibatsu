@@ -1,18 +1,16 @@
-"use client"
-import Page from '@/components/atoms/a-page';
-import PoolsTable from '@/components/molecules/m-pools-table';
-import PoolActions from '@/components/organisms/o-pool-actions';
-import { generatePoolStatistics } from '@/lib/utils/statistics';
-import { usePoolAnalyticsQuery } from '@/services/graphql/generated';
-import FinancialStatisticsGrid from '@molecules/m-financial-statistics-grid';
-import { memo, useCallback, useMemo } from 'react';
+"use client";
+import Page from "@/components/atoms/a-page";
+import PoolsTable from "@/components/molecules/m-pools-table";
+import PoolActions from "@/components/organisms/o-pool-actions";
+import { generatePoolStatistics } from "@/lib/utils/statistics";
+import { usePoolAnalyticsQuery } from "@/services/graphql/generated";
+import FinancialStatisticsGrid from "@molecules/m-financial-statistics-grid";
+import { memo, useCallback, useMemo } from "react";
 
 const PoolPage = () => {
-  
   const [{ fetching, data }] = usePoolAnalyticsQuery({
     variables: { opts: { limit: 2, ordering: { dateAdded: true } } },
   });
-  console.log("pool analytics data: ", data?.poolAnalytics);
 
   const stats = useMemo(() => {
     return generatePoolStatistics(data?.poolAnalytics ?? []);

@@ -15,8 +15,14 @@ interface Props {
   data: FinancialStatistic;
 }
 
-function calcPercentage(newNume: number, oldNum: number) {
-  return ((newNume - oldNum) / oldNum) * 100;
+function calcPercentage(newNume: number, oldNum: number): number {
+  if (oldNum === 0) {
+    return newNume === 0 ? 0 : 100;
+  }
+
+  let calcPercentage = ((newNume - oldNum) / oldNum) * 100;
+
+  return calcPercentage;
 }
 
 const FinancialStatisticCard: React.FC<Props> = ({ data }) => {

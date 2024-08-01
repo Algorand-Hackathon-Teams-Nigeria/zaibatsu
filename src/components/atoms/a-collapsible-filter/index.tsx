@@ -18,14 +18,16 @@ import IconParkOutlineSearch from "~icons/icon-park-outline/search.jsx";
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   title?: string;
   children?: React.ReactNode;
-  nested?: React.JSX.Element;
+  nestedPrefix?: React.JSX.Element;
+  nestedSuffix?: React.JSX.Element;
   withSearch?: boolean;
 }
 
 const CollapsibleFilter: React.FC<Props> = ({
   title,
   children,
-  nested,
+  nestedPrefix,
+  nestedSuffix,
   withSearch,
   ...props
 }) => {
@@ -66,7 +68,7 @@ const CollapsibleFilter: React.FC<Props> = ({
                   />
                 </div>
               )}
-              {nested}
+              {nestedPrefix}
               <CollapsibleTrigger>
                 <Button className="bg-card flex gap-2 hover:bg-card/50 items-center">
                   <OcticonFilter16 />
@@ -74,6 +76,7 @@ const CollapsibleFilter: React.FC<Props> = ({
                   <span className="sr-only hidden lg:block">{title}</span>
                 </Button>
               </CollapsibleTrigger>
+              {nestedSuffix}
             </div>
           </div>
           <CollapsibleContent>
@@ -89,7 +92,7 @@ const CollapsibleFilter: React.FC<Props> = ({
         <>
           <div className="flex items-center justify-between mb-4">
             <div></div>
-            <div className="flex flex-col md:flex-row items-center gap-2">
+            <div className="flex flex-row md:flex-row items-center gap-2">
               {withSearch && (
                 <div className="flex items-center pl-3 focus-within:ring-ring focus-within:ring-1 rounded-md bg-card">
                   <IconParkOutlineSearch />
@@ -100,6 +103,7 @@ const CollapsibleFilter: React.FC<Props> = ({
                   />
                 </div>
               )}
+              {nestedPrefix}
               <Button
                 onClick={toggleOpen}
                 className="bg-card flex gap-2 hover:bg-card/50 items-center"
@@ -108,6 +112,7 @@ const CollapsibleFilter: React.FC<Props> = ({
                 <span>Filter</span>
                 <span className="sr-only">{title}</span>
               </Button>
+              {nestedSuffix}
             </div>
           </div>
           <Sheet open={isOpen} onOpenChange={toggleOpen}>
