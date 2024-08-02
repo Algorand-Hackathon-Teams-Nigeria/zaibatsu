@@ -29,6 +29,11 @@ const UserPoolAssetHolding: React.FC<Props> = ({
   address,
   poolId,
 }) => {
+  const [formOpen, setFormOpen] = React.useState(false);
+  const [popoverOpen, setPopoverOpen] = React.useState(false);
+  let val =
+    holding.balance / getMultiplierForDecimalPlaces(holding.asset.decimals);
+  console.log(val, holding.assetPrice);
   return (
     <li
       key={holding.id}
@@ -41,14 +46,14 @@ const UserPoolAssetHolding: React.FC<Props> = ({
           src={holding.asset.imageUrl}
           alt={holding.asset.unitName}
         />
-        <Popover>
+        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
           <PopoverTrigger>
             <Button variant="ghost" className="rounded-full" size="icon">
               <MiOptionsVertical />
             </Button>
           </PopoverTrigger>
           <PopoverContent>
-            <Dialog>
+            <Dialog open={formOpen} onOpenChange={setFormOpen}>
               <DialogTrigger>
                 <button className="w-full">Withdraw</button>
               </DialogTrigger>
@@ -58,6 +63,10 @@ const UserPoolAssetHolding: React.FC<Props> = ({
                 </DialogHeader>
                 <WithdrawFromPoolForm
                   holding={holding}
+                  onSuccess={() => {
+                    setFormOpen(false);
+                    setPopoverOpen(false);
+                  }}
                   poolId={poolId}
                   address={address}
                 />
