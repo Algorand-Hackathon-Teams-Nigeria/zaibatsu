@@ -22,7 +22,9 @@ export const NEW_POOL_CONTRIBUTION = gql`
 `;
 
 export const CREATE_UPDATE_POOL_LOAN_TEMPLATE_PROPOSAL = gql`
-  mutation CreateUpdatePoolLoanTemplateProposal($input: PoolLoanTemplateProposalInput!) {
+  mutation CreateUpdatePoolLoanTemplateProposal(
+    $input: PoolLoanTemplateProposalInput!
+  ) {
     createUpdatePoolLoanTemplateProposal(input: $input) {
       id
     }
@@ -30,9 +32,34 @@ export const CREATE_UPDATE_POOL_LOAN_TEMPLATE_PROPOSAL = gql`
 `;
 
 export const NEW_POOL_LOAN_TEMPLATE_PROPOSAL_VOTE = gql`
-  mutation NewPoolLoanTemplateProposalVote($input: PoolLoanTemplateProposalVoteInput!) {
+  mutation NewPoolLoanTemplateProposalVote(
+    $input: PoolLoanTemplateProposalVoteInput!
+  ) {
     newPoolLoanTemplateProposalVote(input: $input) {
       assetId
+    }
+  }
+`;
+
+export const WITHDRAW_FROM_POOL = gql`
+  mutation Mutation($input: WithdrawFromPoolInput!) {
+    withdrawFromPool(input: $input) {
+      id
+      userAddress
+      assetAmount
+      dateAdded
+      lastUpdated
+      pool {
+        id
+        name
+        dateAdded
+        lastUpdated
+        manager {
+          address
+          id
+        }
+        netValue
+      }
     }
   }
 `;

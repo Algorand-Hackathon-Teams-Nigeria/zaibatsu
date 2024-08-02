@@ -47,6 +47,7 @@ export type ActivityType = {
   lastUpdated: Scalars['DateTime']['output'];
   message: Scalars['String']['output'];
   read: Scalars['Boolean']['output'];
+  title: Scalars['String']['output'];
   user: UserType;
 };
 
@@ -303,9 +304,11 @@ export type Mutation = {
   newPoolLoanTemplateProposalVote: PoolLoanTemplateProposalVoteType;
   pinLoanNftImages: PinLoanNftImagesResponse;
   runCloseExpiredProposals: Scalars['Boolean']['output'];
+  runLogAnalytics: Scalars['Boolean']['output'];
   saveAlgorandAstandardAsset: AlgorandStandardAssetType;
   updateLoanWithContractDetails: LoanType;
   updloadImage: Scalars['String']['output'];
+  withdrawFromPool: PoolAssetWithdrawalType;
 };
 
 
@@ -363,6 +366,11 @@ export type MutationUpdateLoanWithContractDetailsArgs = {
 
 export type MutationUpdloadImageArgs = {
   image: Scalars['Upload']['input'];
+};
+
+
+export type MutationWithdrawFromPoolArgs = {
+  input: WithdrawFromPoolInput;
 };
 
 export enum NetworkType {
@@ -515,6 +523,17 @@ export type PoolAssetHoldingsRecordType = {
   lastUpdated: Scalars['DateTime']['output'];
   payouts: Scalars['Float']['output'];
   pool: PoolType;
+};
+
+export type PoolAssetWithdrawalType = {
+  __typename?: 'PoolAssetWithdrawalType';
+  asset: AlgorandStandardAssetType;
+  assetAmount: Scalars['Union']['output'];
+  dateAdded: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  lastUpdated: Scalars['DateTime']['output'];
+  pool: PoolType;
+  userAddress: Scalars['String']['output'];
 };
 
 export type PoolContributionFilter = {
@@ -817,6 +836,12 @@ export type UserType = {
   profile?: Maybe<ProfileType>;
 };
 
+export type WithdrawFromPoolInput = {
+  assetAmount: Scalars['Union']['input'];
+  assetId: Scalars['Union']['input'];
+  txnId: Scalars['String']['input'];
+};
+
 export type ZaibatsuAnalyticsFilter = {
   after?: InputMaybe<Scalars['DateTime']['input']>;
   before?: InputMaybe<Scalars['DateTime']['input']>;
@@ -904,6 +929,13 @@ export type NewPoolLoanTemplateProposalVoteMutationVariables = Exact<{
 
 
 export type NewPoolLoanTemplateProposalVoteMutation = { __typename?: 'Mutation', newPoolLoanTemplateProposalVote: { __typename?: 'PoolLoanTemplateProposalVoteType', assetId: any } };
+
+export type MutationMutationVariables = Exact<{
+  input: WithdrawFromPoolInput;
+}>;
+
+
+export type MutationMutation = { __typename?: 'Mutation', withdrawFromPool: { __typename?: 'PoolAssetWithdrawalType', id: string, userAddress: string, assetAmount: any, dateAdded: any, lastUpdated: any, pool: { __typename?: 'PoolType', id: string, name: string, dateAdded: any, lastUpdated: any, netValue: number, manager: { __typename?: 'UserType', address: string, id: string } } } };
 
 export type UpdloadImageMutationVariables = Exact<{
   image: Scalars['Upload']['input'];
@@ -1114,6 +1146,32 @@ export const NewPoolLoanTemplateProposalVoteDocument = gql`
 
 export function useNewPoolLoanTemplateProposalVoteMutation() {
   return Urql.useMutation<NewPoolLoanTemplateProposalVoteMutation, NewPoolLoanTemplateProposalVoteMutationVariables>(NewPoolLoanTemplateProposalVoteDocument);
+};
+export const MutationDocument = gql`
+    mutation Mutation($input: WithdrawFromPoolInput!) {
+  withdrawFromPool(input: $input) {
+    id
+    userAddress
+    assetAmount
+    dateAdded
+    lastUpdated
+    pool {
+      id
+      name
+      dateAdded
+      lastUpdated
+      manager {
+        address
+        id
+      }
+      netValue
+    }
+  }
+}
+    `;
+
+export function useMutationMutation() {
+  return Urql.useMutation<MutationMutation, MutationMutationVariables>(MutationDocument);
 };
 export const UpdloadImageDocument = gql`
     mutation UpdloadImage($image: Upload!) {
