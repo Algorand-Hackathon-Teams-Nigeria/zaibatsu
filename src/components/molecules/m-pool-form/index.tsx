@@ -23,7 +23,6 @@ import algosdk from "algosdk";
 import { ellipseAddress } from "@/lib/utils/text";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 import { TooltipInfo } from "@/components/atoms/a-tooltip-info/index";
-import Dropzone from "@ui/dropzonde";
 
 interface Props {
   onClose?: CallableFunction;

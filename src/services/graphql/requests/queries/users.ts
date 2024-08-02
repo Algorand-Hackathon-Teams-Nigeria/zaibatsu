@@ -12,3 +12,21 @@ export const ACTIVITIES = gql`
     }
   }
 `;
+
+export const USER_POOL_ASSET_HOLDING = gql`
+  query UserPoolAssetHoldings($address: String!, $poolId: ID!) {
+    userPoolAssetHoldings(address: $address, poolId: $poolId) {
+      id
+      balance
+      lastUpdated
+      assetPrice
+      asset {
+        id
+        imageUrl
+        decimals
+        unitName
+        assetId
+      }
+    }
+  }
+`;

@@ -42,7 +42,7 @@ export const NEW_POOL_LOAN_TEMPLATE_PROPOSAL_VOTE = gql`
 `;
 
 export const WITHDRAW_FROM_POOL = gql`
-  mutation Mutation($input: WithdrawFromPoolInput!) {
+  mutation WithdrawFromPool($input: WithdrawFromPoolInput!) {
     withdrawFromPool(input: $input) {
       id
       userAddress

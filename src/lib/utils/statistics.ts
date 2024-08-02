@@ -93,7 +93,7 @@ export function generateZaibatsuStatistics(
  * @returns {FinancialStatistic[]} An array of financial statistics.
  */
 export function generatePoolStatistics(
-  analytics: PoolAnalyticsQuery["poolAnalytics"][number][]
+  analytics: PoolAnalyticsQuery["poolAnalytics"]
 ): FinancialStatistic[] {
   return generateStatistics(analytics, [
     {

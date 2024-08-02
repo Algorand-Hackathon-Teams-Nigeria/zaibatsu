@@ -710,6 +710,7 @@ export type Query = {
   poolTemplateProposals: Array<PoolLoanTemplateProposalType>;
   pools: Array<PoolType>;
   userAnalytics: Array<UserAnalyticsType>;
+  userPoolAssetHoldings: Array<UserPoolAssetHoldingType>;
   version: Scalars['String']['output'];
   zaibatsuAnalytics: Array<ZaibatsuAnalyticsType>;
 };
@@ -792,6 +793,12 @@ export type QueryUserAnalyticsArgs = {
 };
 
 
+export type QueryUserPoolAssetHoldingsArgs = {
+  address: Scalars['String']['input'];
+  poolId: Scalars['ID']['input'];
+};
+
+
 export type QueryZaibatsuAnalyticsArgs = {
   opts?: InputMaybe<ZaibatsuAnalyticsFilterZaibatsuAnalyticsOrderingListOptions>;
 };
@@ -829,6 +836,18 @@ export type UserAnalyticsType = {
   totalUnapprovedLoans: Scalars['Union']['output'];
 };
 
+export type UserPoolAssetHoldingType = {
+  __typename?: 'UserPoolAssetHoldingType';
+  asset: AlgorandStandardAssetType;
+  assetPrice: Scalars['Float']['output'];
+  balance: Scalars['Union']['output'];
+  dateAdded: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  lastUpdated: Scalars['DateTime']['output'];
+  pool: PoolType;
+  user: UserType;
+};
+
 export type UserType = {
   __typename?: 'UserType';
   address: Scalars['String']['output'];
@@ -839,6 +858,7 @@ export type UserType = {
 export type WithdrawFromPoolInput = {
   assetAmount: Scalars['Union']['input'];
   assetId: Scalars['Union']['input'];
+  poolId: Scalars['ID']['input'];
   txnId: Scalars['String']['input'];
 };
 
@@ -930,12 +950,12 @@ export type NewPoolLoanTemplateProposalVoteMutationVariables = Exact<{
 
 export type NewPoolLoanTemplateProposalVoteMutation = { __typename?: 'Mutation', newPoolLoanTemplateProposalVote: { __typename?: 'PoolLoanTemplateProposalVoteType', assetId: any } };
 
-export type MutationMutationVariables = Exact<{
+export type WithdrawFromPoolMutationVariables = Exact<{
   input: WithdrawFromPoolInput;
 }>;
 
 
-export type MutationMutation = { __typename?: 'Mutation', withdrawFromPool: { __typename?: 'PoolAssetWithdrawalType', id: string, userAddress: string, assetAmount: any, dateAdded: any, lastUpdated: any, pool: { __typename?: 'PoolType', id: string, name: string, dateAdded: any, lastUpdated: any, netValue: number, manager: { __typename?: 'UserType', address: string, id: string } } } };
+export type WithdrawFromPoolMutation = { __typename?: 'Mutation', withdrawFromPool: { __typename?: 'PoolAssetWithdrawalType', id: string, userAddress: string, assetAmount: any, dateAdded: any, lastUpdated: any, pool: { __typename?: 'PoolType', id: string, name: string, dateAdded: any, lastUpdated: any, netValue: number, manager: { __typename?: 'UserType', address: string, id: string } } } };
 
 export type UpdloadImageMutationVariables = Exact<{
   image: Scalars['Upload']['input'];
@@ -1052,6 +1072,14 @@ export type ActivitiesQueryVariables = Exact<{
 
 export type ActivitiesQuery = { __typename?: 'Query', activities: Array<{ __typename?: 'ActivityType', id: string, message: string, read: boolean, detailId?: string | null, dateAdded: any, lastUpdated: any }> };
 
+export type UserPoolAssetHoldingsQueryVariables = Exact<{
+  address: Scalars['String']['input'];
+  poolId: Scalars['ID']['input'];
+}>;
+
+
+export type UserPoolAssetHoldingsQuery = { __typename?: 'Query', userPoolAssetHoldings: Array<{ __typename?: 'UserPoolAssetHoldingType', id: string, balance: any, lastUpdated: any, assetPrice: number, asset: { __typename?: 'AlgorandStandardAssetType', id: number, imageUrl: string, decimals: number, unitName: string, assetId: any } }> };
+
 
 export const InitiateLoanPaymentRoundDocument = gql`
     mutation InitiateLoanPaymentRound($input: InitiateLoanPaymentRoundInput!) {
@@ -1147,8 +1175,8 @@ export const NewPoolLoanTemplateProposalVoteDocument = gql`
 export function useNewPoolLoanTemplateProposalVoteMutation() {
   return Urql.useMutation<NewPoolLoanTemplateProposalVoteMutation, NewPoolLoanTemplateProposalVoteMutationVariables>(NewPoolLoanTemplateProposalVoteDocument);
 };
-export const MutationDocument = gql`
-    mutation Mutation($input: WithdrawFromPoolInput!) {
+export const WithdrawFromPoolDocument = gql`
+    mutation WithdrawFromPool($input: WithdrawFromPoolInput!) {
   withdrawFromPool(input: $input) {
     id
     userAddress
@@ -1170,8 +1198,8 @@ export const MutationDocument = gql`
 }
     `;
 
-export function useMutationMutation() {
-  return Urql.useMutation<MutationMutation, MutationMutationVariables>(MutationDocument);
+export function useWithdrawFromPoolMutation() {
+  return Urql.useMutation<WithdrawFromPoolMutation, WithdrawFromPoolMutationVariables>(WithdrawFromPoolDocument);
 };
 export const UpdloadImageDocument = gql`
     mutation UpdloadImage($image: Upload!) {
@@ -1563,4 +1591,25 @@ export const ActivitiesDocument = gql`
 
 export function useActivitiesQuery(options?: Omit<Urql.UseQueryArgs<ActivitiesQueryVariables>, 'query'>) {
   return Urql.useQuery<ActivitiesQuery, ActivitiesQueryVariables>({ query: ActivitiesDocument, ...options });
+};
+export const UserPoolAssetHoldingsDocument = gql`
+    query UserPoolAssetHoldings($address: String!, $poolId: ID!) {
+  userPoolAssetHoldings(address: $address, poolId: $poolId) {
+    id
+    balance
+    lastUpdated
+    assetPrice
+    asset {
+      id
+      imageUrl
+      decimals
+      unitName
+      assetId
+    }
+  }
+}
+    `;
+
+export function useUserPoolAssetHoldingsQuery(options: Omit<Urql.UseQueryArgs<UserPoolAssetHoldingsQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserPoolAssetHoldingsQuery, UserPoolAssetHoldingsQueryVariables>({ query: UserPoolAssetHoldingsDocument, ...options });
 };

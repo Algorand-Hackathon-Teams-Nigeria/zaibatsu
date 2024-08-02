@@ -11,7 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useWallet } from "@txnlab/use-wallet";
 import { useSetAtom } from "jotai";
 import listOptionsAtoms from "@/state/atoms/listOptions";
-import PoolLoanTemplateProposals from "@/components/molecules/m-pool-loan-template-proposals";
+import PoolLoanTemplateProposals from "@molecules/m-pool-loan-template-proposals";
+import UserPoolAssetHoldings from "@molecules/m-user-pool-asset-holdings";
 
 interface Props {
   params: {
@@ -34,8 +35,6 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
       filter: { ...c?.filter, poolId: Number(params.poolId) },
     }));
   }, [params.poolId, setPoolTemplatesOpts]);
-
-  console.log(data?.pool);
 
   return (
     <Page>
@@ -68,7 +67,9 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
           },
         ]}
       />
-      <PoolLoanTemplateProposals poolId={params.poolId} />
+      {activeAddress && (
+        <UserPoolAssetHoldings address={activeAddress} poolId={params.poolId} />
+      )}
       <LoanTemplateFilter variant="Pool" />
       <div className="flex items-center justify-between">
         <h2 className="text-xl lg:text-2xl font-semibold">
@@ -83,6 +84,7 @@ const PoolDetailsPage: React.FC<Props> = ({ params }) => {
         )}
       </div>
       <LoanTemplatesTable variant="Pool" />
+      <PoolLoanTemplateProposals poolId={params.poolId} />
     </Page>
   );
 };

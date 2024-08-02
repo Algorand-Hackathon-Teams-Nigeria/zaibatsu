@@ -5,7 +5,7 @@ import PoolActions from "@/components/organisms/o-pool-actions";
 import { generatePoolStatistics } from "@/lib/utils/statistics";
 import { usePoolAnalyticsQuery } from "@/services/graphql/generated";
 import FinancialStatisticsGrid from "@molecules/m-financial-statistics-grid";
-import { memo, useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 const PoolPage = () => {
   const [{ fetching, data }] = usePoolAnalyticsQuery({
