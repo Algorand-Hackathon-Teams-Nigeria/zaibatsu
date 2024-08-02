@@ -21,8 +21,8 @@ import {
 } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import PoolContributeModal from "@/components/atoms/a-pool-contribute-modal";
-import { PoolAssetHoldingFilter } from "../../../services/graphql/generated";
 import PoolsCard from "@/components/molecules/m-pools-table-mobile/index";
+import PoolTableActions from "@/components/atoms/a-pool-table-actions";
 
 const PoolsTable = () => {
   const listOpts = useAtomValue(listOptionsAtoms.pools);
@@ -80,7 +80,7 @@ const PoolsTable = () => {
                     </AvatarGroup>
                   </TableCell>
                   <TableCell className="text-center">
-                    ${pool.netValue.toFixed(2)}
+                    ${pool.netValue.toPrecision(2)}
                   </TableCell>
                   <TableCell className="text-center">
                     {pool.totalContributors}
@@ -89,15 +89,7 @@ const PoolsTable = () => {
                     {pool.totalLoanTemplates}
                   </TableCell>
                   <TableCell className="hidden md:table-cell ">
-                    <div className="flex justify-center items-center gap-2">
-                      <PoolContributeModal pool={pool} />
-                      <Link
-                        className="border w-full text-center border-primary/60 p-2 rounded-md hover:text-primary-foreground hover:bg-primary/60 transition-all"
-                        href={`/pools/${pool.id}/borrow`}
-                      >
-                        Borrow
-                      </Link>
-                    </div>
+                    <PoolTableActions pool={pool} />
                   </TableCell>
                 </TableRow>
               ))}

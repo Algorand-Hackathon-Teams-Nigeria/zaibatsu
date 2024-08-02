@@ -37,8 +37,13 @@ export const POOLS = gql`
 `;
 
 export const POOL = gql`
-  query Pool($poolId: ID!) {
+  query Pool($poolId: ID!, $assetOpts: NoneTypeNoneTypeListOptions) {
     pool(poolId: $poolId) {
+      assets(opts: $assetOpts) {
+        imageUrl
+        unitName
+        id
+      }
       totalLoansValue
       totalLoanTemplates
       totalContributors

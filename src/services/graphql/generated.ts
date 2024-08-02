@@ -1060,10 +1060,11 @@ export type PoolsQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'Po
 
 export type PoolQueryVariables = Exact<{
   poolId: Scalars['ID']['input'];
+  assetOpts?: InputMaybe<NoneTypeNoneTypeListOptions>;
 }>;
 
 
-export type PoolQuery = { __typename?: 'Query', pool: { __typename?: 'PoolType', totalLoansValue: number, totalLoanTemplates: number, totalContributors: number, totalContributions: number, netValue: number, name: string, id: string, dateAdded: any, manager: { __typename?: 'UserType', id: string, address: string } } };
+export type PoolQuery = { __typename?: 'Query', pool: { __typename?: 'PoolType', totalLoansValue: number, totalLoanTemplates: number, totalContributors: number, totalContributions: number, netValue: number, name: string, id: string, dateAdded: any, assets: Array<{ __typename?: 'AlgorandStandardAssetType', imageUrl: string, unitName: string, id: number }>, manager: { __typename?: 'UserType', id: string, address: string } } };
 
 export type ActivitiesQueryVariables = Exact<{
   opts?: InputMaybe<ActivityFilterActivityOrderingListOptions>;
@@ -1555,8 +1556,13 @@ export function usePoolsQuery(options?: Omit<Urql.UseQueryArgs<PoolsQueryVariabl
   return Urql.useQuery<PoolsQuery, PoolsQueryVariables>({ query: PoolsDocument, ...options });
 };
 export const PoolDocument = gql`
-    query Pool($poolId: ID!) {
+    query Pool($poolId: ID!, $assetOpts: NoneTypeNoneTypeListOptions) {
   pool(poolId: $poolId) {
+    assets(opts: $assetOpts) {
+      imageUrl
+      unitName
+      id
+    }
     totalLoansValue
     totalLoanTemplates
     totalContributors
