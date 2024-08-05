@@ -43,7 +43,7 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
   const templates = data?.loanTemplates ?? [];
   return (
     <div className="flex flex-col">
-      <Card className="p-2 py-4 hidden lg:visible ">
+      <Card className="p-2 py-4 hidden lg:block ">
         <Table borderless>
           <TableHeader>
             <TableRow>
