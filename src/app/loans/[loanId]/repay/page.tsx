@@ -134,7 +134,9 @@ const LoanRepaymentPage: React.FC<Props> = ({ params }) => {
         variant="repay"
         disabled={
           data?.loan.borrower.address !== activeAddress ||
-          data?.loan.paymentRounds === data?.loan.completedPaymentRounds
+          data?.loan.paymentRounds === data?.loan.completedPaymentRounds ||
+          new Date().getTime() < new Date(data?.loan.nextPaymentOpens ?? "").getTime() ||
+          new Date().getTime() > new Date(data?.loan.nextPaymentCloses ?? "").getTime()
         }
         onConfirm={() => setConfirmOpen((c) => !c)}
         processing={fetching || contractLoanding || updating}
