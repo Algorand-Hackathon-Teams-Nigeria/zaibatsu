@@ -77,8 +77,6 @@ export const LOAN = gql`
       earlyPaymentPenaltyAmount
       paymentRounds
       completedPaymentRounds
-      nextPaymentOpens
-      nextPaymentCloses
       paymentCompletionTimestamp
       collateralPaid
       principalPaid

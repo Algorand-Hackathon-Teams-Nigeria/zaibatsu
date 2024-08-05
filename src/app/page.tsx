@@ -14,9 +14,13 @@ import { useZaibatsuAnalyticsQuery } from "@/services/graphql/generated";
 import FinancialStatisticsGrid from "@molecules/m-financial-statistics-grid";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
+import { useAtomValue } from "jotai";
+import listOptionsAtoms from "@/state/atoms/listOptions";
 
 const Dashboard = () => {
+  // const listOpts = useAtomValue(listOptionsAtoms.zaibatsuAnalytics);
+
   const [{ fetching, data }] = useZaibatsuAnalyticsQuery({
     variables: { opts: { limit: 2, ordering: { dateAdded: true } } },
   });
