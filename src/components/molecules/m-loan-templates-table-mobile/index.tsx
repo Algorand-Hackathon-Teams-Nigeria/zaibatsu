@@ -41,7 +41,7 @@ const LoanTemplatesCard: React.FC<loanTemplatesCardProps> = ({
   fetching,
 }) => {
   return (
-    <div className="w-full lg:hidden gap-5 flex flex-col">
+    <div className="w-full lg:hidden gap-5 flex flex-col mb-5">
       {templates.length > 0 &&
         !fetching &&
         templates.map((template) => (
@@ -131,7 +131,6 @@ const LoanTemplatesCard: React.FC<loanTemplatesCardProps> = ({
           </div>
         </Card>
       )}
-      <LoanTemplatesCardSkelton />
     </div>
   );
 };

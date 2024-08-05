@@ -34,3 +34,19 @@ export function TooltipInfo({ icon, description }: TooltipDemoProps) {
     </TooltipProvider>
   );
 }
+
+interface TooltopTemplateProps extends TooltipDemoProps {
+  label: string | React.JSX.Element;
+}
+export function TooltipTemplate({
+  label,
+  description,
+  icon,
+}: TooltopTemplateProps) {
+  return (
+    <div className="flex flex-row items-center px-1 ">
+      {label}&nbsp;
+      <TooltipInfo description={description} icon={icon} />
+    </div>
+  );
+}

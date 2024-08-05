@@ -24,6 +24,7 @@ import {
 } from "@ui/table";
 import TdesignUndertake from "~icons/tdesign/undertake.jsx";
 import MiOptionsVertical from "~icons/mi/options-vertical.jsx";
+import LoanTemplatesCard from "../m-loan-templates-table-mobile";
 interface Props {
   variant?: "P2P" | "Pool";
 }
@@ -42,7 +43,7 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
   const templates = data?.loanTemplates ?? [];
   return (
     <div className="flex flex-col">
-      <Card className="p-2 py-4">
+      <Card className="p-2 py-4 hidden lg:visible ">
         <Table borderless>
           <TableHeader>
             <TableRow>
@@ -152,9 +153,8 @@ const LoanTemplatesTable: React.FC<Props> = ({ variant }) => {
           </div>
         )}
       </Card>
-      {
-        //<LoanTemplatesCard fetching={fetching} templates={templates} />
-      }
+
+      <LoanTemplatesCard fetching={fetching} templates={templates} />
     </div>
   );
 };
