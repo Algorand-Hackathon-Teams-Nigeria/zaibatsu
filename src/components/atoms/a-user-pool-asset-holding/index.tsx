@@ -82,7 +82,7 @@ const UserPoolAssetHolding: React.FC<Props> = ({
             {(
               holding.balance /
               getMultiplierForDecimalPlaces(holding.asset.decimals)
-            ).toPrecision(6)}
+            ).toPrecision(2)}
           </div>
           <div className="flex items-center gap-0.5">
             <span className="text-lg">$</span>
@@ -91,7 +91,7 @@ const UserPoolAssetHolding: React.FC<Props> = ({
                 (holding.balance /
                   getMultiplierForDecimalPlaces(holding.asset.decimals)) *
                 holding.assetPrice
-              ).toPrecision(4)}
+              ).toPrecision(2)}
             </span>
           </div>
         </div>

@@ -115,12 +115,12 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                         getMultiplierForDecimalPlaces(
                           loan.principalAsset.decimals
                         )
-                      ).toFixed(4)}
+                      ).toPrecision(2)}
                     </span>
                   </div>
                 </TableCell>
                 <TableCell className="hidden xl:table-cell text-center">
-                  <div className="flex justify-center items-center gap-2">
+                  <div className="flex justify-start pl-14 items-center gap-2">
                     <Image
                       src={loan.collateralAsset.imageUrl}
                       alt={loan.collateralAsset.name}
@@ -133,7 +133,7 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                         getMultiplierForDecimalPlaces(
                           loan.collateralAsset.decimals
                         )
-                      ).toFixed(4)}
+                      ).toPrecision(2)}
                     </span>
                   </div>
                 </TableCell>

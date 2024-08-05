@@ -12,6 +12,8 @@ const PoolPage = () => {
     variables: { opts: { limit: 2, ordering: { dateAdded: true } } },
   });
 
+  console.log(data)
+
   const stats = useMemo(() => {
     return generatePoolStatistics(data?.poolAnalytics ?? []);
   }, [data]);
