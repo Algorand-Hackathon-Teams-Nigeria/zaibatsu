@@ -89,7 +89,7 @@ const LoanTemplatesCard: React.FC<loanTemplatesCardProps> = ({
             <div className=" border-b-[1px] border-[#F7F7F7] flex flex-col gap-1">
               <div className="py-1  font-normal flex flex-row justify-between ">
                 <div className="py-2">Max Tenure</div>
-                <div className="py-2"> {template.malgoanTenure}</div>
+                <div className="py-2"> {template.maxLoanTenure}</div>
               </div>
               <div className="py-1   font-normal flex flex-row justify-between ">
                 <div className="py-2">Creator</div>
