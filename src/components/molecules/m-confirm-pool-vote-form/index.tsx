@@ -66,8 +66,6 @@ const ConfirmPoolFormVoteForm: React.FC<Props> = ({ poolId, onConfirm }) => {
 		onConfirm &&
 			onConfirm({
 				multiplier: Number(value.amount),
-				poolAsset: Number(data?.pool.poolAssetId ?? ""),
-				poolKey: data?.pool.poolKey ?? "",
 			});
 	};
 
