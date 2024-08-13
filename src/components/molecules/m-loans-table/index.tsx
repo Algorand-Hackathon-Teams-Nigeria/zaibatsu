@@ -64,7 +64,7 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
       };
     }
     return opts;
-  }, [listOpts]);
+  }, [listOpts, activeAddress, variant]);
   const [{ fetching, data }] = useLoansQuery({
     variables: { opts },
   });
@@ -113,7 +113,7 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                       {(
                         Number(loan.principalAssetAmount) /
                         getMultiplierForDecimalPlaces(
-                          loan.principalAsset.decimals
+                          loan.principalAsset.decimals,
                         )
                       ).toPrecision(2)}
                     </span>
@@ -131,7 +131,7 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                       {(
                         Number(loan.collateralAssetAmount) /
                         getMultiplierForDecimalPlaces(
-                          loan.collateralAsset.decimals
+                          loan.collateralAsset.decimals,
                         )
                       ).toPrecision(2)}
                     </span>

@@ -6,10 +6,11 @@ import Overview from "@/components/atoms/a-overview";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LoanQuery } from "@/services/graphql/generated";
-import { LoanEnumType } from "@/services/graphql/generated";
 import { ellipseAddress } from "@/lib/utils/text";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 import NFTCard from "@/components/atoms/a-nft-card";
+
+const MemoizeNFTCard = React.memo(NFTCard);
 
 interface Props {
   data?: LoanQuery;
@@ -60,25 +61,25 @@ const LoanDetailsOverview: React.FC<Props> = ({
           <Overview.Item fetching={fetching} title="Principal Amount">
             {Number(data?.loan.principalAssetAmount) /
               getMultiplierForDecimalPlaces(
-                data?.loan.principalAsset.decimals ?? 1
+                data?.loan.principalAsset.decimals ?? 1,
               )}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Interest Amount">
             {Number(data?.loan.interestAssetAmount) /
               getMultiplierForDecimalPlaces(
-                data?.loan.principalAsset.decimals ?? 1
+                data?.loan.principalAsset.decimals ?? 1,
               )}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Collateral Amount">
             {Number(data?.loan.collateralAssetAmount) /
               getMultiplierForDecimalPlaces(
-                data?.loan.collateralAsset.decimals ?? 1
+                data?.loan.collateralAsset.decimals ?? 1,
               )}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Early Payment Penalty">
             {Number(data?.loan.earlyPaymentPenaltyAmount) /
               getMultiplierForDecimalPlaces(
-                data?.loan.principalAsset.decimals ?? 1
+                data?.loan.principalAsset.decimals ?? 1,
               )}
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Principal Asset">
@@ -111,7 +112,7 @@ const LoanDetailsOverview: React.FC<Props> = ({
           </Overview.Item>
           <Overview.Item fetching={fetching} title="Payment Completion Date">
             {new Date(
-              Number(data?.loan.paymentCompletionTimestamp ?? "0") * 1000
+              Number(data?.loan.paymentCompletionTimestamp ?? "0") * 1000,
             ).toLocaleDateString("en-US", {
               day: "numeric",
               month: "short",
@@ -146,8 +147,11 @@ const LoanDetailsOverview: React.FC<Props> = ({
             </div>
           ) : (
             <div className="flex flex-col gap-4 w-full">
-              <NFTCard onChange={onBorrowerNftImageChange} loan={data?.loan} />
-              <NFTCard
+              <MemoizeNFTCard
+                onChange={onBorrowerNftImageChange}
+                loan={data?.loan}
+              />
+              <MemoizeNFTCard
                 onChange={onLenderNftImageChange}
                 variant="lender"
                 loan={data?.loan}

@@ -99,7 +99,6 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
         authAndDaoClient.approvePoolVote(
           {
             txn,
-            poolKey: voteMultiplier.poolKey ?? "",
           },
           {
             boxes: [

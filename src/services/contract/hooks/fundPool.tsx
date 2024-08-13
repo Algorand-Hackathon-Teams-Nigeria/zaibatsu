@@ -10,7 +10,7 @@ import {
 import ERRORS from "@constants/toasts/errors";
 import { useContractClients } from "@providers/contract";
 import { useWallet } from "@txnlab/use-wallet";
-import algosdk, { signTransaction } from "algosdk";
+import algosdk from "algosdk";
 import React from "react";
 
 interface FundPoolArgs {
@@ -98,8 +98,6 @@ const useFundPool = () => {
           {
             txn,
             fundAmount,
-            zai: Number(zaiRes.return),
-            userAccount: activeAddress,
             folksFeedOracle: Number(
               process.env.NEXT_PUBLIC_FOLKS_FEED_ORACLE_APP_ID ?? "",
             ),

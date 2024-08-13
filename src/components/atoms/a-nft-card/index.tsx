@@ -32,8 +32,8 @@ const NFTCard: React.FC<Props> = ({ variant = "borrower", loan, onChange }) => {
       onChange(
         dataURLtoFile(
           data,
-          `ZAI ${variant === "lender" ? "L" : "B"}${formatId(Number(loan?.id), 6)}.jpg`
-        )
+          `ZAI ${variant === "lender" ? "L" : "B"}${formatId(Number(loan?.id), 6)}.jpg`,
+        ),
       );
     }
   };
@@ -49,42 +49,44 @@ const NFTCard: React.FC<Props> = ({ variant = "borrower", loan, onChange }) => {
   React.useEffect(() => {
     updateWidth();
     window.addEventListener("resize", updateWidth);
+    const current = ref.current;
 
     const resizeObserver = new ResizeObserver(() => updateWidth());
-    if (ref.current) {
-      resizeObserver.observe(ref.current);
+    if (current) {
+      resizeObserver.observe(current);
     }
 
     return () => {
       window.removeEventListener("resize", updateWidth);
-      if (ref.current) {
-        resizeObserver.unobserve(ref.current);
+      if (current) {
+        resizeObserver.unobserve(current);
       }
     };
   }, [ref]);
 
-  const handleDownloadImage = async () => {
-    if (ref.current) {
-      const canvas = await html2canvas(ref.current, {
-        allowTaint: true,
-        removeContainer: true,
-        backgroundColor: "transparent",
-      });
-      const data = canvas.toDataURL("image/png");
-      const file = dataURLtoFile(
-        data,
-        `ZAI ${variant === "lender" ? "L" : "B"}${formatId(Number(loan?.id), 6)}.jpg`
-      );
-      const link = document.createElement("a");
+  //const handleDownloadImage = async () => {
+  //  if (ref.current) {
+  //    const canvas = await html2canvas(ref.current, {
+  //      allowTaint: true,
+  //      removeContainer: true,
+  //      backgroundColor: "transparent",
+  //    });
+  //    const data = canvas.toDataURL("image/png");
+  //    const file = dataURLtoFile(
+  //      data,
+  //      `ZAI ${variant === "lender" ? "L" : "B"}${formatId(Number(loan?.id), 6)}.jpg`,
+  //    );
+  //    const link = document.createElement("a");
+  //
+  //    link.href = URL.createObjectURL(file);
+  //    link.download = file.name;
+  //
+  //    document.body.appendChild(link);
+  //    link.click();
+  //    document.body.removeChild(link);
+  //  }
+  //};
 
-      link.href = URL.createObjectURL(file);
-      link.download = file.name;
-
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
   return (
     <div className="bg-transparent">
       <div
@@ -96,7 +98,7 @@ const NFTCard: React.FC<Props> = ({ variant = "borrower", loan, onChange }) => {
           "relative z-0 w-full aspect-[16/10] overflow-hidden bg-gradient-to-bl",
           variant === "borrower"
             ? "from-green-300 via-green-400 to-green-500"
-            : "from-fuchsia-200 via-fuchsia-300 to-fuchsia-400"
+            : "from-fuchsia-200 via-fuchsia-300 to-fuchsia-400",
         )}
       >
         <div className="bg-black/10 absolute right-[40%] top-[40%] aspect-square w-full rounded-full" />

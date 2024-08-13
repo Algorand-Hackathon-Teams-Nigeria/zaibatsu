@@ -30,11 +30,11 @@ interface Props {
 
 const PoolForm: React.FC<Props> = ({ onClose }) => {
   const form = usePoolForm();
-  const { activeAddress } = useWallet();
+  const { activeAddress, signTransactions, sendTransactions } = useWallet();
   const [{ fetching }, mutate] = useNewPoolMutation();
   const [assetDecimals, setAssetDecimals] = React.useState(1);
   const [contractLoading, setContractLoading] = React.useState(false);
-  const { loanClient, algodClient, authAndDaoClient } = useContractClients();
+  const { loanClient, algodClient } = useContractClients();
 
   const { toast } = useToast();
 
@@ -61,59 +61,33 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
         Number(value.fundAmount) * getMultiplierForDecimalPlaces(assetDecimals),
       suggestedParams: sp,
     });
+    const signedTxn = await signTransactions([txn.toByte()]);
+    await sendTransactions(signedTxn, 4);
 
-    try {
-      const res = await authAndDaoClient.authorizePoolCreation({
-        txn,
-        folksFeedOracle: Number(
-          process.env.NEXT_PUBLIC_FOLKS_FEED_ORACLE_APP_ID,
-        ),
-      });
+    const { error } = await mutate({
+      input: {
+        name: value.name,
+        creatorAddress: activeAddress,
+        maxContributors: Number(value.maxContributors),
+      },
+    });
 
-      if (!res.return) {
+    if (error?.graphQLErrors) {
+      error.graphQLErrors.map((err) =>
         toast({
-          title: "Contract Error",
-          description: "Contract response not found",
+          title: "Error",
+          description: err.message,
           variant: "destructive",
-        });
-        return;
-      }
-      setContractLoading(false);
-      const { error } = await mutate({
-        input: {
-          name: value.name,
-          creatorAddress: activeAddress,
-          maxContributors: Number(value.maxContributors),
-        },
-      });
-
-      if (error?.graphQLErrors) {
-        error.graphQLErrors.map((err) =>
-          toast({
-            title: "Error",
-            description: err.message,
-            variant: "destructive",
-          }),
-        );
-      } else {
-        toast({
-          title: "Success",
-          description: `Pool ${
-            value.name
-          } has been created with ${ellipseAddress(
-            activeAddress,
-          )} as the manager`,
-        });
-        onClose && onClose();
-      }
-    } catch (error) {
-      console.log(error);
-      setContractLoading(false);
+        }),
+      );
+    } else {
       toast({
-        title: "Transaction Error",
-        description: "Failed to authorize creation on contract",
-        variant: "destructive",
+        title: "Success",
+        description: `Pool ${value.name} has been created with ${ellipseAddress(
+          activeAddress,
+        )} as the manager`,
       });
+      onClose && onClose();
     }
   };
 
