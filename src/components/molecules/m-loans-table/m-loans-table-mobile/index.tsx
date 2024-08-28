@@ -19,13 +19,16 @@ import PoolTableActions from "@/components/atoms/a-pool-table-actions"; // Updat
 import { ellipseAddress } from "@/lib/utils/text";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 import Image from "next/image";
-
+import { LoanQuery } from "@/services/graphql/generated";
 interface LoansTableMobileProps {
   loans: LoanQuery["loan"][] | any[];
   fetching: boolean;
 }
 
-const LoansTableMobile: React.FC<LoansTableMobileProps> = ({ loans, fetching }) => {
+const LoansTableMobile: React.FC<LoansTableMobileProps> = ({
+  loans,
+  fetching,
+}) => {
   return (
     <div className="w-full lg:hidden gap-5 flex flex-col">
       {loans.length > 0 && !fetching && (
@@ -53,7 +56,9 @@ const LoansTableMobile: React.FC<LoansTableMobileProps> = ({ loans, fetching }) 
                 >
                   <div className="border-[#F7F7F7] flex flex-col gap-4">
                     <div className="py-1 font-normal flex flex-row justify-between">
-                      <div className="py-2 text-[#b0c5b0]">Principal Amount</div>
+                      <div className="py-2 text-[#b0c5b0]">
+                        Principal Amount
+                      </div>
                       <div className="py-2 flex items-center gap-2">
                         <Image
                           src={loan.principalAsset.imageUrl}
@@ -64,13 +69,17 @@ const LoansTableMobile: React.FC<LoansTableMobileProps> = ({ loans, fetching }) 
                         <span>
                           {(
                             Number(loan.principalAssetAmount) /
-                            getMultiplierForDecimalPlaces(loan.principalAsset.decimals)
+                            getMultiplierForDecimalPlaces(
+                              loan.principalAsset.decimals
+                            )
                           ).toPrecision(2)}
                         </span>
                       </div>
                     </div>
                     <div className="py-1 font-normal flex flex-row justify-between">
-                      <div className="py-2 text-[#b0c5b0]">Collateral Amount</div>
+                      <div className="py-2 text-[#b0c5b0]">
+                        Collateral Amount
+                      </div>
                       <div className="py-2 flex items-center gap-2">
                         <Image
                           src={loan.collateralAsset.imageUrl}
@@ -81,7 +90,9 @@ const LoansTableMobile: React.FC<LoansTableMobileProps> = ({ loans, fetching }) 
                         <span>
                           {(
                             Number(loan.collateralAssetAmount) /
-                            getMultiplierForDecimalPlaces(loan.collateralAsset.decimals)
+                            getMultiplierForDecimalPlaces(
+                              loan.collateralAsset.decimals
+                            )
                           ).toPrecision(2)}
                         </span>
                       </div>
@@ -96,7 +107,8 @@ const LoansTableMobile: React.FC<LoansTableMobileProps> = ({ loans, fetching }) 
                       <div className="py-2">
                         {loan.completedPaymentRounds === loan.paymentRounds
                           ? "Fully Paid"
-                          : Number(loan.paymentRounds) - Number(loan.completedPaymentRounds)}
+                          : Number(loan.paymentRounds) -
+                            Number(loan.completedPaymentRounds)}
                       </div>
                     </div>
                     <div className="py-1 font-normal flex flex-row justify-between">
@@ -121,7 +133,8 @@ const LoansTableMobile: React.FC<LoansTableMobileProps> = ({ loans, fetching }) 
 
                   <div className="pt-1 gap-4 flex flex-row h-10 justify-between items-center">
                     <div className="text-[#b0c5b0]">Actions</div>
-                    <PoolTableActions pool={loan} /> {/* Replace this with LoanTableActions */}
+                    <PoolTableActions pool={loan} />{" "}
+                    {/* Replace this with LoanTableActions */}
                   </div>
                 </div>
               </AccordionContent>
