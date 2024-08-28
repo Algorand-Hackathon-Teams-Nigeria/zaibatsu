@@ -13,8 +13,8 @@ interface SidebarType {
 const Sidebar: React.FC<SidebarType> = ({ open, onNavChange }) => {
   return (
     <div className="md:shadow-[rgba(0,0,0,0.05)_7px_2px_7px] max-w-full h-full md:bg-muted/40">
-      <div className="flex h-full max-h-screen flex-col gap-2">
-        <div className="md:flex hidden h-14 items-center px-4 lg:h-[100px] lg:px-6">
+      <div className="flex h-full max-h-screen flex-col gap-8">
+        <div className="md:flex hidden h-14 items-center justify-center px-4 lg:h-[100px] lg:px-6 ">
           <Link href="/">
             <Image
               src="/images/full-logo.svg"

@@ -22,7 +22,7 @@ import { useContractClients } from "@/components/providers/contract";
 import algosdk from "algosdk";
 import { ellipseAddress } from "@/lib/utils/text";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
-import { TooltipInfo } from "@/components/atoms/a-tooltip-info/index";
+import { TooltipTemplate } from "@/components/atoms/a-tooltip-info/index";
 
 interface Props {
   onClose?: CallableFunction;
@@ -78,13 +78,13 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
           title: "Error",
           description: err.message,
           variant: "destructive",
-        }),
+        })
       );
     } else {
       toast({
         title: "Success",
         description: `Pool ${value.name} has been created with ${ellipseAddress(
-          activeAddress,
+          activeAddress
         )} as the manager`,
       });
       onClose && onClose();
@@ -93,17 +93,20 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mt-2">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-2 mt-2 font-semibold "
+      >
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                <div className="flex flex-row ">
-                  Pool Name&nbsp;
-                  <TooltipInfo description="Name of the pool you wish to create" />
-                </div>
+              <FormLabel required>
+                <TooltipTemplate
+                  label={"Pool name"}
+                  description="Name of the pool you wish to create"
+                />
               </FormLabel>
               <FormControl>
                 <Input type="text" placeholder="Enter name" {...field} />
@@ -119,7 +122,9 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
               name="maxContributors"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Max Contributors</FormLabel>
+                  <FormLabel required className="font-semibold">
+                    Max Contributors
+                  </FormLabel>
                   <FormControl>
                     <Input
                       max={100}
@@ -141,20 +146,21 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
             </legend>
             <hr />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5">
             <FormField
               control={form.control}
               name="assetId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    <div className="flex flex-row ">
-                      Asset&nbsp;
-                      <TooltipInfo description="Select the crypto asset you wish to contribute to the pool" />
-                    </div>
+                  <FormLabel required className="font-semibold">
+                    <TooltipTemplate
+                      label="Asset"
+                      description="Select the crypto asset you wish to contribute to the pool"
+                    />
                   </FormLabel>
                   <FormControl>
                     <AssetSelectCombobox
+                      className="md:w-full"
                       onSelect={(v) => {
                         if (v) {
                           setAssetDecimals(v.decimals);
@@ -173,7 +179,9 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
               name="fundAmount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Amount</FormLabel>
+                  <FormLabel required className="font-semibold">
+                    Amount
+                  </FormLabel>
                   <FormControl>
                     <Input type="number" placeholder="0.0" {...field} />
                   </FormControl>
@@ -188,7 +196,7 @@ const PoolForm: React.FC<Props> = ({ onClose }) => {
           <Button
             loading={fetching || contractLoading}
             disabled={fetching || contractLoading}
-            className="w-full max-w-[100px]"
+            className="md:w-full mt-3"
           >
             Save
           </Button>

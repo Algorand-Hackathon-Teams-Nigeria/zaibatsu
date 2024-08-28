@@ -13,7 +13,7 @@ const SIDEBAR_NAVS: readonly NavType[] = [
   {
     href: "/pools",
     icon: <HeroiconsUserGroup />,
-    title: "Pool",
+    title: "Liquidity pool",
   },
   {
     href: "/activities",

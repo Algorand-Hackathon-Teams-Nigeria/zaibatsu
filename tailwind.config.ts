@@ -31,6 +31,7 @@ const config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        mid: "hsl(var(--mid))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -106,6 +107,10 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "collapsible-down": "collapsible-down 0.3s ease-out",
         "collapsible-up": "collapsible-up 0.3s ease-out",
+      },
+
+      boxShadow: {
+        custom: "0 4px 24px 0 rgba(9, 193, 9, 0.12)",
       },
     },
   },

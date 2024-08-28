@@ -44,7 +44,7 @@ export function TooltipTemplate({
   icon,
 }: TooltopTemplateProps) {
   return (
-    <div className="flex flex-row items-center px-1 ">
+    <div className="flex flex-row items-center text-sm leading-[140%] font-semibold  px-1 ">
       {label}&nbsp;
       <TooltipInfo description={description} icon={icon} />
     </div>

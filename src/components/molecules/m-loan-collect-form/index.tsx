@@ -160,7 +160,7 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
             </FormItem>
           )}
         />
-        <Button loading={fetching} disabled={fetching}>
+        <Button className="md:w-full" loading={fetching} disabled={fetching}>
           Proceed
         </Button>
       </form>

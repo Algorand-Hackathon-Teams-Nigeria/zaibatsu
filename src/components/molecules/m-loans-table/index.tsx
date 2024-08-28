@@ -7,6 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  CustomTableHeader,
 } from "@/components/ui/table";
 import { useLoansQuery } from "@/services/graphql/generated";
 import Image from "next/image";
@@ -36,7 +37,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 import { useWallet } from "@txnlab/use-wallet";
-
+import LoansTableMobile from "./m-loans-table-mobile";
 interface Props {
   variant: "marketplace" | "sold" | "collected";
 }
@@ -70,74 +71,66 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
   });
 
   const loans = data?.loans ?? [];
+  const columns = [
+    "Borrower",
+    "Principal Amount",
+    "Collateral Amount",
+    //   "Borrower Asset",
+    //  "Lender Asset",
+    "Remaining Payment Rounds",
+    "Tenure",
+    "Action",
+  ];
   return (
-    <Card className="p-2 py-4">
-      <Table borderless>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="text-center">Borrower</TableHead>
-            <TableHead className="text-center">Principal Amount</TableHead>
-            <TableHead className="hidden lg:table-cell text-center">
-              Collateral Amount
-            </TableHead>
-            <TableHead className="hidden xl:table-cell text-center">
-              Borrower Asset
-            </TableHead>
-            <TableHead className="hidden xl:table-cell text-center">
-              Lender Asset
-            </TableHead>
-            <TableHead className="hidden xl:table-cell text-center">
-              Remaining Payment Rounds
-            </TableHead>
-            <TableHead className="text-center">Tenure</TableHead>
-            <TableHead className="text-center">Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {loans.length > 0 &&
-            !fetching &&
-            loans.map((loan) => (
-              <TableRow key={loan.id}>
-                <TableCell className="flex items-center justify-center">
-                  {ellipseAddress(loan.borrower.address)}
-                </TableCell>
-                <TableCell className="text-center">
-                  <div className="flex justify-center items-center gap-2">
-                    <Image
-                      src={loan.principalAsset.imageUrl}
-                      alt={loan.principalAsset.name}
-                      width={30}
-                      height={30}
-                    />
-                    <span>
-                      {(
-                        Number(loan.principalAssetAmount) /
-                        getMultiplierForDecimalPlaces(
-                          loan.principalAsset.decimals,
-                        )
-                      ).toPrecision(2)}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell className="hidden xl:table-cell text-center">
-                  <div className="flex justify-start pl-14 items-center gap-2">
-                    <Image
-                      src={loan.collateralAsset.imageUrl}
-                      alt={loan.collateralAsset.name}
-                      width={30}
-                      height={30}
-                    />
-                    <span>
-                      {(
-                        Number(loan.collateralAssetAmount) /
-                        getMultiplierForDecimalPlaces(
-                          loan.collateralAsset.decimals,
-                        )
-                      ).toPrecision(2)}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell className="hidden xl:table-cell text-center">
+    <div className="p-2 py-4">
+      <div className="hidden lg:block">
+        <Table borderless>
+          <CustomTableHeader columns={columns} />
+          <TableBody>
+            {loans.length > 0 &&
+              !fetching &&
+              loans.map((loan) => (
+                <TableRow key={loan.id}>
+                  <TableCell className="flex items-center justify-center">
+                    {ellipseAddress(loan.borrower.address)}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <div className="flex justify-center items-center gap-2">
+                      <Image
+                        src={loan.principalAsset.imageUrl}
+                        alt={loan.principalAsset.name}
+                        width={30}
+                        height={30}
+                      />
+                      <span>
+                        {(
+                          Number(loan.principalAssetAmount) /
+                          getMultiplierForDecimalPlaces(
+                            loan.principalAsset.decimals
+                          )
+                        ).toPrecision(2)}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="hidden xl:table-cell text-center">
+                    <div className="flex justify-start pl-14 items-center gap-2">
+                      <Image
+                        src={loan.collateralAsset.imageUrl}
+                        alt={loan.collateralAsset.name}
+                        width={30}
+                        height={30}
+                      />
+                      <span>
+                        {(
+                          Number(loan.collateralAssetAmount) /
+                          getMultiplierForDecimalPlaces(
+                            loan.collateralAsset.decimals
+                          )
+                        ).toPrecision(2)}
+                      </span>
+                    </div>
+                  </TableCell>
+                  {/** <TableCell className="hidden xl:table-cell text-center">
                   <Link
                     className="hover:underline"
                     href={`https://${loan.borrowerNftAsset?.network}.explorer.perawallet.app/asset/${loan.borrowerNftAsset?.assetId}/`}
@@ -152,85 +145,89 @@ const LoanTable: React.FC<Props> = ({ variant }) => {
                   >
                     {loan.lenderNftAsset?.assetId}
                   </Link>
-                </TableCell>
-                <TableCell className="table-cell text-center">
-                  {loan.completedPaymentRounds === loan.paymentRounds
-                    ? "Fully Paid"
-                    : Number(loan.paymentRounds) -
-                      Number(loan.completedPaymentRounds)}
-                </TableCell>
-                <TableCell className="text-center  table-cell ">
-                  {loan.tenure}
-                </TableCell>
-                <TableCell className="text-center flex items-center justify-center ">
-                  <Popover>
-                    <PopoverTrigger>
-                      <Button variant="outline" size="icon">
-                        <MiOptionsVertical />
-                        <span className="sr-only">Loan Actions</span>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="p-0">
-                      <Command>
-                        <CommandList>
-                          <CommandGroup className="flex flex-col gap-2">
-                            {variant === "collected" &&
-                              loan.borrower.address === activeAddress && (
+                </TableCell> */}
+                  <TableCell className="table-cell text-center">
+                    {loan.completedPaymentRounds === loan.paymentRounds
+                      ? "Fully Paid"
+                      : Number(loan.paymentRounds) -
+                        Number(loan.completedPaymentRounds)}
+                  </TableCell>
+                  <TableCell className="text-center  table-cell ">
+                    {loan.tenure}
+                  </TableCell>
+                  <TableCell className="text-center flex items-center justify-center ">
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button variant="outline" size="icon">
+                          <MiOptionsVertical />
+                          <span className="sr-only">Loan Actions</span>
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="p-0">
+                        <Command>
+                          <CommandList>
+                            <CommandGroup className="flex flex-col gap-2">
+                              {variant === "collected" &&
+                                loan.borrower.address === activeAddress && (
+                                  <CommandItem
+                                    disabled={
+                                      loan.completedPaymentRounds ===
+                                      loan.paymentRounds
+                                    }
+                                    onSelect={() =>
+                                      router.push(`/loans/${loan.id}/repay`)
+                                    }
+                                    className="flex items-center gap-2"
+                                  >
+                                    <UiwPay />
+                                    <span>Repay</span>
+                                  </CommandItem>
+                                )}
+                              {variant === "sold" && (
                                 <CommandItem
-                                  disabled={
-                                    loan.completedPaymentRounds ===
-                                    loan.paymentRounds
-                                  }
+                                  disabled={loan.principalPaid}
                                   onSelect={() =>
-                                    router.push(`/loans/${loan.id}/repay`)
+                                    router.push(`/loans/${loan.id}/confirm`)
                                   }
                                   className="flex items-center gap-2"
                                 >
-                                  <UiwPay />
-                                  <span>Repay</span>
+                                  <TablerRubberStamp />
+                                  <span>Confirm</span>
                                 </CommandItem>
                               )}
-                            {variant === "sold" && (
                               <CommandItem
-                                disabled={loan.principalPaid}
                                 onSelect={() =>
-                                  router.push(`/loans/${loan.id}/confirm`)
+                                  router.push(`/loans/${loan.id}`)
                                 }
                                 className="flex items-center gap-2"
                               >
-                                <TablerRubberStamp />
-                                <span>Confirm</span>
+                                <TdesignUndertake />
+                                <span>Collect</span>
                               </CommandItem>
-                            )}
-                            <CommandItem
-                              onSelect={() => router.push(`/loans/${loan.id}`)}
-                              className="flex items-center gap-2"
-                            >
-                              <TdesignUndertake />
-                              <span>Collect</span>
-                            </CommandItem>
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                </TableCell>
-              </TableRow>
-            ))}
-          {fetching &&
-            Array.from({ length: 10 }).map((_, id) => (
-              <LoanTemplateRowSkeleton key={id} />
-            ))}
-        </TableBody>
-      </Table>
-      {loans.length === 0 && !fetching && (
-        <div className="flex items-center justify-center text-muted-foreground p-10 py-16">
-          <p className="border p-2 rounded-md px-4 text-center opacity-60">
-            There are currently no Loans available
-          </p>
-        </div>
-      )}
-    </Card>
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </TableCell>
+                </TableRow>
+              ))}
+            {fetching &&
+              Array.from({ length: 10 }).map((_, id) => (
+                <LoanTemplateRowSkeleton key={id} />
+              ))}
+          </TableBody>
+        </Table>
+        {loans.length === 0 && !fetching && (
+          <div className="flex items-center justify-center text-muted-foreground p-10 py-16">
+            <p className="border p-2 rounded-md px-4 text-center opacity-60">
+              There are currently no Loans available
+            </p>
+          </div>
+        )}
+      </div>
+      <LoansTableMobile fetching={fetching} loans={loans} />
+    </div>
   );
 };
 
@@ -250,18 +247,24 @@ const LoanTemplateRowSkeleton = () => {
       <TableCell className="text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
-      <TableCell className="text-center">
+      {/** <TableCell className="text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
       <TableCell className="text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
+     */}
       <TableCell className="hidden xl:text-center">
         <Skeleton className="h-6 max-w-14 w-screen mx-auto" />
       </TableCell>
       <TableCell className="hidden xl:table-cell">
         <div className="flex items-center gap-3 justify-center">
           <Skeleton className="h-7 w-full  max-w-[150px]" />
+        </div>
+      </TableCell>
+      <TableCell className="hidden xl:table-cell">
+        <div className="flex items-center gap-3 justify-center">
+          <Skeleton className="h-8 w-8" />
         </div>
       </TableCell>
       <TableCell className="hidden xl:table-cell">

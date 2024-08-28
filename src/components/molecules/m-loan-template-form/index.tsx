@@ -380,7 +380,7 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             <Button
               loading={fetching}
               disabled={fetching}
-              className="w-full max-w-[374px]"
+              className="md:w-full"
             >
               Save
             </Button>

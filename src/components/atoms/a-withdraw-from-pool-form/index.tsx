@@ -181,6 +181,7 @@ const WithdrawFromPoolForm: React.FC<Props> = ({
           type="submit"
           disabled={fetching || contractLoading}
           loading={fetching || contractLoading}
+          className="md:w-full"
         >
           Withdraw
         </Button>
