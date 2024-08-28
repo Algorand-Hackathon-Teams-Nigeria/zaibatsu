@@ -1,3 +1,4 @@
+"use client";
 import PoolTableActions from "@/components/atoms/a-pool-table-actions";
 import {
   Accordion,
@@ -12,8 +13,6 @@ import { ellipseAddress } from "@/lib/utils/text";
 import { LoanQuery } from "@/services/graphql/generated";
 import Image from "next/image";
 import React from "react";
-
-("use client");
 
 interface LoansTableMobileProps {
   loans: LoanQuery["loan"][] | any[];
