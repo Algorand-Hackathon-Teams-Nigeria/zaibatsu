@@ -1,25 +1,20 @@
-"use client";
-
-import React from "react";
+import PoolTableActions from "@/components/atoms/a-pool-table-actions";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarImage,
-} from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import PoolTableActions from "@/components/atoms/a-pool-table-actions"; // Update this import to LoanTableActions if necessary
-import { ellipseAddress } from "@/lib/utils/text";
 import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
-import Image from "next/image";
+import { ellipseAddress } from "@/lib/utils/text";
 import { LoanQuery } from "@/services/graphql/generated";
+import Image from "next/image";
+import React from "react";
+
+("use client");
+
 interface LoansTableMobileProps {
   loans: LoanQuery["loan"][] | any[];
   fetching: boolean;
