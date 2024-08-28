@@ -1,14 +1,20 @@
-import SolarLogout2Broken from "~icons/solar/logout-2-broken.jsx";
-import Image from "next/image";
-import SIDEBAR_NAVS from "@/constants/navigations/sidebar";
 import NavItem from "@/components/atoms/a-nav-item";
+import SIDEBAR_NAVS from "@/constants/navigations/sidebar";
+import Image from "next/image";
 import Link from "next/link";
+import React from "react";
+import SolarLogout2Broken from "~icons/solar/logout-2-broken.jsx";
 
-const Sidebar = () => {
+interface SidebarType {
+  open?: boolean;
+  onNavChange?: () => void;
+}
+
+const Sidebar: React.FC<SidebarType> = ({ open, onNavChange }) => {
   return (
     <div className="md:shadow-[rgba(0,0,0,0.05)_7px_2px_7px] max-w-full h-full md:bg-muted/40">
-      <div className="flex h-full max-h-screen flex-col gap-2">
-        <div className="md:flex hidden h-14 items-center px-4 lg:h-[100px] lg:px-6">
+      <div className="flex h-full max-h-screen flex-col gap-8">
+        <div className="md:flex hidden h-14 items-center justify-center px-4 lg:h-[100px] lg:px-6 ">
           <Link href="/">
             <Image
               src="/images/full-logo.svg"
@@ -22,7 +28,7 @@ const Sidebar = () => {
         <div className="mt-16 md:mt-0 flex-1 ">
           <nav className="grid items-start text-sm font-medium">
             {SIDEBAR_NAVS.map((nav) => (
-              <NavItem nav={nav} key={nav.href} />
+              <NavItem onClick={onNavChange} nav={nav} key={nav.href} />
             ))}
           </nav>
         </div>

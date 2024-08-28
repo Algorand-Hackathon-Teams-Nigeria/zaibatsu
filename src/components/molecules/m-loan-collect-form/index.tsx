@@ -14,8 +14,14 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import AssetSelectCombobox from "../m-asset-select-combobox";
-import { LoanTemplateQuery, useCalculateLoanSpecificsMutation } from "@/services/graphql/generated";
-import { getMinDecimalPlacesValues, getMultiplierForDecimalPlaces } from "@utils/math";
+import {
+  LoanTemplateQuery,
+  useCalculateLoanSpecificsMutation,
+} from "@/services/graphql/generated";
+import {
+  getMinDecimalPlacesValues,
+  getMultiplierForDecimalPlaces,
+} from "@utils/math";
 import { useWallet } from "@txnlab/use-wallet";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
@@ -36,7 +42,8 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
   const router = useRouter();
   const { toast } = useToast();
   const { activeAddress } = useWallet();
-  const [{ fetching }, calculateSpecificsMutate] = useCalculateLoanSpecificsMutation();
+  const [{ fetching }, calculateSpecificsMutate] =
+    useCalculateLoanSpecificsMutation();
   const [formData, setFormData] = React.useState<CollectLoanFormSchema>({
     loanAmount: "0.00",
     assetId: undefined as any,
@@ -48,7 +55,10 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
   });
 
   const onSubmit = async (value: CollectLoanFormSchema) => {
-    if (Number(value.loanAmount) < getMinDecimalPlacesValues(template?.asset.decimals ?? 1)) {
+    if (
+      Number(value.loanAmount) <
+      getMinDecimalPlacesValues(template?.asset.decimals ?? 1)
+    ) {
       form.setError("loanAmount", {
         message: `Value cannot be lower that ${getMinDecimalPlacesValues(template?.asset.decimals ?? 1)}`,
         type: "min",
@@ -78,7 +88,8 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
         tenure: Number(value.tenure),
         loanType: template.loanType,
         principalAmount:
-          Number(value.loanAmount) * getMultiplierForDecimalPlaces(template.asset.decimals),
+          Number(value.loanAmount) *
+          getMultiplierForDecimalPlaces(template.asset.decimals),
         templateId: template.id,
         borrowerAddress: activeAddress,
         collateralAssetId: value.assetId,
@@ -90,7 +101,7 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
           title: "Error",
           description: err.message,
           variant: "destructive",
-        }),
+        })
       );
     } else {
       router.push(`/loans/${data?.calculateLoanSpecifics.id}`);
@@ -99,7 +110,10 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
           name="loanAmount"
@@ -107,11 +121,7 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
             <FormItem>
               <FormLabel>Loan Amount</FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  placeholder="0.00"
-                  {...field}
-                />
+                <Input type="number" placeholder="0.00" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,7 +135,11 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
               <FormLabel>Collaterl Asset</FormLabel>
               <FormControl>
                 <AssetSelectCombobox
-                  exclude={template?.asset ? [String(template.asset.assetId)] : undefined}
+                  exclude={
+                    template?.asset
+                      ? [String(template.asset.assetId)]
+                      : undefined
+                  }
                   onSelect={(v) => field.onChange(v?.assetId)}
                 />
               </FormControl>
@@ -140,17 +154,13 @@ const CollectLoanForm: React.FC<Props> = ({ template }) => {
             <FormItem>
               <FormLabel>Loan Tenure</FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  placeholder="0.00"
-                  {...field}
-                />
+                <Input type="number" placeholder="0.00" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button loading={fetching} disabled={fetching}>
+        <Button className="md:w-full" loading={fetching} disabled={fetching}>
           Proceed
         </Button>
       </form>

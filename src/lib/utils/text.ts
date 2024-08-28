@@ -4,9 +4,13 @@ export function ellipseAddress(address = ``, width = 6): string {
     : address;
 }
 
-export const ellipseText = (text: string, length = 20): string => {
+export const ellipseText = (text = "", length = 20): string => {
   if (text.length > length) {
     return `${text.slice(0, length + 1)}...`;
   }
   return text;
 };
+
+export function formatId(id: number, length: number) {
+  return "#" + String(id).padStart(length, "0");
+}

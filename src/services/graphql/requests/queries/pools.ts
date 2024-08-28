@@ -17,7 +17,10 @@ export const POOL_LOAN_TEMPLATE_PROPOSALS = gql`
 `;
 
 export const POOLS = gql`
-  query Pools($assetOpts: NoneTypeNoneTypeListOptions, $opts: PoolFilterPoolOrderingListOptions) {
+  query Pools(
+    $assetOpts: NoneTypeNoneTypeListOptions
+    $opts: PoolFilterPoolOrderingListOptions
+  ) {
     pools(opts: $opts) {
       assets(opts: $assetOpts) {
         imageUrl
@@ -25,8 +28,6 @@ export const POOLS = gql`
         id
       }
       name
-      poolKey
-      poolAssetId
       totalLoanTemplates
       netValue
       id
@@ -36,8 +37,13 @@ export const POOLS = gql`
 `;
 
 export const POOL = gql`
-  query Pool($poolId: ID!) {
+  query Pool($poolId: ID!, $assetOpts: NoneTypeNoneTypeListOptions) {
     pool(poolId: $poolId) {
+      assets(opts: $assetOpts) {
+        imageUrl
+        unitName
+        id
+      }
       totalLoansValue
       totalLoanTemplates
       totalContributors
@@ -45,11 +51,6 @@ export const POOL = gql`
       netValue
       name
       id
-      imageUrl
-      poolKey
-      poolAssetId
-      tokenUnitName
-      tokenAssetName
       dateAdded
       manager {
         id

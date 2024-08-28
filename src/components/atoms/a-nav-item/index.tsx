@@ -6,16 +6,17 @@ import { usePathname } from "next/navigation";
 
 interface Props {
   nav: NavType;
+  onClick?: () => void;
 }
 
-const NavItem: React.FC<Props> = ({ nav }) => {
+const NavItem: React.FC<Props> = ({ nav, onClick }) => {
   const pathname = usePathname();
-  console.log("current path name is: ", pathname);
   return (
     <Link
+      onClick={onClick}
       title={nav.title}
       href={nav.href}
-      className={`${pathname === nav.href && "bg-primary/20"} flex items-center gap-3 px-6 md:px-3 lg:px-6 py-4 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10`}
+      className={`${pathname?.includes(nav.href) && "bg-primary/10 border-l-2 border-white  text-white font-bold "} text-[#B0C5B0] active:bg-primary/30 focus:bg-primary/30 flex items-center gap-3 pl-10 md:px-3 lg:px-6 py-3  transition-all hover:text-primary hover:bg-primary/20`}
     >
       {nav.icon}
       <span>{nav.title}</span>

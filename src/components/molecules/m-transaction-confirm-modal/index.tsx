@@ -47,7 +47,7 @@ const TransactionConfirmModal: React.FC<Props> = ({
                   width={24}
                   height={24}
                 />
-                <span>{item.amount.toPrecision(10)}</span>
+                <span>{item.amount.toPrecision(2)}</span>
               </div>
             </div>
           ))}
@@ -64,7 +64,7 @@ const TransactionConfirmModal: React.FC<Props> = ({
                 {transaction?.charges
                   ?.flatMap((i) => i.amount)
                   .reduce((v, c) => v + c)
-                  ?.toPrecision(10)}
+                  ?.toPrecision(2)}
               </span>
             </div>
           </div>

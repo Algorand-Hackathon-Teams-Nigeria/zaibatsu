@@ -21,10 +21,12 @@ interface FundPoolArgs {
 }
 
 const useFundPool = () => {
-  const { activeAddress, getAccountInfo } = useWallet();
+  const { activeAddress, getAccountInfo, signTransactions, sendTransactions } =
+    useWallet();
   const { authAndDaoClient, loanClient, algodClient } = useContractClients();
   const [contractProcessing, setContractProcessing] = React.useState(false);
-  const [{ fetching }, recordPoolContribution] = useNewPoolContributionMutation();
+  const [{ fetching }, recordPoolContribution] =
+    useNewPoolContributionMutation();
 
   const { toast } = useToast();
 
@@ -35,35 +37,45 @@ const useFundPool = () => {
         return;
       }
 
-      const encoder = new TextEncoder(); const fundAmount = Math.ceil(
+      const encoder = new TextEncoder();
+      const fundAmount = Math.ceil(
         args.amount * getMultiplierForDecimalPlaces(args.asset.decimals),
       );
 
       setContractProcessing(true);
-      const poolAsset = await (async () => {
+      const authRef = await authAndDaoClient.appClient.getAppReference();
+      const zaiRes = await authAndDaoClient.createZaibatsuToken(
+        {},
+        { boxes: [{ name: "zai", appId: authRef.appId }] },
+      );
+      const zaiAsset = await (async () => {
         const info = await getAccountInfo();
-        const poolAsset = info.assets?.find((item) => {
+        const zaiAsset = info.assets?.find((item) => {
           const id = item["asset-id"];
-          return id === Number(args.pool.poolAssetId);
+          return id === Number(zaiRes.return);
         });
-        return poolAsset;
+        return zaiAsset;
       })();
 
       const sp = await algodClient.getTransactionParams().do();
       const loanAppRef = await loanClient.appClient.getAppReference();
       const daoAppRef = await authAndDaoClient.appClient.getAppReference();
 
-      if (!poolAsset) {
+      if (!zaiAsset) {
         try {
-          const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-            from: activeAddress,
-            to: activeAddress,
-            assetIndex: Number(args.pool.poolAssetId),
-            note: encoder.encode(`OptIn to ${ellipseText(args.pool.name, 10)}'s asset`),
-            amount: 0,
-            suggestedParams: sp,
-          });
-          await authAndDaoClient.optinPoolAsset({ optinTxn: txn, poolKey: args.pool.poolKey });
+          const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(
+            {
+              from: activeAddress,
+              to: activeAddress,
+              assetIndex: Number(zaiRes.return),
+              note: encoder.encode(`OptIn to Zaibatsu token`),
+              amount: 0,
+              suggestedParams: sp,
+            },
+          );
+          const signedTxn = await signTransactions([txn.toByte()]);
+          const txnInfo = await sendTransactions(signedTxn, 4);
+          console.log(txnInfo);
         } catch (e) {
           console.log({ e });
           setContractProcessing(false);
@@ -74,7 +86,9 @@ const useFundPool = () => {
         from: activeAddress,
         to: loanAppRef.appAddress,
         assetIndex: Number(args.asset.assetId),
-        note: encoder.encode(`Contribution to (${ellipseText(args.pool.name, 10)})`),
+        note: encoder.encode(
+          `Contribution to (${ellipseText(args.pool.name, 10)})`,
+        ),
         amount: fundAmount,
         suggestedParams: sp,
       });
@@ -83,15 +97,14 @@ const useFundPool = () => {
         const res = await authAndDaoClient.fundPool(
           {
             txn,
-            poolAsset: Number(args.pool.poolAssetId),
-            poolKey: args.pool.poolKey,
             fundAmount,
-            userAccount: activeAddress,
-            folksFeedOracle: Number(process.env.NEXT_PUBLIC_FOLKS_FEED_ORACLE_APP_ID ?? ""),
-            assetDecimalsMultiplier: getMultiplierForDecimalPlaces(args.asset.decimals),
+            folksFeedOracle: Number(
+              process.env.NEXT_PUBLIC_FOLKS_FEED_ORACLE_APP_ID ?? "",
+            ),
           },
-          { boxes: [{ appId: daoAppRef.appId, name: args.pool.poolKey }] },
+          { boxes: [{ appId: daoAppRef.appId, name: "zai" }] },
         );
+        console.log({ return: res.return });
         setContractProcessing(false);
         if (res.return?.success) {
           const { error } = await recordPoolContribution({
@@ -108,7 +121,12 @@ const useFundPool = () => {
           } else {
             toast(
               SUCCESS.POOL_CONTRIBUTION_COMPLETE(
-                Number(res.return.amount) / getMultiplierForDecimalPlaces(args.asset.decimals),
+                Number(
+                  (
+                    Number(res.return.amount) /
+                    getMultiplierForDecimalPlaces(args.asset.decimals)
+                  ).toPrecision(2),
+                ),
                 args.asset.unitName,
               ),
             );
@@ -128,6 +146,8 @@ const useFundPool = () => {
       loanClient,
       toast,
       getAccountInfo,
+      sendTransactions,
+      signTransactions,
       recordPoolContribution,
     ],
   );

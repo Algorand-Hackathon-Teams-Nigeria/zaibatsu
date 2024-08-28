@@ -12,14 +12,12 @@ const LoansPage = () => {
         <LoanActions />
       </div>
       <Tabs defaultValue="collected">
-        <div className="flex flex-col md:flex-row gap-2 items-center justify-between">
-          <h4>Loans</h4>
-          <TabsList className="flex items-center gap-4">
-            <TabsTrigger value="marketplace">Market Place</TabsTrigger>
-            <TabsTrigger value="sold">Sold</TabsTrigger>
-            <TabsTrigger value="collected">Collected</TabsTrigger>
-          </TabsList>
-        </div>
+        <TabsList className="flex items-center gap-4">
+          <TabsTrigger value="marketplace">Market Place</TabsTrigger>
+          <TabsTrigger value="sold">Sold</TabsTrigger>
+          <TabsTrigger value="collected">Collected</TabsTrigger>
+        </TabsList>
+
         <TabsContent value="marketplace">
           <LoanTable variant="marketplace" />
         </TabsContent>

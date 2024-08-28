@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config = {
   darkMode: ["class"],
@@ -30,6 +31,7 @@ const config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        mid: "hsl(var(--mid))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -106,9 +108,22 @@ const config = {
         "collapsible-down": "collapsible-down 0.3s ease-out",
         "collapsible-up": "collapsible-up 0.3s ease-out",
       },
+
+      boxShadow: {
+        custom: "0 4px 24px 0 rgba(9, 193, 9, 0.12)",
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        ".responsive-text": {
+          "font-size": "calc(1vw + 1vh + 0.5vmin)",
+        },
+      });
+    }),
+  ],
 } satisfies Config;
 
 export default config;

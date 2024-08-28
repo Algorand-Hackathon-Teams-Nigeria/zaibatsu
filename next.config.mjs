@@ -39,7 +39,7 @@ const nextConfig = {
       Icons({
         compiler: "jsx",
         jsx: "react",
-        // autoInstall: true,
+        //autoInstall: true,
       }),
     );
     return config;

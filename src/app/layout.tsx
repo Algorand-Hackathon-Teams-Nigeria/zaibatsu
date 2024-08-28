@@ -7,7 +7,7 @@ import JotaiProvider from "@/components/providers/jotai";
 import UseWalletProvider from "@/components/providers/use-wallet";
 import { Toaster } from "@ui/toaster";
 import { ContractClientsProvider } from "@/components/providers/contract";
-import LoadingProvider from "@/components/providers/responsiveness/loadingBar";
+import LoadingProvider from "@/components/providers/page-loading-bar";
 
 const mono = Space_Mono({
   subsets: ["latin"],

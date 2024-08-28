@@ -1,18 +1,32 @@
 "use client";
-import BxMenu from "~icons/bx/menu.jsx";
-
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import Sidebar from "../m-sidebar";
-import Image from "next/image";
-import ConnectWallet from "../m-connect-wallet";
-import { useWallet } from "@txnlab/use-wallet";
 import { ellipseAddress } from "@/lib/utils/text";
+import sidebarAtom from "@/state/atoms/sidebarAtom";
+import { useWallet } from "@txnlab/use-wallet";
+import { useAtom } from "jotai";
+import Image from "next/image";
+import BxMenu from "~icons/bx/menu.jsx";
+import ConnectWallet from "../m-connect-wallet";
+import Sidebar from "../m-sidebar";
+import SIDEBAR_NAVS from "@/constants/navigations/sidebar";
+import { usePathname } from "next/navigation";
 
 const TopNav = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useAtom(sidebarAtom);
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  const changeSidebarState = (value: boolean) => {
+    setIsSidebarOpen(value);
+  };
+
   const { activeAddress } = useWallet();
+  const pathname = usePathname();
+
   return (
-    <header className="flex justify-between h-14 items-center gap-4 px-4 lg:h-[60px] lg:px-6">
+    <header className="flex justify-between  items-center gap-4 px-4 py-3  lg:px-8 lg:py-6">
       <div>
         <div className="flex md:hidden h-14 items-center px-4 lg:h-[100px] lg:px-6">
           <Image
@@ -22,7 +36,11 @@ const TopNav = () => {
             height={37}
           />
         </div>
+        <div className="self-start hidden lg:block font-bold text-5xl ">
+          {SIDEBAR_NAVS.find((item) => pathname?.includes(item.href))?.title}
+        </div>
       </div>
+
       <div className="flex items-center gap-2">
         <Sheet>
           <SheetTrigger>
@@ -36,7 +54,7 @@ const TopNav = () => {
             <ConnectWallet />
           </SheetContent>
         </Sheet>
-        <Sheet>
+        <Sheet onOpenChange={changeSidebarState} open={isSidebarOpen}>
           <SheetTrigger asChild>
             <Button
               variant="outline"
@@ -51,7 +69,7 @@ const TopNav = () => {
             side="right"
             className="flex max-w-[350px] px-0 flex-col"
           >
-            <Sidebar />
+            <Sidebar onNavChange={closeSidebar} open={isSidebarOpen} />
           </SheetContent>
         </Sheet>
       </div>

@@ -9,7 +9,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@ui/form";
-import { PoolLoanTemplateProposalFormSchema, useTemplateProposalForm } from "./schema";
+import {
+  PoolLoanTemplateProposalFormSchema,
+  useTemplateProposalForm,
+} from "./schema";
 import { Button } from "@/components/ui/button";
 import {
   PoolLoanTemplateProposalType,
@@ -27,10 +30,15 @@ interface Props {
   poolId: string;
 }
 
-const PoolLoanTemplateProposalForm: React.FC<Props> = ({ onClose, defaultValue, poolId }) => {
+const PoolLoanTemplateProposalForm: React.FC<Props> = ({
+  onClose,
+  defaultValue,
+  poolId,
+}) => {
   const form = useTemplateProposalForm();
   const { activeAddress } = useWallet();
-  const [{ fetching }, mutate] = useCreateUpdatePoolLoanTemplateProposalMutation();
+  const [{ fetching }, mutate] =
+    useCreateUpdatePoolLoanTemplateProposalMutation();
 
   const { toast } = useToast();
 
@@ -61,7 +69,7 @@ const PoolLoanTemplateProposalForm: React.FC<Props> = ({ onClose, defaultValue, 
           title: "Error",
           description: err.message,
           variant: "destructive",
-        }),
+        })
       );
     } else {
       toast({
@@ -82,7 +90,10 @@ const PoolLoanTemplateProposalForm: React.FC<Props> = ({ onClose, defaultValue, 
               <FormItem className="flex-1">
                 <FormLabel>Start Time</FormLabel>
                 <FormControl>
-                  <DateTimePicker value={field.value} onChange={field.onChange} />
+                  <DateTimePicker
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -95,7 +106,10 @@ const PoolLoanTemplateProposalForm: React.FC<Props> = ({ onClose, defaultValue, 
               <FormItem className="flex-1">
                 <FormLabel>End Time</FormLabel>
                 <FormControl>
-                  <DateTimePicker value={field.value} onChange={field.onChange} />
+                  <DateTimePicker
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -125,7 +139,7 @@ const PoolLoanTemplateProposalForm: React.FC<Props> = ({ onClose, defaultValue, 
           />
         </fieldset>
         <div className="w-full flex items-end justify-end">
-          <Button loading={fetching} disabled={fetching} className="w-full max-w-[100px]">
+          <Button loading={fetching} disabled={fetching} className="md:w-full">
             Save
           </Button>
         </div>

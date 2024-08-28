@@ -28,9 +28,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { Minus } from "iconsax-react";
 interface Props {
   pool: PoolsQuery["pools"][number];
+  children?: React.ReactElement;
+  className?: any;
 }
 
 const formSchema = z.object({
@@ -46,7 +48,11 @@ type ContributionData = {
   transactionFee?: number;
 };
 
-const PoolContributeModal: React.FC<Props> = ({ pool }) => {
+const PoolContributeModal: React.FC<Props> = ({
+  pool,
+  children,
+  className,
+}) => {
   const [fundOpen, setFundOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [formData, setFormData] = React.useState<ContributionData>();
@@ -58,7 +64,7 @@ const PoolContributeModal: React.FC<Props> = ({ pool }) => {
   const onSubmit = (data: FormSchema) => {
     if (formData?.asset?.decimals) {
       const assetAmount = Number(data.amount) * formData.asset.decimals;
-      const transactionFee = calculateTransactionFee(assetAmount)
+      const transactionFee = calculateTransactionFee(assetAmount);
       const amount = assetAmount / formData.asset.decimals;
 
       setFormData((c) => ({
@@ -85,10 +91,17 @@ const PoolContributeModal: React.FC<Props> = ({ pool }) => {
   return (
     <>
       <Dialog open={fundOpen} onOpenChange={setFundOpen}>
-        <DialogTrigger className="w-full">
-          <Button type="button" className="w-full">
-            Contribute
-          </Button>
+        <DialogTrigger className={`w-fit ${className}`}>
+          {children ? (
+            children
+          ) : (
+            <button
+              type="button"
+              className="rounded-full bg-card flex items-center justify-center p-2"
+            >
+              <Minus size="24" />
+            </button>
+          )}
         </DialogTrigger>
         <DialogContent>
           <DialogHeader className="text-2xl font-medium my-4">
@@ -141,7 +154,7 @@ const PoolContributeModal: React.FC<Props> = ({ pool }) => {
                 loading={processing}
                 type="submit"
                 size="lg"
-                className="py-6"
+                className="py-6 md:w-full"
               >
                 Confirm
               </Button>

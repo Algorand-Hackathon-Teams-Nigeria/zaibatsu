@@ -27,6 +27,7 @@ import { getMultiplierForDecimalPlaces } from "@/lib/utils/math";
 import ConfirmPoolFormVoteForm from "../m-confirm-pool-vote-form";
 import { useContractClients } from "@/components/providers/contract";
 import algosdk from "algosdk";
+import { TooltipTemplate } from "@/components/atoms/a-tooltip-info";
 
 interface DaoProps {
   loanType: "Dao";
@@ -98,9 +99,12 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
         authAndDaoClient.approvePoolVote(
           {
             txn,
-            poolKey: voteMultiplier.poolKey ?? "",
           },
-          { boxes: [{ appId: appRef.appId, name: voteMultiplier.poolKey ?? "" }] },
+          {
+            boxes: [
+              { appId: appRef.appId, name: voteMultiplier.poolKey ?? "" },
+            ],
+          }
         );
         setContractProgress(false);
       } catch (e) {
@@ -120,7 +124,9 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             input: {
               ...value,
               collateralPercentage: Number(value.collateralPercentage),
-              earlyRepaymentPenaltyPercentage: Number(value.earlyRepaymentPenaltyPercentage),
+              earlyRepaymentPenaltyPercentage: Number(
+                value.earlyRepaymentPenaltyPercentage
+              ),
               poolId: undefined,
               creatorAddress: activeAddress,
               repaymentPeriods: Number(value.repaymentPeriods),
@@ -137,7 +143,9 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             input: {
               ...value,
               collateralPercentage: Number(value.collateralPercentage),
-              earlyRepaymentPenaltyPercentage: Number(value.earlyRepaymentPenaltyPercentage),
+              earlyRepaymentPenaltyPercentage: Number(
+                value.earlyRepaymentPenaltyPercentage
+              ),
               voterAddress: activeAddress,
               repaymentPeriods: Number(value.repaymentPeriods),
               maxLoanAmount:
@@ -156,7 +164,7 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
           title: "Error",
           description: err.message,
           variant: "destructive",
-        }),
+        })
       );
     } else {
       toast({
@@ -168,14 +176,23 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
   };
   return (
     <Form {...form}>
-      <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mt-6">
+      <form
+        ref={formRef}
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-2 mt-6"
+      >
         <fieldset className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
           <FormField
             control={form.control}
             name="minLoanTenure"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Min Loan Tenure</FormLabel>
+                <FormLabel>
+                  <TooltipTemplate
+                    label="Min Loan Tenure"
+                    description="The shortest amount of time for which the asset can be borrowed."
+                  />
+                </FormLabel>
                 <FormControl>
                   <Input type="number" placeholder="0" {...field} />
                 </FormControl>
@@ -189,7 +206,12 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             name="maxLoanTenure"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Max Loan Tenure</FormLabel>
+                <FormLabel>
+                  <TooltipTemplate
+                    label="Max Loan Tenure"
+                    description="The longest amount of time for which the asset can be borrowed."
+                  />
+                </FormLabel>
                 <FormControl>
                   <Input type="number" placeholder="0" {...field} />
                 </FormControl>
@@ -205,7 +227,12 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             name="interestRate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Interest Rate</FormLabel>
+                <FormLabel>
+                  <TooltipTemplate
+                    label="Interest Rate"
+                    description="Percentage charged for borrowing the asset."
+                  />
+                </FormLabel>
                 <FormControl>
                   <Input type="number" placeholder="0.0" {...field} />
                 </FormControl>
@@ -219,7 +246,12 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             name="collateralPercentage"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Collateral Percentage</FormLabel>
+                <FormLabel>
+                  <TooltipTemplate
+                    label="Collateral Percentage"
+                    description="Percentage of the asset value required as collateral."
+                  />
+                </FormLabel>
                 <FormControl>
                   <Input type="number" placeholder="0.0" {...field} />
                 </FormControl>
@@ -235,7 +267,14 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             name="repaymentPeriods"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Repayment Periods</FormLabel>
+                <FormLabel>
+                  {" "}
+                  <TooltipTemplate
+                    label="Repayment Periods"
+                    description=" How many installments available for loan payments."
+                  />
+                </FormLabel>
+
                 <FormControl>
                   <Input type="number" placeholder="0" {...field} />
                 </FormControl>
@@ -249,7 +288,12 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             name="earlyRepaymentPenaltyPercentage"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Early Pepayment Penalty Percentage</FormLabel>
+                <FormLabel>
+                  <TooltipTemplate
+                    label="Early Repayment Penalty Percentage"
+                    description=" Fee charged for repaying the loan before the agreed-upon time. It is calculated as a percentage of the loan amount"
+                  />
+                </FormLabel>
                 <FormControl>
                   <Input type="number" placeholder="0.0" {...field} />
                 </FormControl>
@@ -265,7 +309,13 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             name="maxLoanAmount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Max Loan Amount</FormLabel>
+                <FormLabel>
+                  <TooltipTemplate
+                    label="Max Loan Amount"
+                    description="Maximum amount that can be borrowed."
+                  />
+                </FormLabel>
+
                 <FormControl>
                   <Input type="number" placeholder="0.0" {...field} />
                 </FormControl>
@@ -279,7 +329,12 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
             name="assetId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Asset</FormLabel>
+                <FormLabel className="mb-1">
+                  <TooltipTemplate
+                    label="Asset"
+                    description="The type of crypto asset offered up as a loan."
+                  />
+                </FormLabel>
                 <FormControl>
                   <AssetSelectCombobox
                     onSelect={(v) => {
@@ -322,7 +377,11 @@ const LoanTemplateForm: React.FC<Props> = ({ onClose, ...props }) => {
               </DialogContent>
             </Dialog>
           ) : (
-            <Button loading={fetching} disabled={fetching} className="w-full max-w-[374px]">
+            <Button
+              loading={fetching}
+              disabled={fetching}
+              className="md:w-full"
+            >
               Save
             </Button>
           )}

@@ -13,6 +13,7 @@ import {
   ContractLoanDetails,
   LoanEnumType,
   useLoanQuery,
+  usePinLoanNftImagesMutation,
   useUpdateLoanWithContractDetailsMutation,
 } from "@/services/graphql/generated";
 import { useWallet } from "@txnlab/use-wallet";
@@ -30,9 +31,13 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
   const router = useRouter();
   const { toast } = useToast();
   const { activeAddress } = useWallet();
+  const [lenderNftImage, setLenderNftImage] = React.useState<File>();
+  const [borrowerNftImage, setBorrowerNftImage] = React.useState<File>();
   const [contractLoanding, setContractLoading] = React.useState(false);
   const { algodClient, loanClient } = useContractClients();
-  const [{ fetching: updating }, updateMutate] = useUpdateLoanWithContractDetailsMutation();
+  const [{ fetching: updating }, updateMutate] =
+    useUpdateLoanWithContractDetailsMutation();
+  const [{ fetching: pinning }, pinMutate] = usePinLoanNftImagesMutation();
   const [{ fetching, data }] = useLoanQuery({
     variables: {
       loanId: Number(params.loanId),
@@ -48,6 +53,7 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
       });
       return;
     }
+
     const val = await loanClient.appClient.getBoxValueFromABIType(
       data.loan.loanKey ?? "",
       algosdk.ABIType.from(
@@ -55,26 +61,60 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
       ),
     );
     console.log({ val: LoanDetails(val as any) });
+
+    if (!borrowerNftImage || !lenderNftImage) {
+      toast({
+        title: "Upload Error",
+        description: "NFT images not generated yet",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const { data: pinData, error } = await pinMutate({
+      input: {
+        loanId: data.loan.id,
+        lenderImage: lenderNftImage,
+        borrowerImage: borrowerNftImage,
+      },
+    });
+
+    if (error) {
+      toast({
+        title: "Upload Error",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     const textEncoder = new TextEncoder();
     const appRef = await loanClient.appClient.getAppReference();
     const sp = await algodClient.getTransactionParams().do();
     const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
       to: appRef.appAddress,
       from: data?.loan.borrower.address,
-      amount: Math.ceil(calcAmountPlusFee(Number(data.loan.principalAssetAmount))),
+      amount: Math.ceil(
+        calcAmountPlusFee(Number(data.loan.principalAssetAmount)),
+      ),
       assetIndex: Number(data.loan.principalAsset.assetId),
       suggestedParams: sp,
     });
-    const encodedId = data.loan.encodedId ?? encodeIdToBase64(Number(data.loan.id));
+    const encodedId =
+      data.loan.encodedId ?? encodeIdToBase64(Number(data.loan.id));
 
     const completionArgs: CompleteLoanArgs = {
       loanHash: generateObjectHash(data.loan).slice(0, 32),
       loanUnitName: encodedId,
-      lenderNftImageUrl: data.loan.lenderIpfsAsset
-        ? generateUrlFromIpfsHash(data.loan.lenderIpfsAsset?.ipfsHash)
+      lenderNftImageUrl: pinData?.pinLoanNftImages.lenderIpfsAsset.ipfsHash
+        ? generateUrlFromIpfsHash(
+            pinData.pinLoanNftImages.lenderIpfsAsset.ipfsHash,
+          )
         : "",
-      borrowerNftImageUrl: data.loan.borrowerIpfsAsset
-        ? generateUrlFromIpfsHash(data.loan.borrowerIpfsAsset.ipfsHash)
+      borrowerNftImageUrl: pinData?.pinLoanNftImages.borrowerIpfsAsset.ipfsHash
+        ? generateUrlFromIpfsHash(
+            pinData?.pinLoanNftImages.borrowerIpfsAsset.ipfsHash,
+          )
         : "",
     };
     try {
@@ -107,14 +147,21 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
           lenderNftAssetId: res.return.lenderNftAsserId.toString(),
           principalAssetId: res.return.principalAssetId.toString(),
           collateralAssetId: res.return.collateralAssetId.toString(),
-          paymentRecipients: res.return.paymentRecipients.map((r) => [r[0].toString(), r[1]]),
+          paymentRecipients: res.return.paymentRecipients.map((r) => [
+            r[0].toString(),
+            r[1],
+          ]),
           borrowerNftAssetId: res.return.borrowerNftAsserId.toString(),
           interestAssetAmount: res.return.interestAssetAmount.toString(),
           principalAssetAmount: res.return.principalAssetAmount.toString(),
           collateralAssetAmount: res.return.collateralAssetAmount.toString(),
-          completedPaymentRounds: Number(res.return.completedPaymentRounds.toString()),
-          earlyPaymentPenaltyAmount: res.return.earlyPaymentPenaltyAmount.toString(),
-          paymentCompletionTimestamp: res.return.paymentCompletionTimestamp.toString(),
+          completedPaymentRounds: Number(
+            res.return.completedPaymentRounds.toString(),
+          ),
+          earlyPaymentPenaltyAmount:
+            res.return.earlyPaymentPenaltyAmount.toString(),
+          paymentCompletionTimestamp:
+            res.return.paymentCompletionTimestamp.toString(),
         };
 
         const { error } = await updateMutate({
@@ -155,13 +202,15 @@ const LoanConfirmationPage: React.FC<Props> = ({ params }) => {
         data={data}
         fetching={fetching}
         variant="lend"
+        onBorrowerNftImageChange={setBorrowerNftImage}
+        onLenderNftImageChange={setLenderNftImage}
         disabled={
           (data?.loan.loanType === LoanEnumType.P2P
             ? data.loan.paymentRecipients[0].recipient.address !== activeAddress
             : false) || data?.loan.principalPaid
         }
         onConfirm={handleCollectLoan}
-        processing={fetching || contractLoanding || updating}
+        processing={fetching || contractLoanding || updating || pinning}
       />
     </Page>
   );

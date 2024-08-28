@@ -8,7 +8,7 @@ interface Props {
 
 const NavLayout: React.FC<Props> = ({ children }) => {
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] ">
       <div className="hidden md:block">
         <Sidebar />
       </div>

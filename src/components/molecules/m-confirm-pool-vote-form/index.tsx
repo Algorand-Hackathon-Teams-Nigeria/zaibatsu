@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -5,7 +6,14 @@ import { validZodNumber } from "@/lib/utils/forms/fields";
 import { usePoolQuery } from "@/services/graphql/generated";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Asset, useWallet } from "@txnlab/use-wallet";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@ui/form";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,7 +28,11 @@ type FormSchema = z.infer<typeof formSchema>;
 
 interface Props {
   poolId: string;
-  onConfirm?: (args: { multiplier: number; poolAsset: number, poolKey: string }) => void;
+  onConfirm?: (args: {
+    multiplier: number;
+    poolAsset: number;
+    poolKey: string;
+  }) => void;
 }
 
 const ConfirmPoolFormVoteForm: React.FC<Props> = ({ poolId, onConfirm }) => {
@@ -54,8 +66,6 @@ const ConfirmPoolFormVoteForm: React.FC<Props> = ({ poolId, onConfirm }) => {
     onConfirm &&
       onConfirm({
         multiplier: Number(value.amount),
-        poolAsset: Number(data?.pool.poolAssetId ?? ""),
-        poolKey: data?.pool.poolKey ?? ""
       });
   };
 
@@ -66,16 +76,16 @@ const ConfirmPoolFormVoteForm: React.FC<Props> = ({ poolId, onConfirm }) => {
           <h2 className="text-lg font-semibold text-foreground/60">
             Enter vote multiplier. Minimum 1
           </h2>
-          <div className="flex items-center gap-2 pt-4">
-            <Image
-              src={data?.pool.imageUrl ?? ""}
-              alt={data?.pool.tokenUnitName ?? ""}
-              width={24}
-              height={24}
-              className="rounded-full"
-            />
-            <span>{(poolAsset?.amount ?? 0).toFixed(4)}</span>
-          </div>
+          {/* <div className="flex items-center gap-2 pt-4"> */}
+          {/*   <Image */}
+          {/*     src={data?.pool.imageUrl ?? ""} */}
+          {/*     alt={data?.pool.tokenUnitName ?? ""} */}
+          {/*     width={24} */}
+          {/*     height={24} */}
+          {/*     className="rounded-full" */}
+          {/*   /> */}
+          {/*   <span>{(poolAsset?.amount ?? 0).toFixed(4)}</span> */}
+          {/* </div> */}
         </div>
         <FormField
           control={form.control}
@@ -84,14 +94,20 @@ const ConfirmPoolFormVoteForm: React.FC<Props> = ({ poolId, onConfirm }) => {
             <FormItem>
               <FormLabel>Multiplier</FormLabel>
               <FormControl>
-                <Input min={1} step={1} placeholder="0" type="number" {...field} />
+                <Input
+                  min={1}
+                  step={1}
+                  placeholder="0"
+                  type="number"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <div className="flex items-center justify-center w-full p-4">
-          <Button type="submit" disabled={!poolAsset}>
+          <Button type="submit" className="md:w-full">
             Proceed
           </Button>
         </div>

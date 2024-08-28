@@ -1,6 +1,5 @@
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-
+"use client";
+import Page from "@/components/atoms/a-page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,13 +9,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { generateZaibatsuStatistics } from "@/lib/utils/statistics";
+import { useZaibatsuAnalyticsQuery } from "@/services/graphql/generated";
 import FinancialStatisticsGrid from "@molecules/m-financial-statistics-grid";
-import Page from "@/components/atoms/a-page";
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { useMemo } from "react";
+import { redirect } from "next/navigation";
 
 const Dashboard = () => {
+  const [{ fetching, data }] = useZaibatsuAnalyticsQuery({
+    variables: { opts: { limit: 2, ordering: { dateAdded: true } } },
+  });
+
+  const stats = useMemo(() => {
+    return generateZaibatsuStatistics(data?.zaibatsuAnalytics ?? []);
+  }, [data]);
+
+  redirect("/pools");
+
   return (
     <Page>
-      <FinancialStatisticsGrid />
+      <FinancialStatisticsGrid fetching={fetching} stats={stats} />
+      {/*
       <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
         <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
           <CardHeader className="flex flex-row items-center">
@@ -109,7 +124,7 @@ const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </div>*/}
     </Page>
   );
 };
